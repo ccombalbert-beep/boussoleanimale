@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://boussoleanimale.fr/sitemap-index.xml

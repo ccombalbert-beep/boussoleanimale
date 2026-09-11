@@ -1,0 +1,19 @@
+---
+import { getCollection, render } from 'astro:content';
+import RaceLayout from '../../../layouts/RaceLayout.astro';
+
+export async function getStaticPaths() {
+  const races = await getCollection('chats');
+  return races.map((race) => ({
+    params: { slug: race.id },
+    props: { race },
+  }));
+}
+
+const { race } = Astro.props;
+const { Content } = await render(race);
+---
+
+<RaceLayout data={race.data} espece="chat">
+  <Content />
+</RaceLayout>

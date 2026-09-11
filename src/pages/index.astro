@@ -1,0 +1,43 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Boussole Animale"
+  description="Le guide indépendant pour choisir et comprendre sa race de chien ou de chat : caractère réel, budget, santé, et un quiz pour trouver la race qui vous correspond."
+>
+  <section class="border-b border-sable-300 bg-sable-50">
+    <div class="mx-auto max-w-3xl px-4 py-20 text-center">
+      <p class="text-sm font-medium uppercase tracking-wide text-terracotta-600">Guide indépendant chiens & chats</p>
+      <h1 class="mt-4 font-display text-4xl font-semibold text-encre-900 sm:text-5xl">
+        Trouvez la race qui vous correspond vraiment
+      </h1>
+      <p class="mx-auto mt-4 max-w-xl text-lg text-encre-700">
+        Caractère réel, budget honnête, besoins quotidiens : des fiches pensées pour décider, pas seulement pour lire.
+      </p>
+      <a
+        href="/outils/quelle-race-me-correspond/"
+        class="mt-8 inline-block rounded-full bg-terracotta-500 px-8 py-3 font-medium text-white hover:bg-terracotta-600"
+      >
+        Faire le quiz : quelle race me correspond ?
+      </a>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-5xl px-4 py-16">
+    <div class="grid gap-8 sm:grid-cols-3">
+      <a href="/chiens/" class="rounded-lg border border-sable-300 bg-sable-50 p-6 hover:border-terracotta-400">
+        <h2 class="font-display text-xl font-semibold text-encre-900">Races de chiens</h2>
+        <p class="mt-2 text-encre-700">Caractère, santé, entretien et budget réel de chaque race.</p>
+      </a>
+      <a href="/chats/" class="rounded-lg border border-sable-300 bg-sable-50 p-6 hover:border-terracotta-400">
+        <h2 class="font-display text-xl font-semibold text-encre-900">Races de chats</h2>
+        <p class="mt-2 text-encre-700">Tout savoir avant d'adopter, sans les idées reçues.</p>
+      </a>
+      <a href="/outils/" class="rounded-lg border border-sable-300 bg-sable-50 p-6 hover:border-terracotta-400">
+        <h2 class="font-display text-xl font-semibold text-encre-900">Outils</h2>
+        <p class="mt-2 text-encre-700">Quiz et calculateurs pour décider en connaissance de cause.</p>
+      </a>
+    </div>
+  </section>
+</Layout>

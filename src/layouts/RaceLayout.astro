@@ -1,0 +1,215 @@
+---
+import { Image, getImage } from 'astro:assets';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Layout from './Layout.astro';
+
+interface Props {
+  data: CollectionEntry<'chiens' | 'chats'>['data'];
+  espece: 'chien' | 'chat';
+}
+
+const { data, espece } = Astro.props;
+
+// Image Open Graph dédiée (1200x630, recadrée) plutôt que le fichier source
+// brut — évite d'exposer un JPEG non redimensionné (parfois plusieurs Mo)
+// comme og:image, et garde des dimensions meta exactes.
+const ogImage = await getImage({
+  src: data.image,
+  width: 1200,
+  height: 630,
+  position: data.imagePosition ?? 'center',
+  format: 'jpg',
+});
+
+// Une race "similaire" n'est linkée que si sa fiche est déjà publiée,
+// pour ne jamais exposer de lien mort en attendant les prochains lots.
+const [chiensPublies, chatsPublies] = await Promise.all([getCollection('chiens'), getCollection('chats')]);
+const especeParSlug = new Map<string, 'chien' | 'chat'>([
+  ...chiensPublies.map((entry): [string, 'chien'] => [entry.id, 'chien']),
+  ...chatsPublies.map((entry): [string, 'chat'] => [entry.id, 'chat']),
+]);
+const racesSimilairesPubliees = (data.racesSimilaires ?? [])
+  .filter((slug) => especeParSlug.has(slug))
+  .map((slug) => ({ slug, espece: especeParSlug.get(slug)! }));
+
+const niveauActiviteLabel: Record<string, string> = {
+  faible: 'Faible',
+  modere: 'Modéré',
+  eleve: 'Élevé',
+  tres_eleve: 'Très élevé',
+};
+
+const dateFormatee = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(
+  data.dateMiseAJour
+);
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: data.faq.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.reponse },
+  })),
+};
+---
+
+<Layout title={data.nom} description={data.resume} image={ogImage.src} imageWidth={1200} imageHeight={630}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />
+
+  <article class="mx-auto max-w-3xl px-4 py-10">
+    <header class="mb-8">
+      <p class="text-sm font-medium uppercase tracking-wide text-terracotta-600">
+        {espece === 'chien' ? 'Race de chien' : 'Race de chat'}
+        {data.groupeFCI && ` · ${data.groupeFCI}`}
+      </p>
+      <h1 class="mt-2 font-display text-4xl font-semibold text-encre-900">{data.nom}</h1>
+      {data.nomLatin && <p class="mt-1 italic text-encre-700/70">{data.nomLatin}</p>}
+      <p class="mt-4 text-lg text-encre-700">{data.resume}</p>
+    </header>
+
+    <figure class="mb-10">
+      <Image
+        src={data.image}
+        alt={data.imageAlt}
+        class="aspect-video w-full rounded-lg object-cover"
+        position={data.imagePosition ?? 'center'}
+        width={1200}
+        height={675}
+        loading="eager"
+      />
+      {data.imageCredit && (
+        <figcaption class="mt-2 text-xs text-encre-700/60">
+          Photo : {data.imageCredit.auteur} ·{' '}
+          <a href={data.imageCredit.lienLicence} class="hover:text-terracotta-600" rel="license">
+            {data.imageCredit.licence}
+          </a>{' '}
+          · <a href={data.imageCredit.source} class="hover:text-terracotta-600">source</a>
+        </figcaption>
+      )}
+    </figure>
+
+    <!-- Fiche signalétique -->
+    <section class="mb-12 rounded-lg border border-sable-300 bg-sable-50 p-6" aria-labelledby="fiche-signaletique">
+      <h2 id="fiche-signaletique" class="mb-4 font-display text-xl font-semibold">Fiche signalétique</h2>
+      <dl class="grid grid-cols-2 gap-4 text-sm sm:grid-cols-3">
+        <div>
+          <dt class="text-encre-700/60">Origine</dt>
+          <dd class="font-medium">{data.origine}</dd>
+        </div>
+        <div>
+          <dt class="text-encre-700/60">Taille</dt>
+          <dd class="font-medium">{data.taille.min}–{data.taille.max} {data.taille.unite}</dd>
+        </div>
+        <div>
+          <dt class="text-encre-700/60">Poids</dt>
+          <dd class="font-medium">{data.poids.min}–{data.poids.max} {data.poids.unite}</dd>
+        </div>
+        <div>
+          <dt class="text-encre-700/60">Espérance de vie</dt>
+          <dd class="font-medium">{data.esperanceDeVie.min}–{data.esperanceDeVie.max} ans</dd>
+        </div>
+        <div>
+          <dt class="text-encre-700/60">Type de poil</dt>
+          <dd class="font-medium">{data.typeDePoil}</dd>
+        </div>
+        <div>
+          <dt class="text-encre-700/60">Niveau d'activité</dt>
+          <dd class="font-medium">{niveauActiviteLabel[data.niveauActivite]}</dd>
+        </div>
+        {data.aboiement && (
+          <div>
+            <dt class="text-encre-700/60">Aboiement</dt>
+            <dd class="font-medium capitalize">{data.aboiement}</dd>
+          </div>
+        )}
+        <div>
+          <dt class="text-encre-700/60">Vit en appartement</dt>
+          <dd class="font-medium">{data.adapteAppartement ? 'Oui, avec des aménagements' : 'Non recommandé'}</dd>
+        </div>
+        <div>
+          <dt class="text-encre-700/60">Compatible enfants</dt>
+          <dd class="font-medium">{data.adapteEnfants ? 'Oui' : 'À évaluer au cas par cas'}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- Corps éditorial (MDX) -->
+    <div class="prose-race">
+      <slot />
+    </div>
+
+    <!-- Mythe vs réalité -->
+    <section class="my-12" aria-labelledby="mythes">
+      <h2 id="mythes" class="mb-4 font-display text-2xl font-semibold">Idées reçues sur {data.nom}</h2>
+      <div class="space-y-4">
+        {data.mythes.map((item) => (
+          <div class="rounded-lg border border-sable-300 p-4">
+            <p class="font-medium text-terracotta-600">❌ {item.mythe}</p>
+            <p class="mt-2 text-encre-700">✅ {item.realite}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Budget réel -->
+    <section class="my-12 rounded-lg bg-boussole-700 p-6 text-sable-100" aria-labelledby="budget">
+      <h2 id="budget" class="mb-4 font-display text-2xl font-semibold text-white">Budget réel</h2>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div>
+          <p class="text-sm text-sable-200">Prix d'achat (éleveur)</p>
+          <p class="text-2xl font-semibold">{data.budget.prixAchatMin}–{data.budget.prixAchatMax} €</p>
+        </div>
+        <div>
+          <p class="text-sm text-sable-200">Coût mensuel estimé</p>
+          <p class="text-2xl font-semibold">{data.budget.coutMensuelMin}–{data.budget.coutMensuelMax} €</p>
+        </div>
+      </div>
+      <a href="/outils/cout-mensuel-chien/" class="mt-4 inline-block text-sm font-medium text-terracotta-400 hover:text-terracotta-500">
+        Calculer le coût précis selon votre situation →
+      </a>
+    </section>
+
+    <!-- FAQ -->
+    <section class="my-12" aria-labelledby="faq">
+      <h2 id="faq" class="mb-4 font-display text-2xl font-semibold">Questions fréquentes</h2>
+      <div class="divide-y divide-sable-300">
+        {data.faq.map((item) => (
+          <details class="group py-4">
+            <summary class="cursor-pointer list-none font-medium text-encre-900 group-open:text-terracotta-600">
+              {item.question}
+            </summary>
+            <p class="mt-2 text-encre-700">{item.reponse}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    {racesSimilairesPubliees.length > 0 && (
+      <section class="my-12" aria-labelledby="races-similaires">
+        <h2 id="races-similaires" class="mb-4 font-display text-2xl font-semibold">Races similaires</h2>
+        <div class="flex flex-wrap gap-3">
+          {racesSimilairesPubliees.map(({ slug, espece: especeCible }) => (
+            <a
+              href={`/${especeCible === 'chien' ? 'chiens' : 'chats'}/races/${slug}/`}
+              class="rounded-full border border-sable-300 px-4 py-2 text-sm font-medium hover:border-terracotta-400 hover:text-terracotta-600"
+            >
+              {slug.replace(/-/g, ' ')}
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Sources & méthodologie -->
+    <footer class="mt-16 border-t border-sable-300 pt-6 text-sm text-encre-700/70">
+      <p>Rédigé par {data.auteur} · Mis à jour le {dateFormatee}</p>
+      <p class="mt-2">
+        Sources : {data.sources.join(' · ')}
+      </p>
+      <a href="/methodologie/" class="mt-2 inline-block hover:text-terracotta-600">
+        Comment nous rédigeons nos fiches →
+      </a>
+    </footer>
+  </article>
+</Layout>

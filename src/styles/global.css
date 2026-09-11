@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  /* Palette Boussole Animale : neutres chauds + terracotta (chaleur) + navy (confiance/repère) */
+  --color-sable-50: #fdfbf8;
+  --color-sable-100: #faf6f0;
+  --color-sable-200: #f3ecdf;
+  --color-sable-300: #e6d9c3;
+
+  --color-encre-700: #2b2723;
+  --color-encre-900: #1a1714;
+
+  --color-terracotta-400: #d97b52;
+  --color-terracotta-500: #c0603d;
+  --color-terracotta-600: #a34d2f;
+
+  --color-boussole-500: #2f4a6b;
+  --color-boussole-600: #223a56;
+  --color-boussole-700: #1a2c42;
+
+  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
+  --font-body: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-sable-100);
+    color: var(--color-encre-900);
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+  }
+}
+
+@layer components {
+  .prose-race h2 {
+    @apply mt-10 mb-4 text-2xl font-semibold text-encre-900;
+  }
+
+  .prose-race p {
+    @apply mb-4 leading-relaxed text-encre-700;
+  }
+}

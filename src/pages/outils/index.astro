@@ -1,0 +1,37 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const outils = [
+  {
+    href: '/outils/quelle-race-me-correspond/',
+    titre: 'Quelle race de chien me correspond ?',
+    description: '5 questions pour identifier les races adaptées à votre mode de vie réel.',
+  },
+  {
+    href: '/outils/cout-mensuel-chien/',
+    titre: 'Combien coûte un chien par mois ?',
+    description: 'Simulateur de budget mensuel selon la taille et vos choix.',
+  },
+];
+---
+
+<Layout
+  title="Outils et calculateurs"
+  description="Quiz et calculateurs interactifs pour choisir sa race ou estimer le budget d'un chien ou d'un chat."
+>
+  <div class="mx-auto max-w-5xl px-4 py-12">
+    <h1 class="font-display text-3xl font-semibold text-encre-900">Outils</h1>
+    <p class="mt-2 max-w-2xl text-encre-700">
+      Des outils concrets pour vous aider à décider, pas juste à lire.
+    </p>
+
+    <div class="mt-8 grid gap-6 sm:grid-cols-2">
+      {outils.map((o) => (
+        <a href={o.href} class="block rounded-lg border border-sable-300 bg-sable-50 p-6 hover:border-terracotta-400">
+          <h2 class="font-display text-xl font-semibold text-encre-900">{o.titre}</h2>
+          <p class="mt-2 text-encre-700">{o.description}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>

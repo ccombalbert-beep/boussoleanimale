@@ -1,0 +1,36 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  slug: string;
+  nom: string;
+  resume: string;
+  image: ImageMetadata;
+  imageAlt: string;
+  imagePosition?: 'center' | 'top' | 'bottom';
+  espece: 'chien' | 'chat';
+}
+
+const { slug, nom, resume, image, imageAlt, imagePosition, espece } = Astro.props;
+const base = espece === 'chien' ? 'chiens' : 'chats';
+---
+
+<a
+  href={`/${base}/races/${slug}/`}
+  class="group block overflow-hidden rounded-lg border border-sable-300 bg-sable-50 transition hover:border-terracotta-400"
+>
+  <Image
+    src={image}
+    alt={imageAlt}
+    class="aspect-[4/3] w-full object-cover"
+    position={imagePosition ?? 'center'}
+    width={400}
+    height={300}
+    loading="lazy"
+  />
+  <div class="p-4">
+    <h3 class="font-display text-lg font-semibold text-encre-900 group-hover:text-terracotta-600">{nom}</h3>
+    <p class="mt-1 line-clamp-2 text-sm text-encre-700">{resume}</p>
+  </div>
+</a>
