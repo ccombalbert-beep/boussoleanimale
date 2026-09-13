@@ -45,10 +45,23 @@ const articleSchema = {
   },
   mainEntityOfPage: { '@type': 'WebPage', '@id': new URL(Astro.url.pathname, Astro.site).toString() },
 };
+
+const faqSchema = data.faq && data.faq.length > 0
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: data.faq.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: { '@type': 'Answer', text: item.reponse },
+      })),
+    }
+  : null;
 ---
 
 <Layout title={data.titreCourt ?? data.titre} description={data.resume} image={ogImage.src} imageWidth={1200} imageHeight={630}>
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleSchema)} is:inline />
+  {faqSchema && <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />}
   <article class="mx-auto max-w-3xl px-4 py-10">
     <Breadcrumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Guides', href: '/guides/' }, { label: data.titre }]} />
 
@@ -87,6 +100,22 @@ const articleSchema = {
     <div class="prose-race">
       <slot />
     </div>
+
+    {data.faq && data.faq.length > 0 && (
+      <section class="my-12 scroll-mt-16" id="faq" aria-labelledby="faq-titre">
+        <h2 id="faq-titre" class="mb-4 font-display text-2xl font-medium text-encre-900">Questions fréquentes</h2>
+        <div class="divide-y divide-sable-300">
+          {data.faq.map((item) => (
+            <details class="group py-4">
+              <summary class="faq-summary cursor-pointer list-none font-medium text-encre-900 group-open:text-terracotta-600">
+                {item.question}
+              </summary>
+              <p class="mt-2 text-encre-700">{item.reponse}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+    )}
 
     {racesLieesPubliees.length > 0 && (
       <section class="my-12" aria-labelledby="races-liees">

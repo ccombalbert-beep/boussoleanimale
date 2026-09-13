@@ -116,6 +116,18 @@ const guideSchema = ({ image }: SchemaContext) =>
     racesLiees: z
       .array(z.object({ slug: z.string(), espece: z.enum(['chien', 'chat']) }))
       .optional(),
+    // Optionnel : quand présent, GuideLayout génère automatiquement le
+    // balisage Schema.org FAQPage en plus d'Article (voir generate-csp.mjs
+    // n'a rien à voir ici — c'est du JSON-LD, pas du script, non concerné
+    // par la CSP script-src).
+    faq: z
+      .array(
+        z.object({
+          question: z.string(),
+          reponse: z.string(),
+        })
+      )
+      .optional(),
     sources: z.array(z.string()).min(1),
     auteur: z.string(),
     dateMiseAJour: z.date(),
