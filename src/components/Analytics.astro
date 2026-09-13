@@ -12,6 +12,26 @@ const mesureId = 'G-M7EZ0R77JB';
 <script define:vars={{ mesureId }} is:inline>
   (function () {
     var CLE_CONSENTEMENT = 'consentement-cookies';
+    var CLE_EXCLUSION = 'exclusion-analytics';
+
+    // Auto-exclusion du propriétaire du site : visiter une fois
+    // https://boussoleanimale.fr/?stats=off marque ce navigateur comme
+    // exclu pour toujours (jusqu'à ?stats=on) — indépendant du consentement
+    // cookies, pour que les visites de l'éditeur ne polluent jamais les
+    // vraies statistiques d'audience.
+    try {
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('stats') === 'off') localStorage.setItem(CLE_EXCLUSION, '1');
+      else if (params.get('stats') === 'on') localStorage.removeItem(CLE_EXCLUSION);
+    } catch (e) {}
+
+    function exclu() {
+      try {
+        return localStorage.getItem(CLE_EXCLUSION) === '1';
+      } catch (e) {
+        return false;
+      }
+    }
 
     // Lecture minimale dupliquée de consentement.ts (et non un import) :
     // ce script doit rester inline pour recevoir mesureId via define:vars,
@@ -30,7 +50,7 @@ const mesureId = 'G-M7EZ0R77JB';
 
     var charge = false;
     function chargerGA4() {
-      if (charge) return;
+      if (charge || exclu()) return;
       charge = true;
 
       var script = document.createElement('script');
