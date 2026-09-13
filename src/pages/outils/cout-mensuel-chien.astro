@@ -1,22 +1,71 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import CalculateurCout from '../../components/CalculateurCout.tsx';
+
+const faq = [
+  {
+    question: "Cette estimation inclut-elle le prix d'achat du chiot ?",
+    reponse:
+      "Non, délibérément : le prix d'achat est un coût ponctuel, alors que ce calculateur porte sur le budget mensuel récurrent (alimentation, santé courante, assurance, toilettage). Les deux ne se confondent pas — un chiot cher à l'achat peut très bien coûter moins cher à vivre au quotidien qu'un chiot bon marché d'un plus grand gabarit.",
+  },
+  {
+    question: 'Pourquoi la taille du chien change-t-elle autant le résultat ?',
+    reponse:
+      "Parce que l'alimentation et la plupart des traitements vétérinaires (antiparasitaires, anesthésie, doses de médicaments) se calculent au poids. Un chien de grande taille mange mécaniquement plus, et les actes vétérinaires courants lui coûtent souvent plus cher à dose égale.",
+  },
+  {
+    question: 'Cette estimation couvre-t-elle les frais vétérinaires imprévus ?',
+    reponse:
+      "Non. Elle couvre la santé courante (antiparasitaires, rappels de vaccin) mais pas la chirurgie, l'hospitalisation ou un traitement long terme suite à une maladie ou un accident — c'est précisément le rôle de l'assurance santé, à cocher dans le simulateur si vous voulez la comparer.",
+  },
+  {
+    question: 'Comment réduire ce budget sans négliger mon chien ?',
+    reponse:
+      "Le levier le plus net reste la gamme d'alimentation : une gamme standard bien formulée n'est pas un compromis sur la santé, contrairement à une idée reçue répandue. L'assurance et le toilettage professionnel, eux, sont de vrais choix optionnels selon la race et votre budget réel.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.reponse },
+  })),
+};
 ---
 
 <Layout
   title="Combien coûte un chien par mois ?"
   description="Calculez le coût mensuel réel d'un chien selon sa taille, son alimentation et vos choix (assurance, toilettage) avec ce simulateur interactif."
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />
   <div class="mx-auto max-w-3xl px-4 py-12">
-    <p class="text-sm font-medium uppercase tracking-wide text-terracotta-600">Calculateur</p>
-    <h1 class="mt-2 font-display text-3xl font-semibold text-encre-900">Combien coûte un chien par mois ?</h1>
+    <p class="label text-terracotta-600">Calculateur</p>
+    <h1 class="mt-2 font-display text-3xl font-medium text-encre-900">Combien coûte un chien par mois ?</h1>
     <p class="mt-3 text-encre-700">
       Le budget réel dépend surtout de la taille du chien et de vos choix (alimentation, assurance, toilettage).
-      Ajustez les paramètres pour obtenir une estimation adaptée à votre situation.
+      Ajustez les paramètres pour obtenir une estimation adaptée à votre situation. Pour le détail des postes de
+      dépense et les coûts cachés, voir notre <a href="/guides/combien-coute-un-chien-par-mois/" class="font-medium text-terracotta-600 hover:text-terracotta-500">guide complet sur le budget d'un chien</a>.
     </p>
 
-    <div class="mt-10 rounded-lg border border-sable-300 bg-white p-6 sm:p-8">
+    <div class="mt-10 border border-sable-300 bg-sable-50 p-6 sm:p-8">
       <CalculateurCout client:visible />
     </div>
+
+    <section class="mt-16" aria-labelledby="faq-titre">
+      <h2 id="faq-titre" class="mb-4 font-display text-2xl font-medium text-encre-900">Questions fréquentes</h2>
+      <div class="divide-y divide-sable-300">
+        {faq.map((item) => (
+          <details class="group py-4">
+            <summary class="faq-summary cursor-pointer list-none font-medium text-encre-900 group-open:text-terracotta-600">
+              {item.question}
+            </summary>
+            <p class="mt-2 text-encre-700">{item.reponse}</p>
+          </details>
+        ))}
+      </div>
+    </section>
   </div>
 </Layout>

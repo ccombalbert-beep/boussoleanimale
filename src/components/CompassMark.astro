@@ -1,0 +1,24 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<svg
+  class={`compass-mark ${className}`}
+  viewBox="0 0 200 200"
+  fill="none"
+  stroke="currentColor"
+  aria-hidden="true"
+  focusable="false"
+>
+  <circle cx="100" cy="100" r="92" stroke-width="1" />
+  <circle cx="100" cy="100" r="58" stroke-width="0.75" />
+  <path
+    d="M100,10 L128.28,71.72 L190,100 L128.28,128.28 L100,190 L71.72,128.28 L10,100 L71.72,71.72 Z"
+    stroke-width="1"
+  />
+  <circle cx="100" cy="100" r="3.5" fill="currentColor" stroke="none" />
+</svg>

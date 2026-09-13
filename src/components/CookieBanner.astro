@@ -1,0 +1,165 @@
+---
+// Bandeau de consentement cookies (CMP maison). Reste dans le DOM en
+// permanence (masqué par défaut) et se réaffiche : au premier chargement
+// sans consentement enregistré, ou quand le lien "Gérer les cookies" du
+// pied de page appelle window.ouvrirPreferencesCookies(). transition:persist
+// évite de le remonter à chaque navigation ClientRouter.
+---
+
+<div
+  id="bandeau-cookies"
+  class="fixed inset-x-0 bottom-0 z-40 border-t border-sable-400 bg-sable-50 px-4 py-5 shadow-[0_-8px_24px_-12px_rgb(21_19_15_/_0.25)]"
+  hidden
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="bandeau-cookies-titre"
+  transition:persist
+>
+  <div class="mx-auto max-w-3xl">
+    <div data-vue-cookies="simple">
+      <h2 id="bandeau-cookies-titre" class="font-display text-base font-medium text-encre-900">
+        Votre choix concernant les cookies
+      </h2>
+      <p class="mt-2 text-sm text-encre-700">
+        Boussole Animale utilise des cookies nécessaires au fonctionnement du site. Avec votre accord, nous
+        utilisons aussi des cookies de mesure d'audience et publicitaires pour financer le site gratuitement.
+        Vous pouvez changer d'avis à tout moment depuis le pied de page. Voir notre <a href="/confidentialite/" class="text-terracotta-600 underline hover:text-terracotta-500">politique de confidentialité</a>.
+      </p>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button
+          type="button"
+          data-action="accepter"
+          class="border border-encre-900 bg-encre-900 px-5 py-2.5 text-sm font-medium text-sable-50 transition-colors duration-200 hover:border-terracotta-600 hover:bg-terracotta-600"
+        >
+          Tout accepter
+        </button>
+        <button
+          type="button"
+          data-action="refuser"
+          class="border border-encre-900 bg-transparent px-5 py-2.5 text-sm font-medium text-encre-900 transition-colors duration-200 hover:border-terracotta-600 hover:text-terracotta-600"
+        >
+          Tout refuser
+        </button>
+        <button
+          type="button"
+          data-action="personnaliser"
+          class="px-2 py-2.5 text-sm font-medium text-encre-700 underline decoration-sable-400 underline-offset-2 hover:text-terracotta-600"
+        >
+          Personnaliser
+        </button>
+      </div>
+    </div>
+
+    <div data-vue-cookies="personnaliser" hidden>
+      <h2 class="font-display text-base font-medium text-encre-900">Personnaliser les cookies</h2>
+      <ul class="mt-3 space-y-3 text-sm">
+        <li class="flex items-start justify-between gap-4 border-b border-sable-300 pb-3">
+          <div>
+            <p class="font-medium text-encre-900">Nécessaires</p>
+            <p class="text-encre-700">Mémorisent vos préférences (thème clair/sombre, ce choix de cookies). Indispensables au site.</p>
+          </div>
+          <input type="checkbox" checked disabled aria-label="Cookies nécessaires, toujours actifs" class="mt-1 h-4 w-4 shrink-0 accent-terracotta-600" />
+        </li>
+        <li class="flex items-start justify-between gap-4 border-b border-sable-300 pb-3">
+          <div>
+            <p class="font-medium text-encre-900">Mesure d'audience</p>
+            <p class="text-encre-700">Nous aident à comprendre quelles pages sont utiles, de façon agrégée.</p>
+          </div>
+          <input type="checkbox" data-categorie="audience" aria-label="Autoriser la mesure d'audience" class="mt-1 h-4 w-4 shrink-0 accent-terracotta-600" />
+        </li>
+        <li class="flex items-start justify-between gap-4 pb-1">
+          <div>
+            <p class="font-medium text-encre-900">Publicité</p>
+            <p class="text-encre-700">Permettent l'affichage de publicités display, qui financent la gratuité du site.</p>
+          </div>
+          <input type="checkbox" data-categorie="publicite" aria-label="Autoriser les cookies publicitaires" class="mt-1 h-4 w-4 shrink-0 accent-terracotta-600" />
+        </li>
+      </ul>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button
+          type="button"
+          data-action="enregistrer"
+          class="border border-encre-900 bg-encre-900 px-5 py-2.5 text-sm font-medium text-sable-50 transition-colors duration-200 hover:border-terracotta-600 hover:bg-terracotta-600"
+        >
+          Enregistrer mes choix
+        </button>
+        <button
+          type="button"
+          data-action="retour"
+          class="px-2 py-2.5 text-sm font-medium text-encre-700 underline decoration-sable-400 underline-offset-2 hover:text-terracotta-600"
+        >
+          Retour
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { lireConsentement, ecrireConsentement } from '../lib/consentement';
+
+  declare global {
+    interface Window {
+      ouvrirPreferencesCookies: () => void;
+    }
+  }
+
+  function initBandeauCookies() {
+    const bandeau = document.getElementById('bandeau-cookies');
+    if (!bandeau || bandeau.dataset.pret === 'true') return;
+    bandeau.dataset.pret = 'true';
+
+    const vueSimple = bandeau.querySelector<HTMLElement>('[data-vue-cookies="simple"]')!;
+    const vuePerso = bandeau.querySelector<HTMLElement>('[data-vue-cookies="personnaliser"]')!;
+    const caseAudience = bandeau.querySelector<HTMLInputElement>('[data-categorie="audience"]')!;
+    const casePublicite = bandeau.querySelector<HTMLInputElement>('[data-categorie="publicite"]')!;
+
+    const afficherVueSimple = () => {
+      vueSimple.hidden = false;
+      vuePerso.hidden = true;
+    };
+    const afficherVuePerso = () => {
+      const actuel = lireConsentement();
+      caseAudience.checked = actuel?.audience ?? false;
+      casePublicite.checked = actuel?.publicite ?? false;
+      vueSimple.hidden = true;
+      vuePerso.hidden = false;
+    };
+
+    const ouvrir = (vue: 'simple' | 'personnaliser' = 'simple') => {
+      bandeau.hidden = false;
+      if (vue === 'personnaliser') afficherVuePerso();
+      else afficherVueSimple();
+    };
+    const fermer = () => {
+      bandeau.hidden = true;
+    };
+
+    bandeau.addEventListener('click', (event) => {
+      const action = (event.target as HTMLElement).closest<HTMLElement>('[data-action]')?.dataset.action;
+      if (!action) return;
+      if (action === 'accepter') {
+        ecrireConsentement({ audience: true, publicite: true });
+        fermer();
+      } else if (action === 'refuser') {
+        ecrireConsentement({ audience: false, publicite: false });
+        fermer();
+      } else if (action === 'enregistrer') {
+        ecrireConsentement({ audience: caseAudience.checked, publicite: casePublicite.checked });
+        fermer();
+      } else if (action === 'personnaliser') {
+        afficherVuePerso();
+      } else if (action === 'retour') {
+        afficherVueSimple();
+      }
+    });
+
+    // Exposé pour le lien "Gérer les cookies" du pied de page, quelle que
+    // soit la page — permet de revenir sur son choix à tout moment.
+    window.ouvrirPreferencesCookies = () => ouvrir('personnaliser');
+
+    if (!lireConsentement()) ouvrir('simple');
+  }
+
+  document.addEventListener('astro:page-load', initBandeauCookies);
+</script>

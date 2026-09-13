@@ -1,0 +1,119 @@
+---
+import { Image, getImage } from 'astro:assets';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Layout from './Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CompassMark from '../components/CompassMark.astro';
+
+interface Props {
+  data: CollectionEntry<'guides'>['data'];
+  slug: string;
+}
+
+const { data, slug } = Astro.props;
+
+const ogImage = await getImage({
+  src: data.image,
+  width: 1200,
+  height: 630,
+  position: data.imagePosition ?? 'center',
+  format: 'jpg',
+});
+
+// Comme pour les races similaires : on ne linke que les fiches déjà publiées.
+const [chiensPublies, chatsPublies] = await Promise.all([getCollection('chiens'), getCollection('chats')]);
+const slugsPublies = new Set([...chiensPublies.map((e) => e.id), ...chatsPublies.map((e) => e.id)]);
+const racesLieesPubliees = (data.racesLiees ?? []).filter((r) => slugsPublies.has(r.slug));
+
+const dateFormatee = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(
+  data.dateMiseAJour
+);
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: data.titre,
+  description: data.resume,
+  image: new URL(ogImage.src, Astro.site).toString(),
+  datePublished: data.dateMiseAJour.toISOString(),
+  dateModified: data.dateMiseAJour.toISOString(),
+  author: { '@type': 'Organization', name: data.auteur },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Boussole Animale',
+    logo: { '@type': 'ImageObject', url: new URL('/apple-touch-icon.png', Astro.site).toString() },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': new URL(Astro.url.pathname, Astro.site).toString() },
+};
+---
+
+<Layout title={data.titreCourt ?? data.titre} description={data.resume} image={ogImage.src} imageWidth={1200} imageHeight={630}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleSchema)} is:inline />
+  <article class="mx-auto max-w-3xl px-4 py-10">
+    <Breadcrumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Guides', href: '/guides/' }, { label: data.titre }]} />
+
+    <header class="mb-8">
+      <p class="label text-terracotta-600">Guide</p>
+      <h1 class="mt-3 font-display text-4xl font-medium leading-tight text-encre-900">{data.titre}</h1>
+      <p class="mt-4 font-display text-lg italic text-encre-700">{data.resume}</p>
+    </header>
+
+    <figure class="mb-10 border border-sable-300 bg-sable-50 p-2.5">
+      <Image
+        src={data.image}
+        alt={data.imageAlt}
+        class="race-photo aspect-video w-full object-cover"
+        style={`view-transition-name: guide-photo-${slug}`}
+        position={data.imagePosition ?? 'center'}
+        width={1200}
+        height={675}
+        loading="eager"
+        fetchpriority="high"
+      />
+      {data.imageCredit && (
+        <figcaption class="mt-2.5 flex justify-between font-display text-sm italic text-encre-700/80">
+          <span>Fig. 1</span>
+          <span>
+            {data.imageCredit.auteur} ·{' '}
+            <a href={data.imageCredit.lienLicence} class="not-italic hover:text-terracotta-600" rel="license">
+              {data.imageCredit.licence}
+            </a>{' '}
+            · <a href={data.imageCredit.source} class="not-italic hover:text-terracotta-600">source</a>
+          </span>
+        </figcaption>
+      )}
+    </figure>
+
+    <div class="prose-race">
+      <slot />
+    </div>
+
+    {racesLieesPubliees.length > 0 && (
+      <section class="my-12" aria-labelledby="races-liees">
+        <h2 id="races-liees" class="mb-4 font-display text-2xl font-medium">Races citées dans ce guide</h2>
+        <div class="flex flex-wrap gap-3">
+          {racesLieesPubliees.map(({ slug, espece }) => (
+            <a
+              href={`/${espece === 'chien' ? 'chiens' : 'chats'}/races/${slug}/`}
+              class="border border-sable-400 px-4 py-2 text-sm font-medium hover:border-terracotta-400 hover:text-terracotta-600"
+            >
+              {slug.replace(/-/g, ' ')}
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <div class="mt-16 flex justify-center" aria-hidden="true">
+      <CompassMark class="h-8 w-8 opacity-50" />
+    </div>
+
+    <footer class="mt-6 border-t border-sable-300 pt-6 text-sm text-encre-700/80">
+      <p>Rédigé par {data.auteur} · Mis à jour le {dateFormatee}</p>
+      <p class="mt-2">Sources : {data.sources.join(' · ')}</p>
+      <a href="/methodologie/" class="mt-2 inline-block hover:text-terracotta-600">
+        Comment nous rédigeons nos contenus →
+      </a>
+    </footer>
+  </article>
+</Layout>

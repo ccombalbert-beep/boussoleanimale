@@ -1,0 +1,51 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CompassMark from '../components/CompassMark.astro';
+
+const destinations = [
+  { href: '/chiens/', label: 'Races de chiens', description: 'Caractère, santé, budget réel de chaque race.' },
+  { href: '/chats/', label: 'Races de chats', description: "Tout savoir avant d'adopter." },
+  { href: '/outils/', label: 'Outils', description: 'Quiz et calculateurs de budget.' },
+  { href: '/guides/', label: 'Guides', description: 'Comparatifs et réponses aux questions courantes.' },
+];
+---
+
+<Layout
+  title="Page introuvable"
+  description="Cette page n'existe pas ou plus sur Boussole Animale."
+>
+  <div class="relative mx-auto max-w-2xl overflow-hidden px-4 py-20 text-center sm:py-28">
+    <CompassMark class="pointer-events-none absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 -translate-y-12 opacity-[0.06] sm:h-96 sm:w-96" />
+
+    <div class="relative">
+      <p class="label text-terracotta-600">Spécimen non répertorié</p>
+      <h1 class="mt-3 font-display text-4xl font-medium text-encre-900 sm:text-5xl">
+        Cette page n'a pas été observée dans notre catalogue
+      </h1>
+      <p class="mx-auto mt-4 max-w-md text-encre-700">
+        Le lien suivi est peut-être obsolète, ou l'adresse comporte une erreur. Reprenons depuis un terrain connu :
+      </p>
+
+      <div class="mt-10 grid gap-3 text-left sm:grid-cols-2">
+        {destinations.map((d) => (
+          <a
+            href={d.href}
+            class="card-lift group block border border-sable-300 bg-sable-50 p-5 transition-colors duration-200 hover:border-terracotta-400"
+          >
+            <span class="font-display text-lg font-medium text-encre-900 transition-colors group-hover:text-terracotta-600">
+              {d.label}
+            </span>
+            <span class="mt-1 block text-sm text-encre-700">{d.description}</span>
+          </a>
+        ))}
+      </div>
+
+      <a
+        href="/"
+        class="magnetic mt-10 inline-block border border-encre-900 bg-encre-900 px-8 py-3 font-medium text-sable-50 transition-colors duration-200 hover:border-terracotta-600 hover:bg-terracotta-600"
+      >
+        Retour à l'accueil
+      </a>
+    </div>
+  </div>
+</Layout>

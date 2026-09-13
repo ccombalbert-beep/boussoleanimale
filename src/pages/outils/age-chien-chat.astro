@@ -1,0 +1,73 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CalculateurAge from '../../components/CalculateurAge.tsx';
+
+const faq = [
+  {
+    question: "Pourquoi ne pas simplement multiplier l'âge par 7 ?",
+    reponse:
+      "Parce que le vieillissement n'est pas linéaire : la première année d'un chien ou d'un chat correspond déjà à environ 15 ans humains (maturité physique et sexuelle), la deuxième porte le total à 24. La règle du x7 sous-estime largement les jeunes animaux et surestime les très âgés.",
+  },
+  {
+    question: 'Un chat vieillit-il au même rythme qu\'un chien ?',
+    reponse:
+      "Sur les deux premières années, oui — le barème est identique (15 ans à 1 an, 24 ans à 2 ans). C'est seulement à partir de la troisième année que ça diverge : un chat garde un rythme stable d'environ 4 ans humains par an, alors qu'un chien accélère ou ralentit selon son gabarit adulte.",
+  },
+  {
+    question: 'Pourquoi le gabarit change-t-il le rythme de vieillissement du chien ?',
+    reponse:
+      "Les grandes races atteignent leur taille adulte plus vite mais leur organisme s'use aussi plus rapidement après la maturité — un Chihuahua senior à 10 ans est souvent encore vif, un Berger Allemand du même âge montre déjà des signes de vieillesse marqués. C'est un phénomène documenté, pas une approximation.",
+  },
+  {
+    question: 'À partir de quel âge un animal est-il considéré comme senior ?',
+    reponse:
+      "Il n'y a pas de seuil universel, mais on parle généralement de chat senior autour de 10-11 ans, et de chien senior entre 7 ans (grandes races) et 10 ans (petites races) — cohérent avec l'écart de rythme de vieillissement entre gabarits.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.reponse },
+  })),
+};
+---
+
+<Layout
+  title="Âge de mon chien ou chat en années humaines"
+  description="Convertissez l'âge de votre chien ou chat en équivalent humain avec un barème vétérinaire réel (AAHA/AAFP), pas la règle approximative du 'x7'."
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />
+  <div class="mx-auto max-w-2xl px-4 py-12">
+    <p class="label text-terracotta-600">Calculateur</p>
+    <h1 class="mt-2 font-display text-3xl font-medium text-encre-900">
+      Quel est l'âge de mon chien ou chat en années humaines ?
+    </h1>
+    <p class="mt-3 text-encre-700">
+      Oubliez la règle du "1 an = 7 ans humains" : elle est fausse. Un chien ou un chat d'1 an a déjà atteint la
+      maturité physique d'un adolescent humain d'une quinzaine d'années. Ce calculateur utilise le barème
+      vétérinaire réel, qui tient aussi compte du gabarit pour les chiens.
+    </p>
+
+    <div class="mt-10 border border-sable-300 bg-sable-50 p-6 sm:p-8">
+      <CalculateurAge client:visible />
+    </div>
+
+    <section class="mt-16" aria-labelledby="faq-titre">
+      <h2 id="faq-titre" class="mb-4 font-display text-2xl font-medium text-encre-900">Questions fréquentes</h2>
+      <div class="divide-y divide-sable-300">
+        {faq.map((item) => (
+          <details class="group py-4">
+            <summary class="faq-summary cursor-pointer list-none font-medium text-encre-900 group-open:text-terracotta-600">
+              {item.question}
+            </summary>
+            <p class="mt-2 text-encre-700">{item.reponse}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </div>
+</Layout>

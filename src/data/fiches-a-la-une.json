@@ -1,0 +1,6 @@
+{
+  "source": "mots-cles-fallback",
+  "misAJour": "2026-09-11",
+  "note": "Fallback manuel basé sur les 4 requêtes à plus fort volume identifiées dans la recherche de mots-clés initiale (berger australien caractère, golden retriever prix, maine coon caractère, espérance de vie berger allemand). À remplacer par les pages les plus performantes en Google Search Console une fois le site en ligne et vérifié — voir TODO dans src/pages/index.astro.",
+  "slugs": ["berger-australien", "golden-retriever", "maine-coon", "berger-allemand"]
+}

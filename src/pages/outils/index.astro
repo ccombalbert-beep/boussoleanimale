@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 const outils = [
   {
@@ -12,6 +13,16 @@ const outils = [
     titre: 'Combien coûte un chien par mois ?',
     description: 'Simulateur de budget mensuel selon la taille et vos choix.',
   },
+  {
+    href: '/outils/cout-mensuel-chat/',
+    titre: 'Combien coûte un chat par mois ?',
+    description: 'Simulateur de budget mensuel selon l\'alimentation, la litière et vos choix.',
+  },
+  {
+    href: '/outils/age-chien-chat/',
+    titre: 'Âge de mon chien ou chat en années humaines',
+    description: 'Conversion basée sur le vrai barème vétérinaire, pas la règle approximative du "x7".',
+  },
 ];
 ---
 
@@ -20,18 +31,28 @@ const outils = [
   description="Quiz et calculateurs interactifs pour choisir sa race ou estimer le budget d'un chien ou d'un chat."
 >
   <div class="mx-auto max-w-5xl px-4 py-12">
-    <h1 class="font-display text-3xl font-semibold text-encre-900">Outils</h1>
+    <Breadcrumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Outils' }]} />
+
+    <h1 class="font-display text-3xl font-medium text-encre-900">Outils</h1>
     <p class="mt-2 max-w-2xl text-encre-700">
       Des outils concrets pour vous aider à décider, pas juste à lire.
     </p>
 
     <div class="mt-8 grid gap-6 sm:grid-cols-2">
       {outils.map((o) => (
-        <a href={o.href} class="block rounded-lg border border-sable-300 bg-sable-50 p-6 hover:border-terracotta-400">
-          <h2 class="font-display text-xl font-semibold text-encre-900">{o.titre}</h2>
+        <a href={o.href} class="card-lift block border border-sable-300 bg-sable-50 p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-terracotta-400">
+          <h2 class="font-display text-xl font-medium text-encre-900">{o.titre}</h2>
           <p class="mt-2 text-encre-700">{o.description}</p>
         </a>
       ))}
     </div>
+
+    <p class="mt-10 text-sm text-encre-700">
+      Envie de creuser un sujet plutôt qu'un chiffre ? Consultez nos{' '}
+      <a href="/guides/" class="font-medium text-terracotta-600 hover:text-terracotta-500">guides thématiques</a>,
+      ou parcourez directement les{' '}
+      <a href="/chiens/" class="font-medium text-terracotta-600 hover:text-terracotta-500">races de chien</a>{' '}
+      et les <a href="/chats/" class="font-medium text-terracotta-600 hover:text-terracotta-500">races de chat</a>.
+    </p>
   </div>
 </Layout>

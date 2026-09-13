@@ -1,0 +1,16 @@
+{
+  "name": "boussole-animale-social",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pipeline de génération de contenu réseaux sociaux pour Boussole Animale — isolé du site Astro (aucune dépendance partagée, aucun impact sur le build du site).",
+  "scripts": {
+    "hooks": "node scripts/generate-hooks.mjs",
+    "visuals": "node scripts/generate-visual.mjs",
+    "export": "node scripts/export-buffer.mjs"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "sharp": "^0.35.4"
+  }
+}

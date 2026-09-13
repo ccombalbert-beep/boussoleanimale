@@ -1,0 +1,76 @@
+{
+  "week": 2,
+  "theme": "Introduction du pilier 5 (FAQ éclair) et du pilier 3 (chiffres, via un guide existant)",
+  "entries": [
+    {
+      "date": "2026-09-22",
+      "platform": "instagram",
+      "format": "carousel",
+      "pillar": 3,
+      "source": { "type": "guide", "collection": "guides", "slug": "combien-coute-un-chien-par-mois" },
+      "workingTitle": "Le vrai budget mensuel d'un chien, selon sa taille",
+      "status": "planned",
+      "notes": "Premier post \"data\" — carrousel en escalier (petit/moyen/grand gabarit), CTA direct vers le calculateur."
+    },
+    {
+      "date": "2026-09-23",
+      "platform": "tiktok",
+      "format": "tiktok-video",
+      "pillar": 5,
+      "source": { "type": "race", "collection": "chiens", "slug": "husky-siberien" },
+      "workingTitle": "Le Husky n'aboie presque jamais — mais hurle",
+      "status": "planned",
+      "notes": "Format FAQ éclair : question posée à l'écran, réponse en 15s chrono, rythme plus rapide que les mythes de S1."
+    },
+    {
+      "date": "2026-09-24",
+      "platform": "instagram",
+      "format": "story",
+      "pillar": 5,
+      "source": { "type": "outil", "collection": null, "slug": "quelle-race-me-correspond" },
+      "workingTitle": "Sticker sondage : chien ou chat ?",
+      "status": "planned",
+      "notes": "Story interactive (sticker sondage natif IG) qui renvoie vers le quiz — pas de génération de visuel nécessaire, juste un lien."
+    },
+    {
+      "date": "2026-09-25",
+      "platform": "instagram",
+      "format": "reel",
+      "pillar": 2,
+      "source": { "type": "race", "collection": "chiens", "slug": "beagle" },
+      "workingTitle": "Pourquoi le Beagle fugue aussi facilement",
+      "status": "planned",
+      "notes": "Mythe \"chien facile pour débutant\" — bon accroche visuelle (nez au sol)."
+    },
+    {
+      "date": "2026-09-26",
+      "platform": "tiktok",
+      "format": "tiktok-video",
+      "pillar": 1,
+      "source": { "type": "race", "collection": "chats", "slug": "maine-coon" },
+      "workingTitle": "Le plus grand chat domestique au monde",
+      "status": "planned",
+      "notes": "Portrait pur, race à fort volume de recherche — bon test de reach organique TikTok."
+    },
+    {
+      "date": "2026-09-27",
+      "platform": "instagram",
+      "format": "carousel",
+      "pillar": 5,
+      "source": { "type": "race", "collection": "chats", "slug": "abyssin" },
+      "workingTitle": "5 questions qu'on se pose sur l'Abyssin",
+      "status": "planned",
+      "notes": "Carrousel FAQ éclair (1 question par slide) — teste le pilier 5 en format carrousel plutôt que vidéo."
+    },
+    {
+      "date": "2026-09-28",
+      "platform": "tiktok",
+      "format": "tiktok-video",
+      "pillar": 2,
+      "source": { "type": "race", "collection": "chiens", "slug": "teckel" },
+      "workingTitle": "Le Teckel n'est pas juste \"mignon et fragile\"",
+      "status": "planned",
+      "notes": "Mythe + vrai enjeu santé (hernie discale) — clôture de semaine sur un sujet éducatif fort."
+    }
+  ]
+}

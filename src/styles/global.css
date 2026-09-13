@@ -1,32 +1,84 @@
 @import "tailwindcss";
 
 @theme {
-  /* Palette Boussole Animale : neutres chauds + terracotta (chaleur) + navy (confiance/repère) */
-  --color-sable-50: #fdfbf8;
-  --color-sable-100: #faf6f0;
-  --color-sable-200: #f3ecdf;
-  --color-sable-300: #e6d9c3;
+  /* Palette "Cabinet Naturaliste" : encre chaude + papier vieilli + laiton (accent) + pin (secondaire) */
+  --color-sable-50: #fbf8ef;
+  --color-sable-100: #f6f1e4;
+  --color-sable-200: #ece2c8;
+  --color-sable-300: #d6c9a8;
+  /* Contour des composants interactifs (champs, boutons, puces) : contraste
+     vérifié ≥ 3:1 sur sable-50/100/200 (WCAG 1.4.11), le sable-300 seul est trop clair. */
+  --color-sable-400: #8f7a4a;
 
-  --color-encre-700: #2b2723;
-  --color-encre-900: #1a1714;
+  --color-encre-700: #4a4131;
+  --color-encre-900: #15130f;
 
-  --color-terracotta-400: #d97b52;
-  --color-terracotta-500: #c0603d;
-  --color-terracotta-600: #a34d2f;
+  --color-terracotta-400: #c69447;
+  --color-terracotta-500: #ab7c2e;
+  --color-terracotta-600: #7d5a1f;
 
-  --color-boussole-500: #2f4a6b;
-  --color-boussole-600: #223a56;
-  --color-boussole-700: #1a2c42;
+  --color-boussole-500: #15130f;
+  --color-boussole-600: #15130f;
+  --color-boussole-700: #15130f;
 
-  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
+  --color-pin-600: #3f5c46;
+  --color-pin-700: #2e4534;
+
+  --font-display: "Newsreader Variable", ui-serif, Georgia, serif;
   --font-body: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
 }
 
+/* Mode sombre éditorial — "nuit d'encre" : jamais de noir/blanc purs, toujours
+   la même famille chaude qu'en plein jour, juste inversée. Redéfinit les mêmes
+   variables que @theme ci-dessus (pas de nouveaux noms), donc chaque utilitaire
+   Tailwind existant (bg-sable-100, text-encre-700/80, border-sable-400…) suit
+   automatiquement sans toucher un seul composant. Hors de tout @layer pour
+   toujours l'emporter sur le :root généré par @theme. Chaque valeur est
+   vérifiée au ratio de contraste réel (WCAG), pas au jugé — voir le détail
+   dans la checklist UX/UI, phase E.
+   Le clair est le mode principal : jamais de bascule automatique sur la
+   préférence système, seul le bouton clair/sombre déclenche le sombre. */
+:root {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --color-sable-50: #262117;
+  --color-sable-100: #1c1913;
+  --color-sable-200: #3a3221;
+  --color-sable-300: #544a30;
+  --color-sable-400: #8a7a55;
+
+  --color-encre-700: #c9bfa4;
+  --color-encre-900: #efe7d4;
+
+  --color-terracotta-400: #efc180;
+  --color-terracotta-500: #dba653;
+  --color-terracotta-600: #c99442;
+
+  --color-boussole-500: #6b4a24;
+  --color-boussole-600: #6b4a24;
+  --color-boussole-700: #6b4a24;
+
+  --color-pin-600: #7fae8a;
+  --color-pin-700: #5f8a6a;
+}
+
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
   body {
     background-color: var(--color-sable-100);
     color: var(--color-encre-900);
     font-family: var(--font-body);
+    transition: background-color 0.2s ease-out, color 0.2s ease-out;
   }
 
   h1,
@@ -34,15 +86,238 @@
   h3,
   h4 {
     font-family: var(--font-display);
+    font-weight: 500;
   }
 }
 
 @layer components {
   .prose-race h2 {
-    @apply mt-10 mb-4 text-2xl font-semibold text-encre-900;
+    @apply mt-11 mb-4 scroll-mt-16 text-2xl font-medium text-encre-900;
   }
 
   .prose-race p {
     @apply mb-4 leading-relaxed text-encre-700;
   }
+
+  /* Liens dans le corps éditorial : sans cette règle, un lien markdown en
+     texte de paragraphe hérite du texte environnant et devient invisible en
+     tant que lien — trouvé en relisant une fiche, pas au hasard. Couleur ET
+     soulignement (jamais la couleur seule) pour rester lisible aux daltoniens. */
+  .prose-race a {
+    color: var(--color-terracotta-600);
+    font-weight: 500;
+    text-decoration-line: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-terracotta-600) 35%, transparent);
+    text-underline-offset: 2px;
+    transition: text-decoration-color 0.15s ease-out;
+  }
+  .prose-race a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* Label discret : petites capitales espacées en Inter — jamais de monospace. */
+  .label {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* Traitement photo "planche naturaliste" : légèrement désaturé au repos,
+     revient à des couleurs naturelles au survol d'une carte — suggère
+     l'interactivité sans effet criard.
+     Restreint aux appareils à survol réel (souris) : sur tactile, :hover ne
+     se déclenche jamais de façon fiable, donc la version tactile resterait
+     en permanence désaturée sans raison — on y affiche la photo en couleurs
+     dès le départ plutôt que de simuler un survol qui n'arrivera pas. */
+  @media (hover: hover) and (pointer: fine) {
+    .race-photo {
+      filter: sepia(0.18) saturate(0.85) contrast(1.04);
+      transition: filter 0.5s ease-out, transform 0.5s ease-out;
+    }
+    .group:hover .race-photo {
+      filter: sepia(0) saturate(1.05) contrast(1);
+      transform: scale(1.035);
+      will-change: filter, transform;
+    }
+  }
+
+  /* Lift de carte : même déclencheur que le translate-y déjà posé en utilitaire
+     Tailwind sur chaque carte, mais ajoute une ombre chaude (jamais le gris
+     générique) pour que le survol se lise comme un vrai soulèvement, pas
+     seulement un glissement. */
+  .card-lift {
+    transition: box-shadow 0.3s ease-out;
+  }
+  .card-lift:hover {
+    box-shadow: 0 16px 28px -16px rgb(21 19 15 / 0.28);
+  }
+  :root[data-theme='dark'] .card-lift:hover {
+    box-shadow: 0 0 0 1px rgb(219 166 83 / 0.18), 0 16px 28px -16px rgb(0 0 0 / 0.6);
+  }
+
+  /* Révélation progressive : bandeau d'infos secondaires masqué au repos,
+     qui glisse depuis le bas de la photo au survol — seulement là où le
+     survol existe vraiment (souris). */
+  .reveal-on-hover {
+    display: none;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .reveal-on-hover {
+      display: flex;
+      transform: translateY(120%);
+      opacity: 0;
+      transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    }
+    .group:hover .reveal-on-hover {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .reveal-on-touch {
+      display: none;
+    }
+  }
+
+  /* Fondu d'apparition léger — CSS pur, indépendant de l'hydratation JS,
+     pour que le contenu reste visible même sans JS ou pendant son chargement. */
+  .fade-in {
+    animation: fade-in-up 0.4s ease-out both;
+  }
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in {
+      animation: none;
+    }
+  }
+
+  /* Repère "+ / −" pour les <details> de FAQ : sans lui, la seule affordance
+     d'ouverture est le curseur au survol, invisible au clavier/tactile. */
+  .faq-summary {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-summary::marker {
+    content: '';
+  }
+
+  /* Repère générique pour tout <summary> sans le +/− de la FAQ (ex. le menu
+     mobile) : masque le triangle natif dans tous les moteurs. */
+  .no-marker::-webkit-details-marker {
+    display: none;
+  }
+  .no-marker::marker {
+    content: '';
+  }
+  .faq-summary::after {
+    content: '+';
+    flex-shrink: 0;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    line-height: 1;
+    color: var(--color-terracotta-600);
+  }
+  details[open] > .faq-summary::after {
+    content: '\2212';
+  }
+
+  /* Lien d'évitement : hors écran par défaut, révélé au premier focus clavier
+     pour sauter la navigation d'en-tête sans devoir la tabuler à chaque page. */
+  .skip-link {
+    position: absolute;
+    top: -3rem;
+    left: 1rem;
+    z-index: 50;
+    background: var(--color-terracotta-600);
+    color: var(--color-sable-50);
+    padding: 0.625rem 1.25rem;
+    font-weight: 600;
+    transition: top 0.15s ease-out;
+  }
+  .skip-link:focus-visible {
+    top: 1rem;
+  }
+
+  /* Bouton clair/sombre : les deux pictogrammes sont toujours dans le DOM,
+     seul le CSS décide lequel est visible — pas de saut de contenu au clic,
+     et l'état initial (avant hydratation JS) suit déjà le bon thème. */
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    color: var(--color-encre-700);
+  }
+  .theme-toggle:hover {
+    color: var(--color-terracotta-600);
+  }
+  .theme-toggle svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+  .theme-toggle .icon-moon {
+    display: none;
+  }
+  :root[data-theme='dark'] .theme-toggle .icon-sun {
+    display: none;
+  }
+  :root[data-theme='dark'] .theme-toggle .icon-moon {
+    display: block;
+  }
+
+  /* Grain de papier : bruit SVG très discret, plaqué sur toute la page pour
+     évoquer le papier des planches naturalistes — jamais assez visible pour
+     gêner la lecture, ni en clair ni en sombre. */
+  .paper-grain {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  :root[data-theme='dark'] .paper-grain {
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+  }
+
+  /* Filigrane rose des vents : signature discrète du "Cabinet Naturaliste",
+     jamais assez présente pour concurrencer le contenu. */
+  .compass-mark {
+    color: var(--color-encre-900);
+    opacity: 0.05;
+  }
+
+  /* Attraction légère du CTA principal vers le curseur : le JS pose le
+     transform image par image (pas de transition pendant le survol, pour
+     suivre le curseur sans latence) et ne remet une transition qu'au
+     relâchement, pour l'effet "ressort" — voir le script dans Layout.astro. */
+  .magnetic {
+    display: inline-block;
+    will-change: transform;
+  }
+}
+
+/* Anneau de focus clavier : hors de tout @layer pour ne jamais être neutralisé
+   par une utilité Tailwind (ex. focus:outline-none) — toujours visible,
+   jamais l'anneau bleu par défaut du navigateur, jamais supprimé. */
+:focus-visible {
+  outline: 2px solid var(--color-terracotta-500);
+  outline-offset: 2px;
 }

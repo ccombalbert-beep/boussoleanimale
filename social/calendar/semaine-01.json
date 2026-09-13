@@ -1,0 +1,76 @@
+{
+  "week": 1,
+  "theme": "Rodage — piliers 1 (Portrait) et 2 (Mythe vs Réalité) uniquement",
+  "entries": [
+    {
+      "date": "2026-09-15",
+      "platform": "instagram",
+      "format": "carousel",
+      "pillar": 1,
+      "source": { "type": "race", "collection": "chiens", "slug": "malinois" },
+      "workingTitle": "Le Malinois, mal-aimé malgré lui",
+      "status": "planned",
+      "notes": "Ouverture du compte — choisir une race à forte reconnaissance visuelle (chien de police) pour le premier post."
+    },
+    {
+      "date": "2026-09-16",
+      "platform": "tiktok",
+      "format": "tiktok-video",
+      "pillar": 2,
+      "source": { "type": "race", "collection": "chiens", "slug": "basenji" },
+      "workingTitle": "Ce chien n'aboie jamais (et ce n'est pas une légende)",
+      "status": "planned",
+      "notes": "Script déjà testé en session (voir .scratch/video-test/). Meilleur hook du catalogue pour un premier TikTok."
+    },
+    {
+      "date": "2026-09-17",
+      "platform": "instagram",
+      "format": "story",
+      "pillar": 1,
+      "source": { "type": "race", "collection": "chats", "slug": "chartreux" },
+      "workingTitle": "Le nom du Chartreux n'a rien à voir avec des moines",
+      "status": "planned",
+      "notes": "Story teaser courte, renvoie vers le carrousel du lendemain."
+    },
+    {
+      "date": "2026-09-18",
+      "platform": "instagram",
+      "format": "carousel",
+      "pillar": 2,
+      "source": { "type": "race", "collection": "chats", "slug": "chartreux" },
+      "workingTitle": "Non, le Chartreux n'a pas été élevé par des moines",
+      "status": "planned",
+      "notes": "Suite logique de la story J-1. Mythe fort + vraie explication (laine espagnole)."
+    },
+    {
+      "date": "2026-09-19",
+      "platform": "tiktok",
+      "format": "tiktok-video",
+      "pillar": 2,
+      "source": { "type": "race", "collection": "chats", "slug": "scottish-fold" },
+      "workingTitle": "Ces oreilles adorables cachent un vrai sujet de santé",
+      "status": "planned",
+      "notes": "Sujet sensible (bien-être animal) — s'assurer que le ton reste factuel, pas alarmiste. Relecture humaine renforcée sur ce post précis."
+    },
+    {
+      "date": "2026-09-20",
+      "platform": "instagram",
+      "format": "reel",
+      "pillar": 2,
+      "source": { "type": "race", "collection": "chiens", "slug": "dogue-de-bordeaux" },
+      "workingTitle": "Le chien le plus mal jugé de son groupe",
+      "status": "planned",
+      "notes": "Contraste fort tête impressionnante / tempérament doux — bon format Reel (avant/après perception)."
+    },
+    {
+      "date": "2026-09-21",
+      "platform": "tiktok",
+      "format": "tiktok-video",
+      "pillar": 1,
+      "source": { "type": "race", "collection": "chats", "slug": "sphynx" },
+      "workingTitle": "Le Sphynx n'est pas nu par accident",
+      "status": "planned",
+      "notes": "Clôture de semaine sur une race très visuelle, fort potentiel de partage/commentaires."
+    }
+  ]
+}

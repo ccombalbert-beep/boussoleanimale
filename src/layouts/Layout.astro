@@ -1,7 +1,12 @@
 ---
-import '@fontsource-variable/fraunces';
+import { ClientRouter } from 'astro:transitions';
+import '@fontsource-variable/newsreader';
+import '@fontsource-variable/newsreader/wght-italic.css';
 import '@fontsource-variable/inter';
 import '../styles/global.css';
+import CompassMark from '../components/CompassMark.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import { tronquerPourMeta } from '../lib/seo';
 
 interface Props {
   title: string;
@@ -21,11 +26,43 @@ const {
 const siteName = 'Boussole Animale';
 const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
 const absoluteImage = new URL(image, Astro.site);
+// Le texte source (resume, titre de guide...) est pensé pour l'intro de page,
+// pas pour la largeur d'une balise meta — jusqu'à 200 caractères, alors que
+// Google tronque autour de 155. On garde le texte long sur la page, on
+// n'en réduit qu'un aperçu pour les balises meta/OG/Twitter.
+const metaDescription = tronquerPourMeta(description);
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: siteName,
+  url: Astro.site,
+  logo: new URL('/apple-touch-icon.png', Astro.site).toString(),
+};
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: siteName,
+  url: Astro.site,
+  inLanguage: 'fr-FR',
+};
 ---
 
 <!doctype html>
 <html lang="fr">
   <head>
+    <script is:inline>
+      // Doit s'exécuter avant le premier rendu pour éviter un flash du mauvais
+      // thème. Le clair est le mode principal du site : la préférence système
+      // n'est jamais suivie automatiquement, seul un choix explicite du
+      // bouton clair/sombre (mémorisé ici) peut activer le sombre.
+      try {
+        var stored = localStorage.getItem('theme');
+        if (stored === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (e) {}
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -33,56 +70,159 @@ const absoluteImage = new URL(image, Astro.site);
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <title>{fullTitle}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={metaDescription} />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={metaDescription} />
     <meta property="og:image" content={absoluteImage} />
     <meta property="og:image:width" content={String(imageWidth)} />
     <meta property="og:image:height" content={String(imageHeight)} />
     <meta property="og:locale" content="fr_FR" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:description" content={metaDescription} />
     <meta name="twitter:image" content={absoluteImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} is:inline />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} is:inline />
+    <ClientRouter />
 
     <slot name="head" />
   </head>
   <body class="flex min-h-screen flex-col">
-    <header class="border-b border-sable-300 bg-sable-50">
-      <div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
-        <a href="/" class="font-display text-xl font-semibold text-boussole-700">
-          Boussole Animale
+    <div class="paper-grain"></div>
+    <a href="#contenu" class="skip-link">Aller au contenu</a>
+
+    <header class="border-b border-sable-300">
+      <div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-5">
+        <a href="/" class="font-display text-xl italic text-encre-900">
+          Boussole<span class="text-terracotta-500 not-italic">·</span>Animale
         </a>
-        <nav class="flex gap-6 text-sm font-medium text-encre-700">
-          <a href="/chiens/" class="hover:text-terracotta-600">Chiens</a>
-          <a href="/chats/" class="hover:text-terracotta-600">Chats</a>
-          <a href="/outils/" class="hover:text-terracotta-600">Outils</a>
-          <a href="/guides/" class="hover:text-terracotta-600">Guides</a>
-        </nav>
+        <div class="flex items-center gap-3">
+          <nav class="hidden gap-6 text-sm font-medium text-encre-700 sm:flex" aria-label="Navigation principale">
+            <a href="/chiens/" class="hover:text-terracotta-600">Chiens</a>
+            <a href="/chats/" class="hover:text-terracotta-600">Chats</a>
+            <a href="/outils/" class="hover:text-terracotta-600">Outils</a>
+            <a href="/guides/" class="hover:text-terracotta-600">Guides</a>
+          </nav>
+          <button type="button" class="theme-toggle" aria-label="Basculer le thème clair/sombre">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4.5" />
+              <path d="M12 2v2.5M12 19.5V22M4.22 4.22l1.77 1.77M18.01 18.01l1.77 1.77M2 12h2.5M19.5 12H22M4.22 19.78l1.77-1.77M18.01 5.99l1.77-1.77" />
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
+              <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 1020.354 15.354z" />
+            </svg>
+          </button>
+          <details class="mobile-menu relative sm:hidden">
+            <summary class="no-marker flex h-10 w-10 cursor-pointer list-none items-center justify-center text-encre-700" aria-label="Menu">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" class="h-5 w-5">
+                <path d="M3 6h18M3 12h18M3 18h18" />
+              </svg>
+            </summary>
+            <nav
+              class="absolute right-0 top-full z-20 mt-2 w-48 border border-sable-400 bg-sable-50 py-2 shadow-lg"
+              aria-label="Navigation principale"
+            >
+              <a href="/chiens/" class="block px-4 py-2.5 text-sm font-medium text-encre-700 hover:bg-sable-100 hover:text-terracotta-600">Chiens</a>
+              <a href="/chats/" class="block px-4 py-2.5 text-sm font-medium text-encre-700 hover:bg-sable-100 hover:text-terracotta-600">Chats</a>
+              <a href="/outils/" class="block px-4 py-2.5 text-sm font-medium text-encre-700 hover:bg-sable-100 hover:text-terracotta-600">Outils</a>
+              <a href="/guides/" class="block px-4 py-2.5 text-sm font-medium text-encre-700 hover:bg-sable-100 hover:text-terracotta-600">Guides</a>
+            </nav>
+          </details>
+        </div>
       </div>
     </header>
 
-    <main class="flex-1">
+    <main id="contenu" class="flex-1">
       <slot />
     </main>
 
-    <footer class="border-t border-sable-300 bg-sable-50">
-      <div class="mx-auto max-w-5xl px-4 py-10 text-sm text-encre-700">
+    <footer class="relative overflow-hidden border-t border-sable-300 bg-sable-50">
+      <CompassMark class="pointer-events-none absolute -bottom-8 -right-8 h-40 w-40" />
+      <div class="relative mx-auto max-w-5xl px-4 py-10 text-sm text-encre-700">
         <div class="flex flex-wrap gap-x-8 gap-y-2">
           <a href="/a-propos/" class="hover:text-terracotta-600">À propos</a>
           <a href="/methodologie/" class="hover:text-terracotta-600">Méthodologie</a>
           <a href="/contact/" class="hover:text-terracotta-600">Contact</a>
           <a href="/mentions-legales/" class="hover:text-terracotta-600">Mentions légales</a>
           <a href="/confidentialite/" class="hover:text-terracotta-600">Confidentialité</a>
+          <button
+            type="button"
+            onclick="window.ouvrirPreferencesCookies?.()"
+            class="hover:text-terracotta-600"
+          >
+            Gérer les cookies
+          </button>
         </div>
-        <p class="mt-6 text-encre-700/60">
+        <p class="mt-6 text-encre-700/80">
           © {new Date().getFullYear()} Boussole Animale — Guide indépendant des races de chiens et de chats.
         </p>
       </div>
     </footer>
+
+    <CookieBanner />
+
+    <script>
+      // Délégué sur document (et non lié au bouton lui-même) pour continuer à
+      // fonctionner après une navigation ClientRouter sans avoir à se rebrancher.
+      document.addEventListener('click', (event) => {
+        const bouton = (event.target as HTMLElement).closest('.theme-toggle');
+        if (!bouton) return;
+        const racine = document.documentElement;
+        const actuel = racine.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        const suivant = actuel === 'dark' ? 'light' : 'dark';
+        racine.setAttribute('data-theme', suivant);
+        try {
+          localStorage.setItem('theme', suivant);
+        } catch (e) {}
+      });
+    </script>
+
+    <script>
+      // Attraction légère des CTA vers le curseur — jamais sur tactile (pas de
+      // curseur à suivre) ni si l'utilisateur préfère moins de mouvement.
+      // Réexécuté après chaque navigation ClientRouter, car les éléments sont
+      // remplacés et perdraient sinon leurs écouteurs.
+      function initMagnetic() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+        document.querySelectorAll<HTMLElement>('.magnetic').forEach((el) => {
+          const force = 0.25;
+          const max = 8;
+
+          el.addEventListener('mousemove', (event) => {
+            const rect = el.getBoundingClientRect();
+            const x = event.clientX - rect.left - rect.width / 2;
+            const y = event.clientY - rect.top - rect.height / 2;
+            const tx = Math.max(-max, Math.min(max, x * force));
+            const ty = Math.max(-max, Math.min(max, y * force));
+            el.style.transition = 'none';
+            el.style.transform = `translate(${tx}px, ${ty}px)`;
+          });
+
+          el.addEventListener('mouseleave', () => {
+            el.style.transition = 'transform 0.3s cubic-bezier(0.33, 1, 0.68, 1)';
+            el.style.transform = '';
+          });
+        });
+      }
+      document.addEventListener('astro:page-load', initMagnetic);
+    </script>
+
+    <script>
+      // Le menu mobile est un <details> natif (aucun JS requis pour l'ouvrir/
+      // fermer au clic ou au clavier) ; ce script ajoute seulement la fermeture
+      // au clic extérieur, que le natif ne fait pas tout seul.
+      document.addEventListener('click', (event) => {
+        const cible = event.target as HTMLElement;
+        document.querySelectorAll<HTMLDetailsElement>('.mobile-menu[open]').forEach((menu) => {
+          if (!menu.contains(cible)) menu.removeAttribute('open');
+        });
+      });
+    </script>
   </body>
 </html>

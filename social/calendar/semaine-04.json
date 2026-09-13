@@ -1,0 +1,76 @@
+{
+  "week": 4,
+  "theme": "Rythme de croisière — les 5 piliers représentés. Ce gabarit se duplique pour les mois suivants (changer les slugs sources, garder la structure).",
+  "entries": [
+    {
+      "date": "2026-10-06",
+      "platform": "instagram",
+      "format": "carousel",
+      "pillar": 1,
+      "source": { "type": "race", "collection": "chats", "slug": "burmese" },
+      "workingTitle": "À ne pas confondre avec le Sacré de Birmanie",
+      "status": "planned",
+      "notes": "Portrait + clarification de confusion de noms, double intérêt (info + référencement de la fiche voisine)."
+    },
+    {
+      "date": "2026-10-07",
+      "platform": "tiktok",
+      "format": "tiktok-video",
+      "pillar": 2,
+      "source": { "type": "race", "collection": "chiens", "slug": "american-staffordshire-terrier" },
+      "workingTitle": "Amstaff ou Pitbull ? La loi française tranche sur un seul critère",
+      "status": "planned",
+      "notes": "Sujet sensible/juridique — relecture humaine renforcée obligatoire, exactitude légale non négociable."
+    },
+    {
+      "date": "2026-10-08",
+      "platform": "instagram",
+      "format": "story",
+      "pillar": 4,
+      "source": { "type": "race", "collection": "chiens", "slug": "golden-retriever" },
+      "workingTitle": "Planche naturaliste — Golden Retriever",
+      "status": "planned",
+      "notes": "Pilier esthétique, rythme désormais hebdomadaire fixe (une respiration par semaine)."
+    },
+    {
+      "date": "2026-10-09",
+      "platform": "instagram",
+      "format": "reel",
+      "pillar": 3,
+      "source": { "type": "guide", "collection": "guides", "slug": "races-compatibles-avec-enfants" },
+      "workingTitle": "\"Compatible enfants\" ne veut pas dire la même chose partout",
+      "status": "planned",
+      "notes": "Angle nuance du guide (le champ plat masque de vraies différences) — bon format Reel comparatif."
+    },
+    {
+      "date": "2026-10-10",
+      "platform": "tiktok",
+      "format": "tiktok-video",
+      "pillar": 5,
+      "source": { "type": "race", "collection": "chats", "slug": "devon-rex" },
+      "workingTitle": "Non, ce chat frisé n'est pas hypoallergénique",
+      "status": "planned",
+      "notes": "FAQ éclair démystification — thème récurrent qui revient bien sur plusieurs races (Sibérien, Devon Rex...)."
+    },
+    {
+      "date": "2026-10-11",
+      "platform": "instagram",
+      "format": "carousel",
+      "pillar": 2,
+      "source": { "type": "race", "collection": "chiens", "slug": "rottweiler" },
+      "workingTitle": "Catégorie 2 que le chien soit LOF ou non",
+      "status": "planned",
+      "notes": "Suite logique du TikTok Amstaff de S4 — même sujet légal, autre race, format carrousel plus posé."
+    },
+    {
+      "date": "2026-10-12",
+      "platform": "tiktok",
+      "format": "tiktok-video",
+      "pillar": 1,
+      "source": { "type": "race", "collection": "chats", "slug": "ragdoll" },
+      "workingTitle": "Le chat qui se \"dégonfle\" quand on le porte",
+      "status": "planned",
+      "notes": "Portrait avec angle comportemental fort visuellement — bonne clôture de mois avant duplication du gabarit."
+    }
+  ]
+}

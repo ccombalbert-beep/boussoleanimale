@@ -1,5 +1,12 @@
 ---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const guides = (await getCollection('guides')).sort(
+  (a, b) => b.data.dateMiseAJour.valueOf() - a.data.dateMiseAJour.valueOf()
+);
 ---
 
 <Layout
@@ -7,11 +14,47 @@ import Layout from '../../layouts/Layout.astro';
   description="Comparatifs et guides pratiques sur le budget, le choix et la vie avec un chien ou un chat."
 >
   <div class="mx-auto max-w-5xl px-4 py-12">
-    <h1 class="font-display text-3xl font-semibold text-encre-900">Guides</h1>
+    <Breadcrumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Guides' }]} />
+
+    <h1 class="font-display text-3xl font-medium text-encre-900">Guides</h1>
     <p class="mt-2 max-w-2xl text-encre-700">
       Des articles transverses qui comparent plusieurs races ou répondent à des questions pratiques que la fiche
       d'une seule race ne couvre pas.
     </p>
-    <p class="mt-8 text-encre-700/60">Les premiers guides arrivent très bientôt.</p>
+
+    <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+      {guides.map((guide, i) => (
+        <a
+          href={`/guides/${guide.id}/`}
+          class="card-lift group block overflow-hidden border border-sable-300 bg-sable-50 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-terracotta-400"
+        >
+          <Image
+            src={guide.data.image}
+            alt={guide.data.imageAlt}
+            class="race-photo aspect-[16/9] w-full object-cover"
+            style={`view-transition-name: guide-photo-${guide.id}`}
+            position={guide.data.imagePosition ?? 'center'}
+            width={600}
+            height={338}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            fetchpriority={i === 0 ? 'high' : undefined}
+          />
+          <div class="p-4">
+            <h2 class="font-display text-lg font-medium text-encre-900 transition-colors group-hover:text-terracotta-600">
+              {guide.data.titre}
+            </h2>
+            <p class="mt-1 line-clamp-2 text-sm text-encre-700">{guide.data.resume}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    {guides.length === 0 && <p class="mt-8 text-encre-700/80">Les premiers guides arrivent très bientôt.</p>}
+
+    <p class="mt-10 text-sm text-encre-700">
+      Besoin d'un chiffre précis plutôt que d'une explication ? Nos{' '}
+      <a href="/outils/" class="font-medium text-terracotta-600 hover:text-terracotta-500">outils et calculateurs</a>{' '}
+      donnent une estimation adaptée à votre situation.
+    </p>
   </div>
 </Layout>

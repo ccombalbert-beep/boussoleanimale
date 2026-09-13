@@ -1,9 +1,36 @@
 ---
 import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
-import RaceCard from '../../components/RaceCard.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import HubRaces, { type RaceItem } from '../../components/HubRaces.tsx';
 
 const races = (await getCollection('chiens')).sort((a, b) => a.data.nom.localeCompare(b.data.nom));
+
+const racesItems: RaceItem[] = await Promise.all(
+  races.map(async (race) => {
+    const image = await getImage({
+      src: race.data.image,
+      width: 400,
+      height: 300,
+      position: race.data.imagePosition ?? 'center',
+      format: 'webp',
+    });
+    return {
+      slug: race.id,
+      nom: race.data.nom,
+      resume: race.data.resume,
+      imageSrc: image.src,
+      imageWidth: image.attributes.width as number,
+      imageHeight: image.attributes.height as number,
+      imageAlt: race.data.imageAlt,
+      niveauActivite: race.data.niveauActivite,
+      adapteAppartement: race.data.adapteAppartement,
+      adapteEnfants: race.data.adapteEnfants,
+      aboiement: race.data.aboiement,
+    };
+  })
+);
 ---
 
 <Layout
@@ -11,26 +38,16 @@ const races = (await getCollection('chiens')).sort((a, b) => a.data.nom.localeCo
   description="Fiches détaillées sur les races de chiens : caractère, budget réel, santé, entretien. Guide indépendant et régulièrement mis à jour."
 >
   <div class="mx-auto max-w-5xl px-4 py-12">
-    <h1 class="font-display text-3xl font-semibold text-encre-900">Races de chiens</h1>
+    <Breadcrumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Chiens' }]} />
+
+    <h1 class="font-display text-3xl font-medium text-encre-900">Races de chiens</h1>
     <p class="mt-2 max-w-2xl text-encre-700">
       Des fiches complètes, rédigées et vérifiées, pour comprendre le vrai caractère, le budget réel et les besoins
       quotidiens de chaque race avant d'adopter.
     </p>
 
-    <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {races.map((race) => (
-        <RaceCard
-          slug={race.id}
-          nom={race.data.nom}
-          resume={race.data.resume}
-          image={race.data.image}
-          imageAlt={race.data.imageAlt}
-          imagePosition={race.data.imagePosition}
-          espece="chien"
-        />
-      ))}
+    <div class="mt-8">
+      <HubRaces client:load races={racesItems} espece="chien" />
     </div>
-
-    {races.length === 0 && <p class="mt-8 text-encre-700/60">Les premières fiches arrivent très bientôt.</p>}
   </div>
 </Layout>

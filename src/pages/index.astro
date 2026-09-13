@@ -1,43 +1,145 @@
 ---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
+import CompassMark from '../components/CompassMark.astro';
+import fichesALaUne from '../data/fiches-a-la-une.json';
+
+// TODO (post-lancement) : automatiser cette liste sur les pages les plus
+// performantes en Google Search Console plutôt qu'un fallback manuel.
+// Prévoir : un script planifié (ex. GitHub Action hebdo) qui interroge
+// l'API Search Console (clicks des 28 derniers jours) via un compte de
+// service, écrit le résultat dans src/data/fiches-a-la-une.json avec
+// source: "search-console", puis déclenche un rebuild Netlify. Nécessite
+// la propriété du site vérifiée dans Search Console au préalable.
+const slugsAffiches = fichesALaUne.slugs;
+const [chiens, chats, guides] = await Promise.all([
+  getCollection('chiens'),
+  getCollection('chats'),
+  getCollection('guides'),
+]);
+const racesAffichees = slugsAffiches
+  .map((slug) => {
+    const entry = chiens.find((r) => r.id === slug) ?? chats.find((r) => r.id === slug);
+    if (!entry) return null;
+    const espece: 'chien' | 'chat' = chiens.some((r) => r.id === slug) ? 'chien' : 'chat';
+    return { entry, espece };
+  })
+  .filter((r): r is { entry: (typeof chiens)[number]; espece: 'chien' | 'chat' } => r !== null);
+
+const derniersGuides = guides
+  .sort((a, b) => b.data.dateMiseAJour.valueOf() - a.data.dateMiseAJour.valueOf())
+  .slice(0, 2);
 ---
 
 <Layout
   title="Boussole Animale"
   description="Le guide indépendant pour choisir et comprendre sa race de chien ou de chat : caractère réel, budget, santé, et un quiz pour trouver la race qui vous correspond."
 >
-  <section class="border-b border-sable-300 bg-sable-50">
+  <section>
     <div class="mx-auto max-w-3xl px-4 py-20 text-center">
-      <p class="text-sm font-medium uppercase tracking-wide text-terracotta-600">Guide indépendant chiens & chats</p>
-      <h1 class="mt-4 font-display text-4xl font-semibold text-encre-900 sm:text-5xl">
+      <p class="label text-terracotta-600">Guide indépendant chiens &amp; chats</p>
+      <h1 class="mt-4 font-display text-4xl font-medium leading-tight text-encre-900 sm:text-5xl">
         Trouvez la race qui vous correspond vraiment
       </h1>
-      <p class="mx-auto mt-4 max-w-xl text-lg text-encre-700">
+      <p class="mx-auto mt-4 max-w-xl font-display text-lg italic text-encre-700">
         Caractère réel, budget honnête, besoins quotidiens : des fiches pensées pour décider, pas seulement pour lire.
       </p>
       <a
         href="/outils/quelle-race-me-correspond/"
-        class="mt-8 inline-block rounded-full bg-terracotta-500 px-8 py-3 font-medium text-white hover:bg-terracotta-600"
+        class="magnetic mt-8 inline-block border border-encre-900 bg-encre-900 px-8 py-3 font-medium text-sable-50 transition-colors duration-200 hover:border-terracotta-600 hover:bg-terracotta-600 active:scale-[0.97]"
       >
         Faire le quiz : quelle race me correspond ?
       </a>
     </div>
   </section>
 
-  <section class="mx-auto max-w-5xl px-4 py-16">
-    <div class="grid gap-8 sm:grid-cols-3">
-      <a href="/chiens/" class="rounded-lg border border-sable-300 bg-sable-50 p-6 hover:border-terracotta-400">
-        <h2 class="font-display text-xl font-semibold text-encre-900">Races de chiens</h2>
-        <p class="mt-2 text-encre-700">Caractère, santé, entretien et budget réel de chaque race.</p>
-      </a>
-      <a href="/chats/" class="rounded-lg border border-sable-300 bg-sable-50 p-6 hover:border-terracotta-400">
-        <h2 class="font-display text-xl font-semibold text-encre-900">Races de chats</h2>
-        <p class="mt-2 text-encre-700">Tout savoir avant d'adopter, sans les idées reçues.</p>
-      </a>
-      <a href="/outils/" class="rounded-lg border border-sable-300 bg-sable-50 p-6 hover:border-terracotta-400">
-        <h2 class="font-display text-xl font-semibold text-encre-900">Outils</h2>
-        <p class="mt-2 text-encre-700">Quiz et calculateurs pour décider en connaissance de cause.</p>
-      </a>
+  <div class="flex items-center justify-center gap-4 py-8" aria-hidden="true">
+    <div class="h-px w-16 bg-sable-300 sm:w-32"></div>
+    <CompassMark class="h-6 w-6 opacity-60" />
+    <div class="h-px w-16 bg-sable-300 sm:w-32"></div>
+  </div>
+
+  <section class="mx-auto max-w-5xl px-4 pb-16">
+    <div class="flex items-baseline justify-between">
+      <h2 class="label text-terracotta-600">Fiches à la une</h2>
+      <a href="/chiens/" class="text-sm font-medium text-encre-700 hover:text-terracotta-600">Toutes les races →</a>
+    </div>
+    <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {racesAffichees.map(({ entry, espece }, i) => (
+        <a
+          href={`/${espece === 'chien' ? 'chiens' : 'chats'}/races/${entry.id}/`}
+          class="card-lift group block border border-sable-300 bg-sable-50 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-terracotta-400"
+        >
+          <div class="overflow-hidden border-b border-sable-300 p-2">
+            <Image
+              src={entry.data.image}
+              alt={entry.data.imageAlt}
+              class="race-photo aspect-[4/3] w-full object-cover"
+              style={`view-transition-name: race-photo-${entry.id}`}
+              position={entry.data.imagePosition ?? 'center'}
+              width={400}
+              height={300}
+              loading={i === 0 ? 'eager' : 'lazy'}
+              fetchpriority={i === 0 ? 'high' : undefined}
+            />
+          </div>
+          <div class="p-4">
+            <h3 class="font-display text-lg font-medium text-encre-900 transition-colors group-hover:text-terracotta-600">
+              {entry.data.nom}
+            </h3>
+            <p class="mt-1 line-clamp-2 text-sm text-encre-700">{entry.data.resume}</p>
+          </div>
+        </a>
+      ))}
     </div>
   </section>
+
+  <section class="border-t border-sable-300 bg-sable-50">
+    <div class="mx-auto max-w-5xl px-4 py-16">
+      <div class="grid gap-8 sm:grid-cols-3">
+        <a href="/chiens/" class="card-lift border border-sable-300 bg-sable-50 p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-terracotta-400">
+          <h2 class="font-display text-xl font-medium text-encre-900">Races de chiens</h2>
+          <p class="mt-2 text-encre-700">Caractère, santé, entretien et budget réel de chaque race.</p>
+        </a>
+        <a href="/chats/" class="card-lift border border-sable-300 bg-sable-50 p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-terracotta-400">
+          <h2 class="font-display text-xl font-medium text-encre-900">Races de chats</h2>
+          <p class="mt-2 text-encre-700">Tout savoir avant d'adopter, sans les idées reçues.</p>
+        </a>
+        <a href="/outils/" class="card-lift border border-sable-300 bg-sable-50 p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-terracotta-400">
+          <h2 class="font-display text-xl font-medium text-encre-900">Outils</h2>
+          <p class="mt-2 text-encre-700">Quiz et calculateurs pour décider en connaissance de cause.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {derniersGuides.length > 0 && (
+    <section class="mx-auto max-w-5xl px-4 py-16">
+      <h2 class="label text-terracotta-600">Derniers guides</h2>
+      <div class="mt-6 grid gap-6 sm:grid-cols-2">
+        {derniersGuides.map((guide) => (
+          <a href={`/guides/${guide.id}/`} class="card-lift group block border border-sable-300 bg-sable-50 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-terracotta-400">
+            <div class="overflow-hidden border-b border-sable-300 p-2">
+              <Image
+                src={guide.data.image}
+                alt={guide.data.imageAlt}
+                class="race-photo aspect-[16/9] w-full object-cover"
+                position={guide.data.imagePosition ?? 'center'}
+                width={600}
+                height={338}
+                loading="lazy"
+              />
+            </div>
+            <div class="p-4">
+              <h3 class="font-display text-lg font-medium text-encre-900 transition-colors group-hover:text-terracotta-600">
+                {guide.data.titre}
+              </h3>
+              <p class="mt-1 line-clamp-2 text-sm text-encre-700">{guide.data.resume}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
 </Layout>

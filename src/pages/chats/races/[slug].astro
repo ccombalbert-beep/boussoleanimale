@@ -11,9 +11,9 @@ export async function getStaticPaths() {
 }
 
 const { race } = Astro.props;
-const { Content } = await render(race);
+const { Content, headings } = await render(race);
 ---
 
-<RaceLayout data={race.data} espece="chat">
+<RaceLayout data={race.data} espece="chat" headings={headings} slug={race.id}>
   <Content />
 </RaceLayout>

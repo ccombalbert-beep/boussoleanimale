@@ -2,7 +2,8 @@
   command = "npm run build"
   publish = "dist"
 
-[[headers]]
-  for = "/images/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+# Les en-têtes HTTP (CSP, cache, sécurité) sont générés automatiquement dans
+# dist/_headers par scripts/generate-csp.mjs (hook "postbuild" de
+# package.json) — la CSP dépend du contenu réel du build (hash des scripts
+# inline), donc elle ne peut pas être figée ici sans risquer de désynchroniser
+# la policy du site effectivement servi. Voir CHECKLIST_PROD.md, phase 1.

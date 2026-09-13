@@ -1,0 +1,76 @@
+{
+  "week": 3,
+  "theme": "Introduction du pilier 4 (Cabinet Naturaliste) — respiration esthétique dans le rythme éditorial",
+  "entries": [
+    {
+      "date": "2026-09-29",
+      "platform": "instagram",
+      "format": "photo",
+      "pillar": 4,
+      "source": { "type": "race", "collection": "chiens", "slug": "berger-australien" },
+      "workingTitle": "Planche naturaliste — Berger Australien",
+      "status": "planned",
+      "notes": "Premier post 100% esthétique : photo seule + légende courte (1-2 phrases) + crédit. Pas de carrousel, pas de liste de faits."
+    },
+    {
+      "date": "2026-09-30",
+      "platform": "tiktok",
+      "format": "tiktok-video",
+      "pillar": 2,
+      "source": { "type": "race", "collection": "chats", "slug": "angora-turc" },
+      "workingTitle": "L'Angora Turc a failli disparaître à cause du Persan",
+      "status": "planned",
+      "notes": "Mythe/histoire peu connue — bon potentiel commentaires (\"je ne savais pas\")."
+    },
+    {
+      "date": "2026-10-01",
+      "platform": "instagram",
+      "format": "carousel",
+      "pillar": 1,
+      "source": { "type": "race", "collection": "chiens", "slug": "border-collie" },
+      "workingTitle": "Le chien le plus intelligent du monde, et le prix à payer",
+      "status": "planned",
+      "notes": "Portrait avec angle \"intelligence = besoin de stimulation\", pas juste un flex."
+    },
+    {
+      "date": "2026-10-02",
+      "platform": "instagram",
+      "format": "story",
+      "pillar": 4,
+      "source": { "type": "race", "collection": "chats", "slug": "norvegien" },
+      "workingTitle": "Planche naturaliste — Norvégien",
+      "status": "planned",
+      "notes": "Deuxième post purement esthétique de la semaine, en story cette fois (plus éphémère, teste la réceptivité au format)."
+    },
+    {
+      "date": "2026-10-03",
+      "platform": "tiktok",
+      "format": "tiktok-video",
+      "pillar": 5,
+      "source": { "type": "race", "collection": "chiens", "slug": "cocker-americain" },
+      "workingTitle": "Pourquoi ce chien a autant de problèmes d'oreilles",
+      "status": "planned",
+      "notes": "FAQ éclair, sujet entretien/santé très recherché par les futurs propriétaires."
+    },
+    {
+      "date": "2026-10-04",
+      "platform": "instagram",
+      "format": "reel",
+      "pillar": 3,
+      "source": { "type": "guide", "collection": "guides", "slug": "quelle-race-vit-le-plus-longtemps" },
+      "workingTitle": "Chez le chat, la taille ne prédit presque rien sur sa longévité",
+      "status": "planned",
+      "notes": "Angle contre-intuitif tiré directement du guide (le lien taille/longévité s'efface chez le chat)."
+    },
+    {
+      "date": "2026-10-05",
+      "platform": "tiktok",
+      "format": "tiktok-video",
+      "pillar": 1,
+      "source": { "type": "race", "collection": "chiens", "slug": "shih-tzu" },
+      "workingTitle": "L'ancien chien des empereurs de Chine",
+      "status": "planned",
+      "notes": "Angle historique + esthétique pelage — clôture de semaine grand public."
+    }
+  ]
+}

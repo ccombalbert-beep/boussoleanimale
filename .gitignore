@@ -4,6 +4,13 @@ dist/
 
 # Dependencies
 node_modules/
+social/node_modules/
+
+# Contenu généré (régénérable depuis social/calendar/ + social/scripts/)
+social/output/
+
+# Fichiers de travail temporaires (rapports Lighthouse, tests locaux...)
+.scratch/
 
 # Environment
 .env

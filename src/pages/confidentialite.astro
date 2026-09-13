@@ -2,28 +2,140 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Confidentialité" description="Politique de confidentialité de Boussole Animale : cookies, publicité et données personnelles.">
+<Layout
+  title="Confidentialité"
+  description="Politique de confidentialité de Boussole Animale : données collectées, cookies, publicité et vos droits RGPD."
+>
   <div class="mx-auto max-w-2xl px-4 py-12">
-    <h1 class="font-display text-3xl font-semibold text-encre-900">Politique de confidentialité</h1>
+    <h1 class="font-display text-3xl font-medium text-encre-900">Politique de confidentialité</h1>
+    <p class="mt-2 text-sm text-encre-700/80">Dernière mise à jour : 11 septembre 2026</p>
+
     <div class="prose-race mt-8">
       <p>
-        <em>
-          Base de départ à valider avec un professionnel avant mise en production — notamment l'identité de
-          l'éditeur, le délégué à la protection des données le cas échéant, et le bandeau de consentement cookies
-          réellement implémenté (CMP).
-        </em>
+        Boussole Animale (« nous ») attache de l'importance à la protection de vos données personnelles. Cette
+        politique explique quelles données nous collectons lorsque vous visitez ce site, pourquoi, pendant combien
+        de temps, et comment exercer vos droits — conformément au Règlement général sur la protection des données
+        (RGPD) et à la directive ePrivacy.
       </p>
-      <h2>Cookies et publicité</h2>
+
+      <h2>1. Qui est responsable du traitement de vos données ?</h2>
       <p>
-        Ce site affiche des publicités display fournies par des régies tierces (Google AdSense / Ezoic), qui peuvent
-        déposer des cookies à des fins de mesure d'audience et de personnalisation publicitaire. Un bandeau de
-        consentement vous permet d'accepter ou de refuser ces cookies non essentiels avant tout dépôt, conformément
-        au RGPD et à la réglementation ePrivacy.
+        Le responsable du traitement est l'éditeur de Boussole Animale, dont l'identité complète (raison sociale,
+        forme juridique, siège social, SIRET) figure dans nos <a href="/mentions-legales/" class="text-terracotta-600 hover:underline">mentions légales</a>.
+        Pour toute question relative à vos données, contactez-nous à <a href="mailto:contact@boussoleanimale.fr" class="text-terracotta-600 hover:underline">contact@boussoleanimale.fr</a>.
       </p>
-      <h2>Vos droits</h2>
+
+      <h2>2. Quelles données collectons-nous ?</h2>
+      <p>Boussole Animale ne propose ni création de compte ni transaction en ligne. Les données que nous traitons se limitent à :</p>
+      <ul>
+        <li>
+          <strong>Données de navigation technique</strong> : adresse IP, type de navigateur, pages consultées,
+          date et heure de connexion — collectées automatiquement par notre hébergeur à des fins de sécurité et de
+          bon fonctionnement du site (journaux techniques).
+        </li>
+        <li>
+          <strong>Cookies et technologies similaires</strong> (localStorage) — voir le détail à la section 4
+          ci-dessous.
+        </li>
+        <li>
+          <strong>Données que vous nous transmettez volontairement</strong> : si vous nous écrivez via la page <a href="/contact/" class="text-terracotta-600 hover:underline">Contact</a>, nous recevons votre adresse
+          email et le contenu de votre message, uniquement pour vous répondre.
+        </li>
+      </ul>
+      <p>Nous ne collectons aucune donnée sensible et ne revendons aucune donnée personnelle à des tiers.</p>
+
+      <h2>3. Pourquoi et sur quelle base légale ?</h2>
+      <ul>
+        <li><strong>Faire fonctionner le site</strong> (mémoriser votre thème clair/sombre, vos préférences de cookies) — base légale : intérêt légitime / exécution du service demandé.</li>
+        <li><strong>Répondre à vos messages</strong> — base légale : intérêt légitime, à votre propre initiative.</li>
+        <li><strong>Mesurer l'audience du site</strong> (pages les plus consultées, provenance du trafic, de façon agrégée) — base légale : votre consentement, recueilli via le bandeau cookies.</li>
+        <li><strong>Afficher des publicités display</strong>, qui financent la gratuité du site — base légale : votre consentement, recueilli via le bandeau cookies.</li>
+      </ul>
+
+      <h2>4. Cookies : quelles catégories, et votre choix</h2>
       <p>
-        Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données
-        personnelles. Pour l'exercer, contactez-nous via la page <a href="/contact/" class="text-terracotta-600 hover:underline">Contact</a>.
+        Un bandeau vous demande votre choix dès votre première visite. Aucun cookie de mesure d'audience ou
+        publicitaire n'est déposé avant que vous ayez donné votre accord, et vous pouvez changer d'avis à tout
+        moment en cliquant sur <button type="button" onclick="window.ouvrirPreferencesCookies?.()" class="text-terracotta-600 underline hover:text-terracotta-500">« Gérer les cookies »</button> dans le pied de page de chaque page.
+      </p>
+      <table class="w-full border-collapse text-sm">
+        <thead>
+          <tr class="border-b border-sable-400 text-left">
+            <th class="py-2 pr-3 font-medium text-encre-900">Catégorie</th>
+            <th class="py-2 pr-3 font-medium text-encre-900">Finalité</th>
+            <th class="py-2 font-medium text-encre-900">Consentement requis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-sable-300 align-top">
+            <td class="py-2 pr-3">Nécessaires</td>
+            <td class="py-2 pr-3">Mémoriser votre thème clair/sombre et votre choix de cookies (stockage local du navigateur, pas de traceur tiers).</td>
+            <td class="py-2">Non — indispensables au site</td>
+          </tr>
+          <tr class="border-b border-sable-300 align-top">
+            <td class="py-2 pr-3">Mesure d'audience</td>
+            <td class="py-2 pr-3">Statistiques de fréquentation agrégées et anonymisées.</td>
+            <td class="py-2">Oui</td>
+          </tr>
+          <tr class="align-top">
+            <td class="py-2 pr-3">Publicité</td>
+            <td class="py-2 pr-3">Régies publicitaires display (ex. Google AdSense, Ezoic) permettant de financer le site gratuitement.</td>
+            <td class="py-2">Oui</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Nous mettrons à jour ce tableau avec le nom, l'éditeur et la durée de conservation précis de chaque cookie
+        dès l'activation effective de la mesure d'audience et des régies publicitaires sur le site.
+      </p>
+
+      <h2>5. Avec qui partageons-nous des données ?</h2>
+      <p>
+        Nous ne partageons vos données qu'avec les prestataires strictement nécessaires au fonctionnement du site,
+        chacun agissant comme sous-traitant ou responsable conjoint selon le cas :
+      </p>
+      <ul>
+        <li>notre hébergeur, qui traite les journaux techniques de connexion ;</li>
+        <li>
+          si vous avez consenti à la mesure d'audience et/ou à la publicité, les prestataires correspondants
+          (ex. Google AdSense/Ezoic), susceptibles d'être établis hors de l'Union européenne (notamment aux
+          États-Unis). Dans ce cas, ces transferts s'appuient sur les garanties prévues par le RGPD (clauses
+          contractuelles types ou cadre de protection des données UE-États-Unis, selon le prestataire).
+        </li>
+      </ul>
+
+      <h2>6. Combien de temps conservons-nous vos données ?</h2>
+      <ul>
+        <li>Journaux techniques de connexion : durée définie par notre hébergeur, généralement 12 mois maximum.</li>
+        <li>Choix de cookies enregistré dans votre navigateur : 6 mois, à l'issue desquels le bandeau vous sera présenté à nouveau.</li>
+        <li>Messages envoyés via la page Contact : le temps nécessaire pour traiter votre demande, puis supprimés.</li>
+      </ul>
+
+      <h2>7. Vos droits</h2>
+      <p>Conformément au RGPD, vous disposez à tout moment des droits suivants sur vos données personnelles :</p>
+      <ul>
+        <li>droit d'accès, de rectification et d'effacement ;</li>
+        <li>droit à la limitation et à l'opposition du traitement ;</li>
+        <li>droit à la portabilité des données que vous nous avez transmises ;</li>
+        <li>droit de retirer votre consentement à tout moment, sans affecter la licéité des traitements passés (bouton « Gérer les cookies » du pied de page) ;</li>
+        <li>droit d'introduire une réclamation auprès de la <a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener noreferrer" class="text-terracotta-600 hover:underline">CNIL</a> (Commission nationale de l'informatique et des libertés).</li>
+      </ul>
+      <p>
+        Pour exercer ces droits, contactez-nous via la page <a href="/contact/" class="text-terracotta-600 hover:underline">Contact</a> ou à <a href="mailto:contact@boussoleanimale.fr" class="text-terracotta-600 hover:underline">contact@boussoleanimale.fr</a>. Nous répondons dans un délai maximum d'un mois.
+      </p>
+
+      <h2>8. Sécurité</h2>
+      <p>
+        Nous prenons des mesures techniques et organisationnelles raisonnables (connexion chiffrée HTTPS,
+        hébergement fiable, accès restreint) pour protéger vos données contre l'accès non autorisé, la perte ou
+        l'altération.
+      </p>
+
+      <h2>9. Modifications de cette politique</h2>
+      <p>
+        Cette politique peut évoluer, notamment lors de l'activation de nouveaux services (mesure d'audience,
+        régies publicitaires). Toute modification substantielle sera signalée sur cette page, avec mise à jour de
+        la date en haut de page, et un nouveau recueil de votre consentement sera déclenché si nécessaire.
       </p>
     </div>
   </div>

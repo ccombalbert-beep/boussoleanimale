@@ -90,4 +90,40 @@ const chats = defineCollection({
   schema: raceSchema,
 });
 
-export const collections = { chiens, chats };
+// Contenu éditorial transverse (comparatifs, guides pratiques) — ne rentre
+// pas dans une seule fiche race, couvre des requêtes comparatives/pratiques.
+const guideSchema = ({ image }: SchemaContext) =>
+  z.object({
+    titre: z.string(),
+    // Titre court dédié à la balise <title> / SERP quand le titre éditorial
+    // (accroche + clarificateur) dépasse la largeur d'affichage utile.
+    // Optionnel : retombe sur `titre` si absent.
+    titreCourt: z.string().optional(),
+    resume: z.string().max(200),
+    image: image(),
+    imageAlt: z.string(),
+    imagePosition: z.enum(['center', 'top', 'bottom']).optional(),
+    imageCredit: z
+      .object({
+        auteur: z.string(),
+        licence: z.string(),
+        lienLicence: z.string().url(),
+        source: z.string().url(),
+      })
+      .optional(),
+    // Fiches référencées, avec leur collection — un guide croise souvent
+    // des chiens et des chats.
+    racesLiees: z
+      .array(z.object({ slug: z.string(), espece: z.enum(['chien', 'chat']) }))
+      .optional(),
+    sources: z.array(z.string()).min(1),
+    auteur: z.string(),
+    dateMiseAJour: z.date(),
+  });
+
+const guides = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/guides' }),
+  schema: guideSchema,
+});
+
+export const collections = { chiens, chats, guides };

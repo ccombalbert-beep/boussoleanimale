@@ -1,0 +1,71 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CalculateurCoutChat from '../../components/CalculateurCoutChat.tsx';
+
+const faq = [
+  {
+    question: "Pourquoi la taille n'entre-t-elle pas en compte, contrairement au chien ?",
+    reponse:
+      "Parce que l'écart de poids adulte entre races de chat est bien plus faible qu'entre races de chien (un Sphynx et un Maine Coon restent dans un ordre de grandeur comparable, contrairement à un Chihuahua face à un Berger Allemand). Ce qui fait vraiment varier le budget d'un chat, c'est la gamme d'alimentation, le type de litière et le suivi santé — pas le gabarit.",
+  },
+  {
+    question: 'La litière agglomérante coûte plus cher : est-ce vraiment utile ?',
+    reponse:
+      "Elle coûte plus cher à l'achat mais son pouvoir absorbant réduit la fréquence de changement complet du bac, ce qui compense en partie sur la durée. Le choix reste surtout une question de confort d'entretien, pas un impératif de santé pour le chat.",
+  },
+  {
+    question: "Un chat qui ne sort jamais coûte-t-il vraiment moins cher ?",
+    reponse:
+      "Un peu, mais moins qu'on ne le pense : un chat d'intérieur reste exposé aux parasites (apportés par l'humain ou d'autres animaux du foyer) et son suivi vétérinaire de base ne change pas. La différence porte surtout sur les risques d'accident et de bagarre, pas sur le budget courant.",
+  },
+  {
+    question: 'La stérilisation est-elle incluse dans cette estimation ?',
+    reponse:
+      "Non, c'est un acte chirurgical ponctuel, pas une dépense mensuelle récurrente — elle ne rentre donc pas dans ce calculateur, au même titre que le prix d'achat ou d'adoption du chat.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.reponse },
+  })),
+};
+---
+
+<Layout
+  title="Combien coûte un chat par mois ?"
+  description="Calculez le coût mensuel réel d'un chat selon son alimentation, sa litière et vos choix (assurance, accès extérieur) avec ce simulateur interactif."
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />
+  <div class="mx-auto max-w-3xl px-4 py-12">
+    <p class="label text-terracotta-600">Calculateur</p>
+    <h1 class="mt-2 font-display text-3xl font-medium text-encre-900">Combien coûte un chat par mois ?</h1>
+    <p class="mt-3 text-encre-700">
+      Contrairement au chien, le budget d'un chat varie peu selon sa taille — c'est surtout l'alimentation, la
+      litière et vos choix de suivi santé qui font la différence. Ajustez les paramètres pour obtenir une estimation
+      adaptée à votre situation.
+    </p>
+
+    <div class="mt-10 border border-sable-300 bg-sable-50 p-6 sm:p-8">
+      <CalculateurCoutChat client:visible />
+    </div>
+
+    <section class="mt-16" aria-labelledby="faq-titre">
+      <h2 id="faq-titre" class="mb-4 font-display text-2xl font-medium text-encre-900">Questions fréquentes</h2>
+      <div class="divide-y divide-sable-300">
+        {faq.map((item) => (
+          <details class="group py-4">
+            <summary class="faq-summary cursor-pointer list-none font-medium text-encre-900 group-open:text-terracotta-600">
+              {item.question}
+            </summary>
+            <p class="mt-2 text-encre-700">{item.reponse}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </div>
+</Layout>

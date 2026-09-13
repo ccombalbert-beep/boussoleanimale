@@ -2,13 +2,17 @@
 import { Image, getImage } from 'astro:assets';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import Layout from './Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CompassMark from '../components/CompassMark.astro';
 
 interface Props {
   data: CollectionEntry<'chiens' | 'chats'>['data'];
   espece: 'chien' | 'chat';
+  headings: { depth: number; slug: string; text: string }[];
+  slug: string;
 }
 
-const { data, espece } = Astro.props;
+const { data, espece, headings, slug } = Astro.props;
 
 // Image Open Graph dédiée (1200x630, recadrée) plutôt que le fichier source
 // brut — évite d'exposer un JPEG non redimensionné (parfois plusieurs Mo)
@@ -21,9 +25,11 @@ const ogImage = await getImage({
   format: 'jpg',
 });
 
+const [chiensPublies, chatsPublies] = await Promise.all([getCollection('chiens'), getCollection('chats')]);
+const collectionEspece = espece === 'chien' ? chiensPublies : chatsPublies;
+
 // Une race "similaire" n'est linkée que si sa fiche est déjà publiée,
 // pour ne jamais exposer de lien mort en attendant les prochains lots.
-const [chiensPublies, chatsPublies] = await Promise.all([getCollection('chiens'), getCollection('chats')]);
 const especeParSlug = new Map<string, 'chien' | 'chat'>([
   ...chiensPublies.map((entry): [string, 'chien'] => [entry.id, 'chien']),
   ...chatsPublies.map((entry): [string, 'chat'] => [entry.id, 'chat']),
@@ -32,12 +38,63 @@ const racesSimilairesPubliees = (data.racesSimilaires ?? [])
   .filter((slug) => especeParSlug.has(slug))
   .map((slug) => ({ slug, espece: especeParSlug.get(slug)! }));
 
+// Sens inverse du "Races citées dans ce guide" de GuideLayout : quels guides
+// citent CETTE race, pour que le maillage circule aussi depuis la fiche.
+const guides = await getCollection('guides');
+const guidesLies = guides.filter((guide) =>
+  (guide.data.racesLiees ?? []).some((r) => r.slug === slug && r.espece === espece)
+);
+
+// Numéro de planche : position alphabétique dans le catalogue complet
+// (chiens + chats confondus), façon fiche de spécimen indexée.
+const catalogue = [...chiensPublies, ...chatsPublies].sort((a, b) => a.data.nom.localeCompare(b.data.nom, 'fr'));
+const numeroPlanche = catalogue.findIndex((entry) => entry.data.nom === data.nom) + 1;
+
 const niveauActiviteLabel: Record<string, string> = {
   faible: 'Faible',
   modere: 'Modéré',
   eleve: 'Élevé',
   tres_eleve: 'Très élevé',
 };
+const niveauActiviteJauge: Record<string, number> = {
+  faible: 1,
+  modere: 2,
+  eleve: 3,
+  tres_eleve: 4,
+};
+const aboiementLabel: Record<string, string> = {
+  rare: 'Rare',
+  occasionnel: 'Occasionnel',
+  frequent: 'Fréquent',
+};
+
+// Comparateur visuel : où se situe cette race sur l'ensemble du spectre
+// taille/poids des fiches déjà publiées pour la même espèce.
+function plage(valeurs: number[]) {
+  return { min: Math.min(...valeurs), max: Math.max(...valeurs) };
+}
+const tailleSpectre = plage(collectionEspece.flatMap((e) => [e.data.taille.min, e.data.taille.max]));
+const poidsSpectre = plage(collectionEspece.flatMap((e) => [e.data.poids.min, e.data.poids.max]));
+function segment(min: number, max: number, spectre: { min: number; max: number }) {
+  const etendue = spectre.max - spectre.min || 1;
+  const left = ((min - spectre.min) / etendue) * 100;
+  const largeur = Math.max(((max - min) / etendue) * 100, 4);
+  return { left: `${left}%`, largeur: `${largeur}%` };
+}
+const tailleBarre = segment(data.taille.min, data.taille.max, tailleSpectre);
+const poidsBarre = segment(data.poids.min, data.poids.max, poidsSpectre);
+
+// Sommaire : sections du gabarit + rubriques éditoriales de la fiche (MDX),
+// dans l'ordre où elles apparaissent réellement sur la page.
+const sommaire = [
+  { slug: 'fiche-signaletique', text: 'Fiche signalétique' },
+  ...headings.filter((h) => h.depth === 2).map((h) => ({ slug: h.slug, text: h.text })),
+  { slug: 'mythes', text: 'Idées reçues' },
+  { slug: 'budget', text: 'Budget réel' },
+  { slug: 'faq', text: 'Questions fréquentes' },
+  ...(racesSimilairesPubliees.length > 0 ? [{ slug: 'races-similaires', text: 'Races similaires' }] : []),
+  ...(guidesLies.length > 0 ? [{ slug: 'guides-lies', text: 'Guides liés' }] : []),
+];
 
 const dateFormatee = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(
   data.dateMiseAJour
@@ -52,86 +109,158 @@ const faqSchema = {
     acceptedAnswer: { '@type': 'Answer', text: item.reponse },
   })),
 };
+
+// Article plutôt que Product/Dataset : une fiche race est un contenu éditorial
+// long format (caractère, santé, FAQ...), pas un article de vente ni un jeu de
+// données téléchargeable — Product/Dataset y seraient des erreurs de balisage.
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: data.nom,
+  description: data.resume,
+  image: new URL(ogImage.src, Astro.site).toString(),
+  datePublished: data.dateMiseAJour.toISOString(),
+  dateModified: data.dateMiseAJour.toISOString(),
+  author: { '@type': 'Organization', name: data.auteur },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Boussole Animale',
+    logo: { '@type': 'ImageObject', url: new URL('/apple-touch-icon.png', Astro.site).toString() },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': new URL(Astro.url.pathname, Astro.site).toString() },
+};
+
+// Titre balise <title> distinct du <h1> (data.nom) : le nom de race seul est
+// bien trop court pour un SERP (25-40 car.), et un H1 chargé de mots-clés
+// lirait mal éditorialement — donc on ne les fait plus coïncider.
+const titreSEO = `${data.nom} : caractère, prix, santé`;
 ---
 
-<Layout title={data.nom} description={data.resume} image={ogImage.src} imageWidth={1200} imageHeight={630}>
+<Layout title={titreSEO} description={data.resume} image={ogImage.src} imageWidth={1200} imageHeight={630}>
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleSchema)} is:inline />
 
   <article class="mx-auto max-w-3xl px-4 py-10">
+    <Breadcrumbs
+      items={[
+        { label: 'Accueil', href: '/' },
+        { label: espece === 'chien' ? 'Chiens' : 'Chats', href: espece === 'chien' ? '/chiens/' : '/chats/' },
+        { label: data.nom },
+      ]}
+    />
+
     <header class="mb-8">
-      <p class="text-sm font-medium uppercase tracking-wide text-terracotta-600">
-        {espece === 'chien' ? 'Race de chien' : 'Race de chat'}
-        {data.groupeFCI && ` · ${data.groupeFCI}`}
+      <p class="label flex items-center gap-2.5 text-terracotta-600">
+        <span class="rounded-sm border border-terracotta-600 px-2 py-0.5">
+          N° {String(numeroPlanche).padStart(3, '0')}
+        </span>
+        <span class="normal-case font-medium tracking-normal text-encre-700/80">
+          {espece === 'chien' ? 'Race de chien' : 'Race de chat'}
+          {data.groupeFCI && ` · ${data.groupeFCI}`}
+        </span>
       </p>
-      <h1 class="mt-2 font-display text-4xl font-semibold text-encre-900">{data.nom}</h1>
-      {data.nomLatin && <p class="mt-1 italic text-encre-700/70">{data.nomLatin}</p>}
-      <p class="mt-4 text-lg text-encre-700">{data.resume}</p>
+      <h1 class="mt-3 font-display text-4xl font-medium leading-tight text-encre-900">{data.nom}</h1>
+      {data.nomLatin && <p class="mt-1 font-display italic text-encre-700/80">{data.nomLatin}</p>}
+      <p class="mt-4 font-display text-lg italic text-encre-700">{data.resume}</p>
     </header>
 
-    <figure class="mb-10">
+    <!-- Sommaire ancré -->
+    <nav
+      class="sticky top-0 z-10 -mx-4 mb-10 overflow-x-auto border-y border-sable-300 bg-sable-100/95 px-4 py-2.5 backdrop-blur sm:mx-0 sm:px-0 sm:pl-1"
+      aria-label="Sommaire de la fiche"
+    >
+      <ul class="flex gap-5 whitespace-nowrap">
+        {sommaire.map((item) => (
+          <li>
+            <a href={`#${item.slug}`} class="label text-encre-700/80 hover:text-terracotta-600">{item.text}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <figure class="mb-10 border border-sable-300 bg-sable-50 p-2.5">
       <Image
         src={data.image}
         alt={data.imageAlt}
-        class="aspect-video w-full rounded-lg object-cover"
+        class="race-photo aspect-video w-full object-cover"
+        style={`view-transition-name: race-photo-${slug}`}
         position={data.imagePosition ?? 'center'}
         width={1200}
         height={675}
         loading="eager"
+        fetchpriority="high"
       />
-      {data.imageCredit && (
-        <figcaption class="mt-2 text-xs text-encre-700/60">
-          Photo : {data.imageCredit.auteur} ·{' '}
-          <a href={data.imageCredit.lienLicence} class="hover:text-terracotta-600" rel="license">
-            {data.imageCredit.licence}
-          </a>{' '}
-          · <a href={data.imageCredit.source} class="hover:text-terracotta-600">source</a>
-        </figcaption>
-      )}
+      <figcaption class="mt-2.5 flex justify-between font-display text-sm italic text-encre-700/80">
+        <span>Fig. 1 — Portrait, sujet adulte</span>
+        {data.imageCredit && (
+          <span>
+            {data.imageCredit.auteur} ·{' '}
+            <a href={data.imageCredit.lienLicence} class="not-italic hover:text-terracotta-600" rel="license">
+              {data.imageCredit.licence}
+            </a>{' '}
+            · <a href={data.imageCredit.source} class="not-italic hover:text-terracotta-600">source</a>
+          </span>
+        )}
+      </figcaption>
     </figure>
 
     <!-- Fiche signalétique -->
-    <section class="mb-12 rounded-lg border border-sable-300 bg-sable-50 p-6" aria-labelledby="fiche-signaletique">
-      <h2 id="fiche-signaletique" class="mb-4 font-display text-xl font-semibold">Fiche signalétique</h2>
-      <dl class="grid grid-cols-2 gap-4 text-sm sm:grid-cols-3">
-        <div>
-          <dt class="text-encre-700/60">Origine</dt>
-          <dd class="font-medium">{data.origine}</dd>
+    <section class="mb-12 scroll-mt-16" id="fiche-signaletique" aria-labelledby="fiche-signaletique-titre">
+      <h2 id="fiche-signaletique-titre" class="label mb-4 text-terracotta-600">Fiche signalétique</h2>
+      <dl class="grid grid-cols-1 gap-px border border-sable-300 bg-sable-300 sm:grid-cols-3">
+        <div class="bg-sable-50 p-4">
+          <dt class="label text-encre-700/80">Origine</dt>
+          <dd class="mt-1 font-display text-lg text-encre-900">{data.origine}</dd>
         </div>
-        <div>
-          <dt class="text-encre-700/60">Taille</dt>
-          <dd class="font-medium">{data.taille.min}–{data.taille.max} {data.taille.unite}</dd>
+        <div class="bg-sable-50 p-4">
+          <dt class="label text-encre-700/80">Taille</dt>
+          <dd class="mt-1 font-display text-lg text-encre-900">{data.taille.min}–{data.taille.max} {data.taille.unite}</dd>
+          <div class="mt-2 h-1.5 bg-sable-300">
+            <div class="h-full bg-terracotta-500" style={`margin-left:${tailleBarre.left}; width:${tailleBarre.largeur}`} />
+          </div>
         </div>
-        <div>
-          <dt class="text-encre-700/60">Poids</dt>
-          <dd class="font-medium">{data.poids.min}–{data.poids.max} {data.poids.unite}</dd>
+        <div class="bg-sable-50 p-4">
+          <dt class="label text-encre-700/80">Poids</dt>
+          <dd class="mt-1 font-display text-lg text-encre-900">{data.poids.min}–{data.poids.max} {data.poids.unite}</dd>
+          <div class="mt-2 h-1.5 bg-sable-300">
+            <div class="h-full bg-terracotta-500" style={`margin-left:${poidsBarre.left}; width:${poidsBarre.largeur}`} />
+          </div>
         </div>
-        <div>
-          <dt class="text-encre-700/60">Espérance de vie</dt>
-          <dd class="font-medium">{data.esperanceDeVie.min}–{data.esperanceDeVie.max} ans</dd>
+        <div class="bg-sable-50 p-4">
+          <dt class="label text-encre-700/80">Espérance de vie</dt>
+          <dd class="mt-1 font-display text-lg text-encre-900">{data.esperanceDeVie.min}–{data.esperanceDeVie.max} ans</dd>
         </div>
-        <div>
-          <dt class="text-encre-700/60">Type de poil</dt>
-          <dd class="font-medium">{data.typeDePoil}</dd>
+        <div class="bg-sable-50 p-4">
+          <dt class="label text-encre-700/80">Type de poil</dt>
+          <dd class="mt-1 font-display text-lg text-encre-900">{data.typeDePoil}</dd>
         </div>
-        <div>
-          <dt class="text-encre-700/60">Niveau d'activité</dt>
-          <dd class="font-medium">{niveauActiviteLabel[data.niveauActivite]}</dd>
+        <div class="bg-sable-50 p-4">
+          <dt class="label text-encre-700/80">Niveau d'activité</dt>
+          <dd class="mt-1 font-display text-lg text-encre-900">{niveauActiviteLabel[data.niveauActivite]}</dd>
+          <div class="mt-1.5 flex gap-1">
+            {[1, 2, 3, 4].map((n) => (
+              <span class={`h-1.5 w-4 ${n <= niveauActiviteJauge[data.niveauActivite] ? 'bg-terracotta-500' : 'bg-sable-300'}`} />
+            ))}
+          </div>
         </div>
         {data.aboiement && (
-          <div>
-            <dt class="text-encre-700/60">Aboiement</dt>
-            <dd class="font-medium capitalize">{data.aboiement}</dd>
+          <div class="bg-sable-50 p-4">
+            <dt class="label text-encre-700/80">Aboiement</dt>
+            <dd class="mt-1 font-display text-lg text-encre-900">{aboiementLabel[data.aboiement]}</dd>
           </div>
         )}
-        <div>
-          <dt class="text-encre-700/60">Vit en appartement</dt>
-          <dd class="font-medium">{data.adapteAppartement ? 'Oui, avec des aménagements' : 'Non recommandé'}</dd>
+        <div class="bg-sable-50 p-4">
+          <dt class="label text-encre-700/80">Vit en appartement</dt>
+          <dd class="mt-1 font-display text-lg text-encre-900">{data.adapteAppartement ? 'Oui, aménagé' : 'Non recommandé'}</dd>
         </div>
-        <div>
-          <dt class="text-encre-700/60">Compatible enfants</dt>
-          <dd class="font-medium">{data.adapteEnfants ? 'Oui' : 'À évaluer au cas par cas'}</dd>
+        <div class="bg-sable-50 p-4">
+          <dt class="label text-encre-700/80">Compatible enfants</dt>
+          <dd class="mt-1 font-display text-lg text-encre-900">{data.adapteEnfants ? 'Oui' : 'Au cas par cas'}</dd>
         </div>
       </dl>
+      <p class="mt-2 text-xs text-encre-700/80">
+        Barres taille/poids : position de cette race sur l'ensemble des races {espece === 'chien' ? 'de chien' : 'de chat'} du site ({tailleSpectre.min}–{tailleSpectre.max} cm · {poidsSpectre.min}–{poidsSpectre.max} kg).
+      </p>
     </section>
 
     <!-- Corps éditorial (MDX) -->
@@ -140,43 +269,48 @@ const faqSchema = {
     </div>
 
     <!-- Mythe vs réalité -->
-    <section class="my-12" aria-labelledby="mythes">
-      <h2 id="mythes" class="mb-4 font-display text-2xl font-semibold">Idées reçues sur {data.nom}</h2>
-      <div class="space-y-4">
+    <section class="my-12 scroll-mt-16" id="mythes" aria-labelledby="mythes-titre">
+      <h2 id="mythes-titre" class="mb-5 font-display text-2xl font-medium text-encre-900">Idées reçues sur {data.nom}</h2>
+      <div class="space-y-6">
         {data.mythes.map((item) => (
-          <div class="rounded-lg border border-sable-300 p-4">
-            <p class="font-medium text-terracotta-600">❌ {item.mythe}</p>
-            <p class="mt-2 text-encre-700">✅ {item.realite}</p>
+          <div class="border-l-2 border-terracotta-500 pl-5">
+            <p class="label text-terracotta-600">Idée reçue</p>
+            <p class="mt-1 font-display italic text-encre-700/80">{item.mythe}</p>
+            <p class="label mt-3 text-pin-600">Réalité</p>
+            <p class="mt-1 text-encre-700">{item.realite}</p>
           </div>
         ))}
       </div>
     </section>
 
     <!-- Budget réel -->
-    <section class="my-12 rounded-lg bg-boussole-700 p-6 text-sable-100" aria-labelledby="budget">
-      <h2 id="budget" class="mb-4 font-display text-2xl font-semibold text-white">Budget réel</h2>
+    <section class="my-12 scroll-mt-16 border border-white/10 bg-boussole-700 p-6 text-white" id="budget" aria-labelledby="budget-titre">
+      <h2 id="budget-titre" class="mb-4 font-display text-2xl font-medium text-white">Budget réel</h2>
       <div class="grid gap-4 sm:grid-cols-2">
         <div>
-          <p class="text-sm text-sable-200">Prix d'achat (éleveur)</p>
-          <p class="text-2xl font-semibold">{data.budget.prixAchatMin}–{data.budget.prixAchatMax} €</p>
+          <p class="label text-white/80">Prix d'achat (éleveur)</p>
+          <p class="mt-1 font-display text-2xl text-white">{data.budget.prixAchatMin}–{data.budget.prixAchatMax} €</p>
         </div>
         <div>
-          <p class="text-sm text-sable-200">Coût mensuel estimé</p>
-          <p class="text-2xl font-semibold">{data.budget.coutMensuelMin}–{data.budget.coutMensuelMax} €</p>
+          <p class="label text-white/80">Coût mensuel estimé</p>
+          <p class="mt-1 font-display text-2xl text-white">{data.budget.coutMensuelMin}–{data.budget.coutMensuelMax} €</p>
         </div>
       </div>
-      <a href="/outils/cout-mensuel-chien/" class="mt-4 inline-block text-sm font-medium text-terracotta-400 hover:text-terracotta-500">
+      <a
+        href={`/outils/cout-mensuel-${espece === 'chien' ? 'chien' : 'chat'}/`}
+        class="mt-4 inline-block text-sm font-medium text-terracotta-400 hover:text-terracotta-500"
+      >
         Calculer le coût précis selon votre situation →
       </a>
     </section>
 
     <!-- FAQ -->
-    <section class="my-12" aria-labelledby="faq">
-      <h2 id="faq" class="mb-4 font-display text-2xl font-semibold">Questions fréquentes</h2>
+    <section class="my-12 scroll-mt-16" id="faq" aria-labelledby="faq-titre">
+      <h2 id="faq-titre" class="mb-4 font-display text-2xl font-medium text-encre-900">Questions fréquentes</h2>
       <div class="divide-y divide-sable-300">
         {data.faq.map((item) => (
           <details class="group py-4">
-            <summary class="cursor-pointer list-none font-medium text-encre-900 group-open:text-terracotta-600">
+            <summary class="faq-summary cursor-pointer list-none font-medium text-encre-900 group-open:text-terracotta-600">
               {item.question}
             </summary>
             <p class="mt-2 text-encre-700">{item.reponse}</p>
@@ -186,13 +320,13 @@ const faqSchema = {
     </section>
 
     {racesSimilairesPubliees.length > 0 && (
-      <section class="my-12" aria-labelledby="races-similaires">
-        <h2 id="races-similaires" class="mb-4 font-display text-2xl font-semibold">Races similaires</h2>
+      <section class="my-12 scroll-mt-16" id="races-similaires" aria-labelledby="races-similaires-titre">
+        <h2 id="races-similaires-titre" class="mb-4 font-display text-2xl font-medium text-encre-900">Races similaires</h2>
         <div class="flex flex-wrap gap-3">
           {racesSimilairesPubliees.map(({ slug, espece: especeCible }) => (
             <a
               href={`/${especeCible === 'chien' ? 'chiens' : 'chats'}/races/${slug}/`}
-              class="rounded-full border border-sable-300 px-4 py-2 text-sm font-medium hover:border-terracotta-400 hover:text-terracotta-600"
+              class="border border-sable-400 px-4 py-2 text-sm font-medium hover:border-terracotta-400 hover:text-terracotta-600"
             >
               {slug.replace(/-/g, ' ')}
             </a>
@@ -201,8 +335,29 @@ const faqSchema = {
       </section>
     )}
 
+    {guidesLies.length > 0 && (
+      <section class="my-12 scroll-mt-16" id="guides-lies" aria-labelledby="guides-lies-titre">
+        <h2 id="guides-lies-titre" class="mb-4 font-display text-2xl font-medium text-encre-900">Guides liés</h2>
+        <div class="space-y-3">
+          {guidesLies.map((guide) => (
+            <a
+              href={`/guides/${guide.id}/`}
+              class="block border border-sable-400 p-4 hover:border-terracotta-400"
+            >
+              <p class="font-display text-lg font-medium text-encre-900">{guide.data.titre}</p>
+              <p class="mt-1 text-sm text-encre-700">{guide.data.resume}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <div class="mt-16 flex justify-center" aria-hidden="true">
+      <CompassMark class="h-8 w-8 opacity-50" />
+    </div>
+
     <!-- Sources & méthodologie -->
-    <footer class="mt-16 border-t border-sable-300 pt-6 text-sm text-encre-700/70">
+    <footer class="mt-6 border-t border-sable-300 pt-6 text-sm text-encre-700/80">
       <p>Rédigé par {data.auteur} · Mis à jour le {dateFormatee}</p>
       <p class="mt-2">
         Sources : {data.sources.join(' · ')}
