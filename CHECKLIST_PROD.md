@@ -1,12 +1,12 @@
 # Checklist Production-Ready & Hardening — Boussole Animale
 
-**Progression : 8/10 tâches (80%)**
+**Progression : 9/10 tâches (90%)**
 
-Dernière mise à jour : 13 septembre 2026 — Phase 3 (Core Web Vitals/Lighthouse) terminée : audit réel sur 5 pages
-représentatives, un vrai bug d'accessibilité trouvé et corrigé (ordre des titres cassé sur les hubs /chiens/ et
-/chats/, désormais 100/100 partout). Il ne reste que les 2 tâches bloquées sur des informations que seul
-l'utilisateur peut fournir (identité de l'éditeur pour les mentions légales, accès Netlify/registrar pour le
-domaine) — tout le reste faisable sans lui est fait.
+Dernière mise à jour : 13 septembre 2026 — **Le site est en ligne** : https://boussoleanimale.fr, HTTPS actif
+(certificat Let's Encrypt provisionné), redirections HTTP→HTTPS et www→apex fonctionnelles, CSP vérifiée en
+production. Code poussé sur GitHub (`ccombalbert-beep/boussoleanimale`), déployé via Netlify, DNS configuré chez
+OVH (domaine et hébergement mail restent chez OVH, le site lui-même est servi par Netlify). Il ne reste plus
+qu'**une seule tâche sur tout le projet** : les mentions légales, bloquées sur l'identité réelle de l'éditeur.
 
 Chantier suivant la même méthode que UX/UI et SEO : audit du code réel avant de cocher quoi que ce soit, jamais
 de case cochée sur la seule base d'une intention.
@@ -154,19 +154,38 @@ de case cochée sur la seule base d'une intention.
   le navigateur sur le build de production servi statiquement — aucune erreur d'hydratation observée. Sous
   réserve : testé sur un échantillon de pages (accueil, hub chats, une fiche), pas exhaustivement sur les 64.
 
-- [ ] **`netlify.toml`, redirections HTTPS, liaison du domaine `boussoleanimale.fr`**
-  Partiellement engagé : `netlify.toml` nettoyé (les en-têtes viennent maintenant exclusivement de
-  `dist/_headers`, généré au build — plus de risque de double définition/conflit). **Bloqué pour la suite** :
-  la liaison réelle du domaine et la configuration HTTPS se font depuis le compte Netlify + le registrar du
-  domaine, auxquels je n'ai pas accès. Aucun remote git n'est configuré non plus (`git remote -v` vide) — needs
-  l'utilisateur pour connecter le dépôt à Netlify.
+- [x] **`netlify.toml`, redirections HTTPS, liaison du domaine `boussoleanimale.fr`**
+  **Le site est en ligne.** Parcours complet réalisé avec l'utilisateur (domaine + hébergement mail achetés chez
+  OVH, hébergement du site sur Netlify — décision motivée : le projet était déjà entièrement pré-configuré pour
+  Netlify, `netlify.toml`/CSP/404 inclus, et Netlify est gratuit) :
+  1. Clé SSH générée côté serveur pour l'authentification GitHub (pas de mot de passe manipulé)
+  2. Tous les fichiers de la session commités (130 fichiers — rien n'avait encore été commité), `.gitignore`
+     corrigé au passage (`social/node_modules/`, `social/output/`, `.scratch/` s'étaient glissés en tracked,
+     ~80 Mo à exclure avant le premier commit)
+  3. Poussé sur `github.com/ccombalbert-beep/boussoleanimale`, connecté à Netlify (build/publish détectés
+     automatiquement depuis `netlify.toml`)
+  4. Site vérifié en direct sur l'URL `.netlify.app` : CSP appliquée, zéro erreur console, fiche race et 404
+     fonctionnelles avant de toucher au domaine
+  5. DNS configuré chez OVH : `@ A` repointé vers `75.2.60.5`, `@ AAAA` (obsolète) supprimé, `www A`/`AAAA`
+     remplacés par un `CNAME` vers `boussoleanimale.netlify.app.` — les enregistrements mail (MX, SPF, DKIM)
+     n'ont pas été touchés
+  6. Certificat Let's Encrypt provisionné automatiquement après validation DNS (~2 minutes)
+  7. **Vérifié en production** : `https://boussoleanimale.fr` sert 200 avec la CSP complète, `http://` →
+     `https://` redirige (301), `www.` → apex redirige (301), HSTS actif
 
 ---
 
 ## Ce qui reste bloqué sur des informations ou accès utilisateur
 
-- **Mentions légales** : identité réelle de l'éditeur, SIRET (si applicable), hébergeur.
-- **Domaine & déploiement** : accès au compte Netlify, au registrar de `boussoleanimale.fr`, et au remote git
-  (aucun remote configuré actuellement).
-- **Lighthouse en conditions réelles** : un audit local (`astro preview` + Lighthouse CLI) est faisable dès
-  maintenant sans attendre la mise en ligne — à faire en phase 3, pas fondamentalement bloqué.
+- **Mentions légales** : identité réelle de l'éditeur, SIRET (si applicable), hébergeur (Netlify pour le site ;
+  OVH héberge le domaine et les emails). Seule tâche restante sur l'ensemble du projet, tous chantiers confondus.
+
+## Infrastructure de déploiement, pour référence
+
+- **Domaine** : `boussoleanimale.fr`, acheté et géré chez OVH (registrar + zone DNS + emails `@boussoleanimale.fr`
+  via MX Plan OVH).
+- **Hébergement du site** : Netlify, gratuit, déployé automatiquement à chaque push sur `main` du dépôt GitHub
+  `ccombalbert-beep/boussoleanimale`.
+- **DNS** : `@ A → 75.2.60.5` (apex, IP de Netlify), `www CNAME → boussoleanimale.netlify.app.` (redirige vers
+  l'apex). Les enregistrements mail OVH (MX, SPF, DKIM, autoconfig/autodiscover) sont restés intacts.
+- **HTTPS** : certificat Let's Encrypt provisionné automatiquement par Netlify après validation DNS.

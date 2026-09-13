@@ -1,0 +1,56 @@
+---
+// Google Analytics 4 (mesure d'audience), propriété "Boussole Animale" du
+// compte GA4 de l'utilisateur — branché sur le CMP maison
+// (src/lib/consentement.ts) : le script gtag.js n'est injecté que si la
+// catégorie "audience" est déjà consentie, et seulement à partir du moment
+// où elle l'est (écoute de l'événement "consentement:maj" du bandeau) —
+// jamais avant, comme documenté dans consentement.ts. Voir generate-csp.mjs
+// pour l'autorisation CSP correspondante (googletagmanager.com).
+const mesureId = 'G-M7EZ0R77JB';
+---
+
+<script define:vars={{ mesureId }} is:inline>
+  (function () {
+    var CLE_CONSENTEMENT = 'consentement-cookies';
+
+    // Lecture minimale dupliquée de consentement.ts (et non un import) :
+    // ce script doit rester inline pour recevoir mesureId via define:vars,
+    // alors qu'un <script> avec import est bundlé par Astro et perd cette
+    // capacité.
+    function consentementAudience() {
+      try {
+        var brut = localStorage.getItem(CLE_CONSENTEMENT);
+        if (!brut) return false;
+        var valeur = JSON.parse(brut);
+        return valeur && valeur.audience === true;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    var charge = false;
+    function chargerGA4() {
+      if (charge) return;
+      charge = true;
+
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=' + mesureId;
+      document.head.appendChild(script);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', mesureId);
+    }
+
+    if (consentementAudience()) chargerGA4();
+
+    window.addEventListener('consentement:maj', function (event) {
+      if (event.detail && event.detail.audience === true) chargerGA4();
+    });
+  })();
+</script>

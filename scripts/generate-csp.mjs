@@ -70,7 +70,19 @@ for (const f of files) {
 // l'onglet Console du navigateur — cf. CHECKLIST_PROD.md phase 1).
 const CLIENT_ROUTER_RUNTIME_HASH = "'sha256-eFej0pYgZ1hHPi/dKt50oi4YrA2MNRS+a6xW8YTNkH8='";
 
-const scriptSrc = ["'self'", ...allHashes, CLIENT_ROUTER_RUNTIME_HASH].join(' ');
+// GA4 (Analytics.astro) n'est chargé côté client qu'après consentement
+// "audience" (CMP maison), mais le <script src="googletagmanager.com">
+// qu'il injecte reste soumis à la CSP comme n'importe quel script — il faut
+// donc autoriser cette origine ici.
+const ga4ScriptSrc = ['https://www.googletagmanager.com'];
+const ga4ConnectSrc = [
+  'https://www.googletagmanager.com',
+  'https://www.google-analytics.com',
+  'https://*.google-analytics.com',
+  'https://*.analytics.google.com',
+];
+
+const scriptSrc = ["'self'", ...allHashes, CLIENT_ROUTER_RUNTIME_HASH, ...ga4ScriptSrc].join(' ');
 
 // style-src garde 'unsafe-inline' : l'effet "magnetic" du CTA principal
 // (Layout.astro) pose el.style.transform/transition en JS à chaque
@@ -86,7 +98,7 @@ const csp = [
   `style-src 'self' 'unsafe-inline'`,
   `img-src 'self' data:`,
   `font-src 'self'`,
-  `connect-src 'self'`,
+  `connect-src ${["'self'", ...ga4ConnectSrc].join(' ')}`,
   `frame-ancestors 'none'`,
   `base-uri 'self'`,
   `form-action 'self'`,

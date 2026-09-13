@@ -6,6 +6,7 @@ import '@fontsource-variable/inter';
 import '../styles/global.css';
 import CompassMark from '../components/CompassMark.astro';
 import CookieBanner from '../components/CookieBanner.astro';
+import Analytics from '../components/Analytics.astro';
 import { tronquerPourMeta } from '../lib/seo';
 
 interface Props {
@@ -164,6 +165,7 @@ const websiteSchema = {
     </footer>
 
     <CookieBanner />
+    <Analytics />
 
     <script>
       // Délégué sur document (et non lié au bouton lui-même) pour continuer à
