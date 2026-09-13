@@ -1,12 +1,13 @@
 # Checklist Production-Ready & Hardening — Boussole Animale
 
-**Progression : 9/10 tâches (90%)**
+**Progression : 10/10 tâches (100%)**
 
-Dernière mise à jour : 13 septembre 2026 — **Le site est en ligne** : https://boussoleanimale.fr, HTTPS actif
-(certificat Let's Encrypt provisionné), redirections HTTP→HTTPS et www→apex fonctionnelles, CSP vérifiée en
-production. Code poussé sur GitHub (`ccombalbert-beep/boussoleanimale`), déployé via Netlify, DNS configuré chez
-OVH (domaine et hébergement mail restent chez OVH, le site lui-même est servi par Netlify). Il ne reste plus
-qu'**une seule tâche sur tout le projet** : les mentions légales, bloquées sur l'identité réelle de l'éditeur.
+Dernière mise à jour : 13 septembre 2026 — **Chantier terminé.** Le site est en ligne : https://boussoleanimale.fr,
+HTTPS actif (certificat Let's Encrypt provisionné), redirections HTTP→HTTPS et www→apex fonctionnelles, CSP
+vérifiée en production. Code poussé sur GitHub (`ccombalbert-beep/boussoleanimale`), déployé via Netlify, DNS
+configuré chez OVH (domaine et hébergement mail restent chez OVH, le site lui-même est servi par Netlify). Les
+mentions légales ont été complétées avec l'identité réelle fournie par l'utilisateur (Corentin Combalbert, à
+titre personnel, sans SIRET) — plus aucune tâche bloquée sur ce chantier.
 
 Chantier suivant la même méthode que UX/UI et SEO : audit du code réel avant de cocher quoi que ce soit, jamais
 de case cochée sur la seule base d'une intention.
@@ -15,7 +16,7 @@ de case cochée sur la seule base d'une intention.
 
 ## Phase 1 — Sécurité, Headers & Conformité Légale (Hardening)
 
-**3/4 sous-tâches**
+**4/4 sous-tâches**
 
 - [x] **Content Security Policy implémentée et testée**
   Générée automatiquement à chaque build (`scripts/generate-csp.mjs`, hook `postbuild` dans `package.json`) —
@@ -57,11 +58,16 @@ de case cochée sur la seule base d'une intention.
   Tout accepter / Tout refuser / Personnaliser, persistance localStorage, réouverture via "Gérer les cookies" en
   pied de page, testé clair/sombre/mobile. Revalidé aujourd'hui sous la nouvelle CSP stricte (aucune régression).
 
-- [ ] **Mentions légales — informations réelles**
-  **Bloqué, volontairement.** `src/pages/mentions-legales.astro` reste un placeholder (éditeur, SIRET, hébergeur
-  à renseigner). Cette information ne peut pas être inventée — voir la note permanente à ce sujet : à compléter
-  automatiquement dès que le site est en ligne et que l'utilisateur fournit l'identité réelle de l'éditeur et de
-  l'hébergeur. Ne pas cocher cette case tant que ces informations n'ont pas été fournies.
+- [x] **Mentions légales — informations réelles**
+  `src/pages/mentions-legales.astro` complété avec l'identité fournie par l'utilisateur : Corentin Combalbert,
+  éditeur à titre personnel (non professionnel, aucun SIRET à ce jour). Directeur de publication : la même
+  personne. Hébergeur : distinction faite entre Netlify (qui sert réellement le site — hébergeur au sens LCEN) et
+  OVH (domaine + emails uniquement) ; écart repéré et signalé à l'utilisateur avant publication (il avait
+  spontanément dit "OVH", mais légalement c'est Netlify qui héberge le contenu), qui a choisi de mentionner les
+  deux avec leur rôle exact. Ajouts au passage : propriété intellectuelle (textes/fiches + licences Wikimedia
+  Commons), rappel que le contenu est informatif et ne remplace pas un avis vétérinaire, droit applicable. Un
+  détail de `confidentialite.astro` corrigé en cohérence (renvoyait vers "raison sociale/forme juridique/SIRET"
+  dans les mentions légales, inexact pour un éditeur particulier sans société).
 
 ---
 
@@ -177,8 +183,8 @@ de case cochée sur la seule base d'une intention.
 
 ## Ce qui reste bloqué sur des informations ou accès utilisateur
 
-- **Mentions légales** : identité réelle de l'éditeur, SIRET (si applicable), hébergeur (Netlify pour le site ;
-  OVH héberge le domaine et les emails). Seule tâche restante sur l'ensemble du projet, tous chantiers confondus.
+Plus rien. Toutes les tâches de ce chantier, et de l'ensemble du projet (UX/UI, SEO, Réseaux Sociaux, Hardening),
+sont terminées.
 
 ## Infrastructure de déploiement, pour référence
 
