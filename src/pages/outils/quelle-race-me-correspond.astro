@@ -1,22 +1,41 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import QuizRace from '../../components/QuizRace.tsx';
+import QuizRace, { type RaceQuizItem } from '../../components/QuizRace.tsx';
+
+// Pool de races du quiz = tout le catalogue publié, pas une sélection
+// figée : une nouvelle fiche chien apparaît automatiquement ici au prochain
+// build, sans rien à modifier dans ce fichier ni dans QuizRace.tsx.
+const chiens = await getCollection('chiens');
+const races: RaceQuizItem[] = chiens.map((race) => ({
+  slug: race.id,
+  nom: race.data.nom,
+  resume: race.data.resume,
+  niveauActivite: race.data.niveauActivite,
+  adapteAppartement: race.data.adapteAppartement,
+  adapteEnfants: race.data.adapteEnfants,
+  aboiement: race.data.aboiement,
+  poidsMin: race.data.poids.min,
+  poidsMax: race.data.poids.max,
+  coutMensuelMin: race.data.budget.coutMensuelMin,
+  coutMensuelMax: race.data.budget.coutMensuelMax,
+}));
 
 const faq = [
   {
     question: 'Comment sont calculés les résultats du quiz ?',
     reponse:
-      "Chaque race gagne des points selon la correspondance entre vos réponses (logement, temps disponible, expérience, présence d'enfants, tolérance à l'entretien du poil) et son profil réel. La présence de jeunes enfants est traitée en critère quasi-éliminatoire pour les races jugées peu adaptées, pas comme un simple bonus — pour ne jamais faire remonter une race à risque dans un foyer avec enfants.",
+      "Chaque race gagne des points selon la correspondance entre vos réponses (logement, taille, temps disponible, expérience, budget, tolérance aux aboiements) et son profil réel documenté dans sa fiche. La présence de jeunes enfants est traitée en critère quasi-éliminatoire pour les races jugées peu adaptées, pas comme un simple bonus — pour ne jamais faire remonter une race à risque dans un foyer avec enfants.",
   },
   {
     question: 'Le quiz couvre-t-il toutes les races du site ?',
     reponse:
-      "Non : le quiz compare actuellement 6 races soigneusement choisies pour représenter des profils très différents (du Chihuahua d'appartement au Border Collie sportif). Le site documente 14 races de chien au total — si le quiz ne trouve pas la vôtre, parcourez le hub complet des races de chien.",
+      `Oui : le quiz compare l'ensemble des ${races.length} races de chien publiées sur le site, pas une sélection restreinte — chaque nouvelle fiche race y est automatiquement intégrée dès sa publication.`,
   },
   {
     question: 'Que faire si aucun résultat ne me convainc vraiment ?',
     reponse:
-      "Recommencez en étant plus strict sur vos réponses réelles (pas celles que vous aimeriez donner) : le quiz reflète fidèlement ce que vous répondez, pas une intuition. Si les 3 résultats vous semblent tous un peu décalés, c'est souvent le signe que votre mode de vie correspond mieux à une race hors de cette sélection de 6 — direction le hub complet.",
+      "Recommencez en étant plus strict sur vos réponses réelles (pas celles que vous aimeriez donner) : le quiz reflète fidèlement ce que vous répondez, pas une intuition. Vous pouvez aussi parcourir le hub complet des races de chien pour un tour d'horizon plus large.",
   },
   {
     question: 'Le quiz remplace-t-il une rencontre avec la race avant adoption ?',
@@ -38,19 +57,19 @@ const faqSchema = {
 
 <Layout
   title="Quelle race de chien me correspond ?"
-  description="Répondez à 5 questions simples sur votre logement, votre temps disponible et votre expérience pour découvrir les races de chiens qui vous correspondent vraiment."
+  description="Répondez à 7 questions simples sur votre logement, la taille souhaitée, votre budget et votre expérience pour découvrir les races de chiens qui vous correspondent vraiment."
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />
   <div class="mx-auto max-w-2xl px-4 py-12">
     <p class="label text-terracotta-600">Outil interactif</p>
     <h1 class="mt-2 font-display text-3xl font-medium text-encre-900">Quelle race de chien me correspond ?</h1>
     <p class="mt-3 text-encre-700">
-      5 questions rapides sur votre mode de vie pour identifier les races les plus adaptées à votre situation réelle
-      — pas seulement à vos goûts esthétiques.
+      7 questions rapides sur votre mode de vie pour identifier, parmi les {races.length} races du site, celles qui
+      correspondent vraiment à votre situation réelle — pas seulement à vos goûts esthétiques.
     </p>
 
     <div class="mt-10 border border-sable-300 bg-sable-50 p-6 sm:p-8">
-      <QuizRace client:visible />
+      <QuizRace client:visible races={races} />
     </div>
 
     <p class="mt-6 text-sm text-encre-700">

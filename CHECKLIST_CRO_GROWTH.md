@@ -1,6 +1,6 @@
 # Checklist Croissance, CRO & Industrialisation — Boussole Animale
 
-**Progression : 7/12 tâches (58%)**
+**Progression : 9/14 tâches (64%)**
 
 Dernière mise à jour : 14 septembre 2026 — Chantier ouvert aujourd'hui, en continuité directe des 4 chantiers
 terminés (UX/UI 26/26, SEO 15/15, Réseaux Sociaux 14/14, Production-Ready & Hardening 10/10). Objectif : passer
@@ -48,7 +48,7 @@ n'est pas paresse, voir le détail dans chaque item concerné et la section "Ce 
 
 ## Phase 2 — Conversion, Rétention & Expérience Utilisateur (CRO)
 
-**3/3 sous-tâches**
+**5/5 sous-tâches**
 
 - [x] **Instrumentation GA4 des tunnels de conversion**
   `src/lib/analytics.ts` (nouveau) : helper `trackEvent()` partagé, même garde de consentement que le reste du
@@ -87,6 +87,43 @@ n'est pas paresse, voir le détail dans chaque item concerné et la section "Ce 
   page. **Testé en conditions réelles** : 2 races cochées sur `/chiens/` → barre flottante → tableau généré
   avec les vraies données (American Staffordshire Terrier vs Basenji vérifiés à l'écran), aucune erreur console.
   `npx astro check` : 0 erreur après ajout de ces deux fonctionnalités (76 pages au total, +2 vs avant).
+
+- [x] **Quiz "quelle race me correspond" — pool de races élargi et automatique**
+  Le quiz ne comparait que 6 races codées en dur dans `QuizRace.tsx`, sur un catalogue qui en compte désormais 30
+  — repéré en répondant à une question exploratoire de l'utilisateur sur "professionnaliser" le quiz, avant tout
+  développement. Corrigé à la racine plutôt qu'en ajoutant des questions sur un pool encore restreint :
+  `QuizRace.tsx` reçoit maintenant `races` en prop, alimenté par `quelle-race-me-correspond.astro` depuis
+  `getCollection('chiens')` — toute nouvelle fiche chien intègre automatiquement le pool du quiz au prochain
+  build, sans rien à modifier dans le composant. Le scoring, auparavant basé sur des champs inventés
+  (`ficheDisponible`, `entretienFaible`, listes `experience`/`logement` par race saisies à la main), a été
+  réécrit pour ne dépendre que de champs réels et garantis présents sur chaque fiche (`niveauActivite`,
+  `adapteAppartement`, `adapteEnfants`, `aboiement`) : distance ordinale sur le niveau d'activité plutôt qu'un
+  simple "correspond / ne correspond pas", heuristique documentée pour "débutant" (activité très élevée
+  déconseillée) plutôt qu'une liste inventée par race. La question "entretien du poil" — sans champ réel pour
+  l'étayer sur 30 races — a été remplacée par "tolérance aux aboiements", qui réutilise le champ `aboiement`
+  déjà présent sur chaque fiche et déjà utilisé par les filtres des hubs : même nombre de questions (5), mais
+  chacune maintenant fondée sur une donnée réelle plutôt qu'un jugement à saisir manuellement par race. FAQ de
+  la page mise à jour (l'ancien texte affirmait encore "6 races" / "14 races" au total, périmé). **Testé en
+  conditions réelles** : parcours complet du quiz (appartement, faible activité, débutant, aboiement faible,
+  pas d'enfants) → résultats Bouledogue Anglais / Carlin / Shih Tzu, cohérents avec les réponses et incluant des
+  races ajoutées hier — preuve que l'intégration automatique fonctionne, pas seulement que le code compile.
+  Ajout volontairement limité au pool de races (pas de nouvelles questions) : décision prise avec l'utilisateur
+  d'attendre les données réelles de `quiz_step` avant de rallonger le quiz plutôt que d'ajouter des questions à
+  l'aveugle — voir Phase 1.
+
+- [x] **Quiz — deux questions supplémentaires (taille, budget)**
+  Revenu sur la décision d'attendre les données `quiz_step` ci-dessus : l'utilisateur a explicitement demandé ces
+  deux questions plutôt que d'attendre, choix assumé de sa part après que le compromis (abandon potentiel vs.
+  précision) lui a été présenté. "Quelle taille de chien recherchez-vous ?" (petit/moyen/grand/peu importe) :
+  classée sur le poids moyen de chaque race (`poids.min`/`poids.max`, garanti présent sur toutes les fiches),
+  mêmes seuils que `CalculateurAge.tsx` (petit &lt;9 kg, moyen 9-23 kg, grand &gt;23 kg) pour ne pas avoir deux
+  découpages différents sur le site. "Quel budget mensuel visez-vous ?" (moins de 70 €/70-120 €/plus de
+  120 €/peu importe) : seuils choisis en regardant la vraie distribution des coûts mensuels des 30 fiches
+  (30-60 € à 100-200 €), pas arbitrairement. Le quiz passe de 5 à 7 questions ; toutes les mentions codées en dur
+  du nombre de questions ont été mises à jour (page du quiz, page `/outils/`, FAQ, meta description). **Testé en
+  conditions réelles** : parcours complet (appartement, petit, faible activité, débutant, budget bas, aboiement
+  faible, pas d'enfants) → Shih Tzu / Carlin / Bichon Frisé, tous effectivement petits et économiques — résultat
+  visiblement plus affiné qu'avant l'ajout des deux critères. `npx astro check` : 0 erreur.
 
 ---
 

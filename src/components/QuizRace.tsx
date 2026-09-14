@@ -4,108 +4,109 @@ import { trackEvent } from '../lib/analytics';
 type Logement = 'appartement' | 'maison_jardin';
 type Activite = 'faible' | 'modere' | 'eleve';
 type Experience = 'debutant' | 'confirme';
-type Poil = 'peu_importe' | 'faible';
+type Aboiement = 'rare' | 'occasionnel' | 'frequent';
+type ToleranceAboiement = 'faible' | 'peu_importe';
+type NiveauActivite = 'faible' | 'modere' | 'eleve' | 'tres_eleve';
+type Taille = 'petit' | 'moyen' | 'grand' | 'peu_importe';
+type Budget = 'bas' | 'moyen' | 'eleve' | 'peu_importe';
 
 interface Reponses {
   logement: Logement | null;
+  taille: Taille | null;
   activite: Activite | null;
   experience: Experience | null;
+  budget: Budget | null;
+  aboiement: ToleranceAboiement | null;
   enfants: boolean | null;
-  poil: Poil | null;
 }
 
-interface Race {
+// Données réelles issues du catalogue de fiches (voir la page qui rend ce
+// composant : elle passe tout le contenu de la collection `chiens`, pas une
+// sélection à la main) — le pool de races s'élargit donc automatiquement dès
+// qu'une nouvelle fiche chien est publiée, sans code à toucher ici.
+export interface RaceQuizItem {
   slug: string;
   nom: string;
-  ficheDisponible: boolean;
-  logement: Logement[];
-  activite: Activite[];
-  experience: Experience[];
-  compatibleEnfants: boolean;
-  entretienFaible: boolean;
-  description: string;
+  resume: string;
+  niveauActivite: NiveauActivite;
+  adapteAppartement: boolean;
+  adapteEnfants: boolean;
+  aboiement?: Aboiement;
+  poidsMin: number;
+  poidsMax: number;
+  coutMensuelMin: number;
+  coutMensuelMax: number;
 }
 
-const RACES: Race[] = [
-  {
-    slug: 'berger-australien',
-    nom: 'Berger Australien',
-    ficheDisponible: true,
-    logement: ['maison_jardin'],
-    activite: ['eleve'],
-    experience: ['confirme'],
-    compatibleEnfants: true,
-    entretienFaible: false,
-    description: "Sportif et intelligent, il a besoin d'une vraie mission quotidienne.",
-  },
-  {
-    slug: 'bouledogue-francais',
-    nom: 'Bouledogue Français',
-    ficheDisponible: true,
-    logement: ['appartement', 'maison_jardin'],
-    activite: ['faible'],
-    experience: ['debutant', 'confirme'],
-    compatibleEnfants: true,
-    entretienFaible: true,
-    description: 'Calme, adaptable, parfait compagnon urbain à faible besoin sportif.',
-  },
-  {
-    slug: 'labrador',
-    nom: 'Labrador',
-    ficheDisponible: true,
-    logement: ['maison_jardin'],
-    activite: ['modere', 'eleve'],
-    experience: ['debutant', 'confirme'],
-    compatibleEnfants: true,
-    entretienFaible: true,
-    description: 'Sociable et équilibré, excellent premier chien familial.',
-  },
-  {
-    slug: 'cavalier-king-charles',
-    nom: 'Cavalier King Charles',
-    ficheDisponible: true,
-    logement: ['appartement', 'maison_jardin'],
-    activite: ['faible', 'modere'],
-    experience: ['debutant'],
-    compatibleEnfants: true,
-    entretienFaible: false,
-    description: 'Doux et câlin, très adaptable à la vie en appartement.',
-  },
-  {
-    slug: 'border-collie',
-    nom: 'Border Collie',
-    ficheDisponible: true,
-    logement: ['maison_jardin'],
-    activite: ['eleve'],
-    experience: ['confirme'],
-    compatibleEnfants: true,
-    entretienFaible: false,
-    description: "Extrêmement intelligent, exige un travail mental quotidien intense.",
-  },
-  {
-    slug: 'chihuahua',
-    nom: 'Chihuahua',
-    ficheDisponible: true,
-    logement: ['appartement', 'maison_jardin'],
-    activite: ['faible'],
-    experience: ['debutant', 'confirme'],
-    compatibleEnfants: false,
-    entretienFaible: true,
-    description: 'Petit format, faibles besoins physiques, mais fragile avec les jeunes enfants.',
-  },
-];
+interface Props {
+  races: RaceQuizItem[];
+}
 
-function scoreRace(race: Race, r: Reponses): number {
+const NIVEAU_ORDRE: Record<NiveauActivite, number> = { faible: 0, modere: 1, eleve: 2, tres_eleve: 3 };
+// La réponse "eleve" du quiz ("plus d'1h30, activement") doit couvrir aussi
+// bien les races 'eleve' que 'tres_eleve' du catalogue — d'où une cible à
+// 2.5 plutôt que 2, à mi-chemin entre les deux niveaux réels.
+const NIVEAU_CIBLE: Record<Activite, number> = { faible: 0, modere: 1, eleve: 2.5 };
+
+const TAILLE_ORDRE: Record<'petit' | 'moyen' | 'grand', number> = { petit: 0, moyen: 1, grand: 2 };
+// Seuils de poids repris tels quels du calculateur d'âge (CalculateurAge.tsx)
+// pour ne pas avoir deux découpages "petit/moyen/grand" différents sur le
+// site. Classée sur le poids moyen de la race, pas sur min ou max seul.
+function tailleRace(race: RaceQuizItem): 'petit' | 'moyen' | 'grand' {
+  const moyen = (race.poidsMin + race.poidsMax) / 2;
+  if (moyen < 9) return 'petit';
+  if (moyen < 23) return 'moyen';
+  return 'grand';
+}
+
+const BUDGET_ORDRE: Record<'bas' | 'moyen' | 'eleve', number> = { bas: 0, moyen: 1, eleve: 2 };
+// Seuils choisis en regardant la distribution réelle des coûts mensuels sur
+// les 30 fiches chien (de 30-60 € à 100-200 €) plutôt qu'arbitrairement —
+// coupent le catalogue en trois groupes à peu près équilibrés.
+function budgetRace(race: RaceQuizItem): 'bas' | 'moyen' | 'eleve' {
+  const moyen = (race.coutMensuelMin + race.coutMensuelMax) / 2;
+  if (moyen < 70) return 'bas';
+  if (moyen < 120) return 'moyen';
+  return 'eleve';
+}
+
+function scoreRace(race: RaceQuizItem, r: Reponses): number {
   let score = 0;
-  if (r.logement && race.logement.includes(r.logement)) score += 3;
-  if (r.activite && race.activite.includes(r.activite)) score += 3;
-  if (r.experience && race.experience.includes(r.experience)) score += 2;
+
+  if (r.logement === 'appartement') score += race.adapteAppartement ? 3 : -6;
+  if (r.logement === 'maison_jardin') score += 3; // une maison avec jardin convient à toutes les races
+
+  if (r.taille && r.taille !== 'peu_importe') {
+    const distance = Math.abs(TAILLE_ORDRE[tailleRace(race)] - TAILLE_ORDRE[r.taille]);
+    score += Math.max(0, 2 - distance);
+  }
+
+  if (r.activite) {
+    const distance = Math.abs(NIVEAU_ORDRE[race.niveauActivite] - NIVEAU_CIBLE[r.activite]);
+    score += Math.max(0, 3 - distance);
+  }
+
+  // Pas de champ "adapté débutant" dans les fiches (ce serait un jugement
+  // trop tranché pour figurer dans une fiche factuelle) — heuristique
+  // éditoriale assumée : un niveau d'activité très élevé demande une
+  // expérience réelle d'éducation canine, le reste convient à un débutant.
+  if (r.experience === 'debutant' && race.niveauActivite === 'tres_eleve') score -= 3;
+
+  if (r.budget && r.budget !== 'peu_importe') {
+    const distance = Math.abs(BUDGET_ORDRE[budgetRace(race)] - BUDGET_ORDRE[r.budget]);
+    score += Math.max(0, 2 - distance);
+  }
+
+  if (r.aboiement === 'faible' && race.aboiement) {
+    score += race.aboiement === 'rare' ? 1.5 : race.aboiement === 'occasionnel' ? 0.5 : -1.5;
+  }
+
   if (r.enfants === true) {
     // Critère éliminatoire plutôt que simple bonus : avec de jeunes enfants,
     // une race non recommandée ne doit pas remonter dans le classement.
-    score += race.compatibleEnfants ? 1 : -10;
+    score += race.adapteEnfants ? 1 : -10;
   }
-  if (r.poil === 'faible' && race.entretienFaible) score += 1;
+
   return score;
 }
 
@@ -116,6 +117,16 @@ const QUESTIONS = [
     options: [
       { value: 'appartement', label: 'En appartement' },
       { value: 'maison_jardin', label: 'En maison avec jardin' },
+    ],
+  },
+  {
+    key: 'taille' as const,
+    label: 'Quelle taille de chien recherchez-vous ?',
+    options: [
+      { value: 'petit', label: 'Petit (moins de 9 kg)' },
+      { value: 'moyen', label: 'Moyen (9 à 23 kg)' },
+      { value: 'grand', label: 'Grand (plus de 23 kg)' },
+      { value: 'peu_importe', label: 'Peu importe' },
     ],
   },
   {
@@ -136,10 +147,20 @@ const QUESTIONS = [
     ],
   },
   {
-    key: 'poil' as const,
-    label: "Le brossage et la gestion des poils, c'est important pour vous ?",
+    key: 'budget' as const,
+    label: 'Quel budget mensuel visez-vous pour ce chien ?',
     options: [
-      { value: 'faible', label: 'Je veux un entretien minimal' },
+      { value: 'bas', label: 'Moins de 70 € / mois' },
+      { value: 'moyen', label: '70 à 120 € / mois' },
+      { value: 'eleve', label: 'Plus de 120 € / mois' },
+      { value: 'peu_importe', label: 'Peu importe' },
+    ],
+  },
+  {
+    key: 'aboiement' as const,
+    label: 'La tolérance de votre voisinage aux aboiements, ça compte pour vous ?',
+    options: [
+      { value: 'faible', label: 'Je préfère un chien qui aboie peu' },
       { value: 'peu_importe', label: 'Peu importe' },
     ],
   },
@@ -148,14 +169,16 @@ const QUESTIONS = [
 const boutonReponse =
   'select-none block w-full border border-sable-400 bg-sable-50 px-4 py-3 text-left font-medium transition-colors duration-150 hover:border-terracotta-400 active:scale-[0.98]';
 
-export default function QuizRace() {
+export default function QuizRace({ races }: Props) {
   const [step, setStep] = useState(0);
   const [reponses, setReponses] = useState<Reponses>({
     logement: null,
+    taille: null,
     activite: null,
     experience: null,
+    budget: null,
+    aboiement: null,
     enfants: null,
-    poil: null,
   });
   const [termine, setTermine] = useState(false);
 
@@ -199,7 +222,7 @@ export default function QuizRace() {
     }
   }
 
-  const resultats = [...RACES].sort((a, b) => scoreRace(b, reponses) - scoreRace(a, reponses)).slice(0, 3);
+  const resultats = [...races].sort((a, b) => scoreRace(b, reponses) - scoreRace(a, reponses)).slice(0, 3);
 
   // Tunnel de conversion : démarrage au montage (implicite, ce useEffect ne
   // se déclenche qu'après), puis une lecture par question atteinte (permet
@@ -220,7 +243,15 @@ export default function QuizRace() {
   }, [step, termine]);
 
   function recommencer() {
-    setReponses({ logement: null, activite: null, experience: null, enfants: null, poil: null });
+    setReponses({
+      logement: null,
+      taille: null,
+      activite: null,
+      experience: null,
+      budget: null,
+      aboiement: null,
+      enfants: null,
+    });
     setStep(0);
     setTermine(false);
   }
@@ -238,17 +269,13 @@ export default function QuizRace() {
             <div key={race.slug} class="border border-sable-300 bg-sable-50 p-5">
               <p class="text-sm font-medium text-terracotta-600">#{i + 1} correspondance</p>
               <h3 class="mt-1 font-display text-xl font-medium">{race.nom}</h3>
-              <p class="mt-1 text-encre-700">{race.description}</p>
-              {race.ficheDisponible ? (
-                <a
-                  href={`/chiens/races/${race.slug}/`}
-                  class="mt-3 inline-block text-sm font-medium text-encre-900 hover:text-terracotta-600"
-                >
-                  Voir la fiche complète →
-                </a>
-              ) : (
-                <p class="mt-3 text-sm text-encre-700/80">Fiche complète bientôt disponible</p>
-              )}
+              <p class="mt-1 text-encre-700">{race.resume}</p>
+              <a
+                href={`/chiens/races/${race.slug}/`}
+                class="mt-3 inline-block text-sm font-medium text-encre-900 hover:text-terracotta-600"
+              >
+                Voir la fiche complète →
+              </a>
             </div>
           ))}
         </div>
