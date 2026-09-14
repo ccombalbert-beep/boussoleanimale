@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'preact/hooks';
+import { useEffect, useMemo, useState } from 'preact/hooks';
 import { useAnimatedNumber } from '../hooks/useAnimatedNumber';
+import { trackEvent } from '../lib/analytics';
 
 type Gamme = 'standard' | 'premium';
 type Litiere = 'standard' | 'agglomerante';
@@ -35,6 +36,14 @@ export default function CalculateurCoutChat() {
 
   const totalAnime = useAnimatedNumber(detail.total);
 
+  useEffect(() => {
+    trackEvent('calculator_view', { calculator: 'cout_chat' });
+  }, []);
+
+  function interagir(field: string, value: string | boolean) {
+    trackEvent('calculator_interact', { calculator: 'cout_chat', field, value });
+  }
+
   return (
     <div class="grid gap-8 sm:grid-cols-2">
       <div class="space-y-6">
@@ -46,7 +55,7 @@ export default function CalculateurCoutChat() {
                 key={g}
                 type="button"
                 aria-pressed={gamme === g}
-                onClick={() => setGamme(g)}
+                onClick={() => { setGamme(g); interagir('gamme', g); }}
                 class={`flex-1 border px-3 py-2 text-sm font-medium capitalize transition-colors duration-150 active:scale-[0.97] ${
                   gamme === g ? 'border-terracotta-500 bg-terracotta-50 text-terracotta-600' : 'border-sable-400 hover:border-terracotta-300'
                 }`}
@@ -63,7 +72,7 @@ export default function CalculateurCoutChat() {
             <button
               type="button"
               aria-pressed={litiere === 'standard'}
-              onClick={() => setLitiere('standard')}
+              onClick={() => { setLitiere('standard'); interagir('litiere', 'standard'); }}
               class={`flex-1 border px-3 py-2 text-sm font-medium transition-colors duration-150 active:scale-[0.97] ${
                 litiere === 'standard' ? 'border-terracotta-500 bg-terracotta-50 text-terracotta-600' : 'border-sable-400 hover:border-terracotta-300'
               }`}
@@ -73,7 +82,7 @@ export default function CalculateurCoutChat() {
             <button
               type="button"
               aria-pressed={litiere === 'agglomerante'}
-              onClick={() => setLitiere('agglomerante')}
+              onClick={() => { setLitiere('agglomerante'); interagir('litiere', 'agglomerante'); }}
               class={`flex-1 border px-3 py-2 text-sm font-medium transition-colors duration-150 active:scale-[0.97] ${
                 litiere === 'agglomerante' ? 'border-terracotta-500 bg-terracotta-50 text-terracotta-600' : 'border-sable-400 hover:border-terracotta-300'
               }`}
@@ -84,12 +93,20 @@ export default function CalculateurCoutChat() {
         </fieldset>
 
         <label class="flex items-center gap-3 text-sm font-medium text-encre-900">
-          <input type="checkbox" checked={assurance} onChange={(e) => setAssurance(e.currentTarget.checked)} />
+          <input
+            type="checkbox"
+            checked={assurance}
+            onChange={(e) => { const v = e.currentTarget.checked; setAssurance(v); interagir('assurance', v); }}
+          />
           Assurance / mutuelle santé
         </label>
 
         <label class="flex items-center gap-3 text-sm font-medium text-encre-900">
-          <input type="checkbox" checked={exterieur} onChange={(e) => setExterieur(e.currentTarget.checked)} />
+          <input
+            type="checkbox"
+            checked={exterieur}
+            onChange={(e) => { const v = e.currentTarget.checked; setExterieur(v); interagir('exterieur', v); }}
+          />
           Accès à l'extérieur (parasites, bagarres, vaccins renforcés)
         </label>
       </div>

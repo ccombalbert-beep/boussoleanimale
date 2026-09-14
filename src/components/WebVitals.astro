@@ -1,0 +1,36 @@
+---
+// RUM (Real User Monitoring) — envoie les 5 Core Web Vitals mesurés en
+// conditions réelles (pas en laboratoire Lighthouse) vers GA4, selon le
+// schéma d'événement officiellement documenté par web.dev.
+//
+// Respecte le même gate de consentement que le reste du site : gtag()
+// n'existe que si l'utilisateur a accepté la catégorie "audience"
+// (Analytics.astro) — tant que ce n'est pas le cas, cette île n'envoie
+// simplement rien, elle ne met rien en attente.
+---
+
+<script>
+  import { onCLS, onFCP, onINP, onLCP, onTTFB, type Metric } from 'web-vitals';
+
+  declare global {
+    interface Window {
+      gtag?: (...args: unknown[]) => void;
+    }
+  }
+
+  function sendToGoogleAnalytics({ name, delta, value, id }: Metric) {
+    if (typeof window.gtag !== 'function') return;
+    window.gtag('event', name, {
+      value: Math.round(name === 'CLS' ? delta * 1000 : delta),
+      metric_id: id,
+      metric_value: value,
+      metric_delta: delta,
+    });
+  }
+
+  onCLS(sendToGoogleAnalytics);
+  onFCP(sendToGoogleAnalytics);
+  onINP(sendToGoogleAnalytics);
+  onLCP(sendToGoogleAnalytics);
+  onTTFB(sendToGoogleAnalytics);
+</script>

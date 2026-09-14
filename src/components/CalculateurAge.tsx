@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'preact/hooks';
+import { useEffect, useMemo, useState } from 'preact/hooks';
 import { useAnimatedNumber } from '../hooks/useAnimatedNumber';
+import { trackEvent } from '../lib/analytics';
 
 type Espece = 'chien' | 'chat';
 type TailleChien = 'petit' | 'moyen' | 'grand' | 'geant';
@@ -40,6 +41,14 @@ export default function CalculateurAge() {
 
   const maxAge = espece === 'chien' ? 18 : 22;
 
+  useEffect(() => {
+    trackEvent('calculator_view', { calculator: 'age' });
+  }, []);
+
+  function interagir(field: string, value: string | number) {
+    trackEvent('calculator_interact', { calculator: 'age', field, value });
+  }
+
   return (
     <div class="space-y-8">
       <fieldset class="m-0 min-w-0 border-0 p-0">
@@ -53,6 +62,7 @@ export default function CalculateurAge() {
               onClick={() => {
                 setEspece(e);
                 setAge((a) => Math.min(a, e === 'chien' ? 18 : 22));
+                interagir('espece', e);
               }}
               class={`flex-1 border px-3 py-2 text-sm font-medium capitalize transition-colors duration-150 active:scale-[0.97] ${
                 espece === e ? 'border-terracotta-500 bg-terracotta-50 text-terracotta-600' : 'border-sable-400 hover:border-terracotta-300'
@@ -73,7 +83,7 @@ export default function CalculateurAge() {
                 key={t}
                 type="button"
                 aria-pressed={taille === t}
-                onClick={() => setTaille(t)}
+                onClick={() => { setTaille(t); interagir('taille', t); }}
                 class={`border px-3 py-2 text-left text-sm font-medium transition-colors duration-150 active:scale-[0.97] ${
                   taille === t ? 'border-terracotta-500 bg-terracotta-50 text-terracotta-600' : 'border-sable-400 hover:border-terracotta-300'
                 }`}
@@ -100,6 +110,7 @@ export default function CalculateurAge() {
           value={age}
           aria-valuetext={`${age} an${age > 1 ? 's' : ''}`}
           onInput={(e) => setAge(Number(e.currentTarget.value))}
+          onChange={(e) => interagir('age', Number(e.currentTarget.value))}
           class="w-full accent-terracotta-500"
         />
       </div>

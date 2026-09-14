@@ -152,7 +152,7 @@ de case cochée sur la seule base d'une intention.
 
 ## Phase 4 — Déploiement, Domaine & CI/CD
 
-**1/2 sous-tâches**
+**2/2 sous-tâches**
 
 - [x] **Build de production sans erreur d'hydratation**
   `npm run build` : 64 pages, 0 erreur. Vérifié en conditions réelles (pas seulement "le build passe") :

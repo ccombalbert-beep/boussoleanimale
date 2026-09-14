@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'preact/hooks';
+import { useEffect, useMemo, useState } from 'preact/hooks';
 import { useAnimatedNumber } from '../hooks/useAnimatedNumber';
+import { trackEvent } from '../lib/analytics';
 
 type Taille = 'petit' | 'moyen' | 'grand';
 type Gamme = 'standard' | 'premium';
@@ -44,6 +45,14 @@ export default function CalculateurCout() {
 
   const totalAnime = useAnimatedNumber(detail.total);
 
+  useEffect(() => {
+    trackEvent('calculator_view', { calculator: 'cout_chien' });
+  }, []);
+
+  function interagir(field: string, value: string | boolean) {
+    trackEvent('calculator_interact', { calculator: 'cout_chien', field, value });
+  }
+
   return (
     <div class="grid gap-8 sm:grid-cols-2">
       <div class="space-y-6">
@@ -55,7 +64,7 @@ export default function CalculateurCout() {
                 key={t}
                 type="button"
                 aria-pressed={taille === t}
-                onClick={() => setTaille(t)}
+                onClick={() => { setTaille(t); interagir('taille', t); }}
                 class={`flex-1 border px-3 py-2 text-sm font-medium capitalize transition-colors duration-150 active:scale-[0.97] ${
                   taille === t ? 'border-terracotta-500 bg-terracotta-50 text-terracotta-600' : 'border-sable-400 hover:border-terracotta-300'
                 }`}
@@ -74,7 +83,7 @@ export default function CalculateurCout() {
                 key={g}
                 type="button"
                 aria-pressed={gamme === g}
-                onClick={() => setGamme(g)}
+                onClick={() => { setGamme(g); interagir('gamme', g); }}
                 class={`flex-1 border px-3 py-2 text-sm font-medium capitalize transition-colors duration-150 active:scale-[0.97] ${
                   gamme === g ? 'border-terracotta-500 bg-terracotta-50 text-terracotta-600' : 'border-sable-400 hover:border-terracotta-300'
                 }`}
@@ -86,12 +95,20 @@ export default function CalculateurCout() {
         </fieldset>
 
         <label class="flex items-center gap-3 text-sm font-medium text-encre-900">
-          <input type="checkbox" checked={assurance} onChange={(e) => setAssurance(e.currentTarget.checked)} />
+          <input
+            type="checkbox"
+            checked={assurance}
+            onChange={(e) => { const v = e.currentTarget.checked; setAssurance(v); interagir('assurance', v); }}
+          />
           Assurance / mutuelle santé
         </label>
 
         <label class="flex items-center gap-3 text-sm font-medium text-encre-900">
-          <input type="checkbox" checked={toilettage} onChange={(e) => setToilettage(e.currentTarget.checked)} />
+          <input
+            type="checkbox"
+            checked={toilettage}
+            onChange={(e) => { const v = e.currentTarget.checked; setToilettage(v); interagir('toilettage', v); }}
+          />
           Toilettage professionnel régulier
         </label>
       </div>

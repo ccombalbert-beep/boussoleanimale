@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
+import { trackEvent } from '../lib/analytics';
 
 type Logement = 'appartement' | 'maison_jardin';
 type Activite = 'faible' | 'modere' | 'eleve';
@@ -168,6 +169,10 @@ export default function QuizRace() {
   // double-clic natif avant ce correctif. Le verrou se relâche une fois la
   // nouvelle question affichée (même effet que le focus ci-dessous).
   const enTraitement = useRef(false);
+  // Garde dédiée : `premierRendu` ci-dessous est déjà consommé par l'effet
+  // de focus (même commit, même passage), donc inutilisable tel quel pour
+  // distinguer "premier rendu" dans un second effet sur les mêmes deps.
+  const premierRenduAnalytics = useRef(true);
 
   // Après chaque étape, le focus clavier suit le nouveau titre : sans ça, le
   // titre change visuellement mais le focus reste sur le bouton disparu, et
@@ -195,6 +200,24 @@ export default function QuizRace() {
   }
 
   const resultats = [...RACES].sort((a, b) => scoreRace(b, reponses) - scoreRace(a, reponses)).slice(0, 3);
+
+  // Tunnel de conversion : démarrage au montage (implicite, ce useEffect ne
+  // se déclenche qu'après), puis une lecture par question atteinte (permet
+  // de calculer le taux d'abandon par étape dans GA4), et l'issue finale
+  // avec le premier résultat obtenu.
+  useEffect(() => {
+    if (premierRenduAnalytics.current) {
+      premierRenduAnalytics.current = false;
+      trackEvent('quiz_start');
+      return;
+    }
+    if (termine) {
+      trackEvent('quiz_complete', { top_result: resultats[0]?.slug });
+    } else {
+      trackEvent('quiz_step', { step: step + 1, total: totalSteps });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, termine]);
 
   function recommencer() {
     setReponses({ logement: null, activite: null, experience: null, enfants: null, poil: null });
