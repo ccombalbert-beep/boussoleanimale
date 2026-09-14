@@ -1,6 +1,6 @@
 # Plan des guides SEO hebdomadaires — Boussole Animale
 
-**Statut : 1/13 publié (semaine 1)**
+**Statut : 1/13 publié, 12/13 rédigés et prêts — publication automatique 1/semaine jusqu'au 6 décembre 2026**
 
 Chantier de contenu longue traîne : un guide par semaine sur un trimestre (13 semaines), articulé avec le
 maillage interne existant (26 fiches chien, 18 fiches chat, 5 outils) plutôt que des articles isolés. Objectif :
@@ -46,12 +46,26 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
     "intention": "La requête informationnelle la plus recherchée et la plus évergreen du secteur canin — et la plus sujette aux approximations marketing (aucun chien n'est 100% hypoallergénique). Fort potentiel de maillage : 4 fiches déjà publiées correspondent exactement au sujet.",
     "maillage": {
       "racesLiees": [
-        { "slug": "caniche", "espece": "chien" },
-        { "slug": "bichon-frise", "espece": "chien" },
-        { "slug": "shih-tzu", "espece": "chien" },
-        { "slug": "yorkshire-terrier", "espece": "chien" }
+        {
+          "slug": "caniche",
+          "espece": "chien"
+        },
+        {
+          "slug": "bichon-frise",
+          "espece": "chien"
+        },
+        {
+          "slug": "shih-tzu",
+          "espece": "chien"
+        },
+        {
+          "slug": "yorkshire-terrier",
+          "espece": "chien"
+        }
       ],
-      "outils": ["/outils/quelle-race-me-correspond/"]
+      "outils": [
+        "/outils/quelle-race-me-correspond/"
+      ]
     },
     "statut": "publié"
   },
@@ -64,14 +78,31 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
     "intention": "Requête en amont de toutes les autres — beaucoup de visiteurs arrivent sur le site sans avoir encore choisi l'espèce. Permet de lier les deux calculateurs de budget ET le quiz en un seul guide.",
     "maillage": {
       "racesLiees": [
-        { "slug": "labrador", "espece": "chien" },
-        { "slug": "berger-australien", "espece": "chien" },
-        { "slug": "europeen", "espece": "chat" },
-        { "slug": "maine-coon", "espece": "chat" }
+        {
+          "slug": "labrador",
+          "espece": "chien"
+        },
+        {
+          "slug": "berger-australien",
+          "espece": "chien"
+        },
+        {
+          "slug": "europeen",
+          "espece": "chat"
+        },
+        {
+          "slug": "maine-coon",
+          "espece": "chat"
+        }
       ],
-      "outils": ["/outils/quelle-race-me-correspond/", "/outils/cout-mensuel-chien/", "/outils/cout-mensuel-chat/"]
+      "outils": [
+        "/outils/quelle-race-me-correspond/",
+        "/outils/cout-mensuel-chien/",
+        "/outils/cout-mensuel-chat/"
+      ]
     },
-    "statut": "à rédiger"
+    "statut": "rédigé, prêt",
+    "datePublicationPrevue": "2026-09-20"
   },
   {
     "semaine": 3,
@@ -82,12 +113,21 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
     "intention": "Complète les guides budget mensuel existants sur l'angle coût d'ACQUISITION (frais de refuge, identification, primo-vaccination, stérilisation) plutôt que d'entretien — angle non couvert à ce jour.",
     "maillage": {
       "racesLiees": [
-        { "slug": "berger-allemand", "espece": "chien" },
-        { "slug": "border-collie", "espece": "chien" }
+        {
+          "slug": "berger-allemand",
+          "espece": "chien"
+        },
+        {
+          "slug": "border-collie",
+          "espece": "chien"
+        }
       ],
-      "outils": ["/outils/cout-mensuel-chien/"]
+      "outils": [
+        "/outils/cout-mensuel-chien/"
+      ]
     },
-    "statut": "à rédiger"
+    "statut": "rédigé, prêt",
+    "datePublicationPrevue": "2026-09-27"
   },
   {
     "semaine": 4,
@@ -98,13 +138,25 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
     "intention": "Équivalent chat du sujet hypoallergénique en volume de recherche informationnelle typique — et un vrai contraste à documenter (toutes les races ne recherchent pas le contact humain au même degré).",
     "maillage": {
       "racesLiees": [
-        { "slug": "ragdoll", "espece": "chat" },
-        { "slug": "siamois", "espece": "chat" },
-        { "slug": "sacre-de-birmanie", "espece": "chat" }
+        {
+          "slug": "ragdoll",
+          "espece": "chat"
+        },
+        {
+          "slug": "siamois",
+          "espece": "chat"
+        },
+        {
+          "slug": "sacre-de-birmanie",
+          "espece": "chat"
+        }
       ],
-      "outils": ["/outils/quelle-race-me-correspond/"]
+      "outils": [
+        "/outils/quelle-race-me-correspond/"
+      ]
     },
-    "statut": "à rédiger"
+    "statut": "rédigé, prêt",
+    "datePublicationPrevue": "2026-10-04"
   },
   {
     "semaine": 5,
@@ -115,13 +167,25 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
     "intention": "Le quiz interne a explicitement un critère 'débutant' — ce guide capte la requête de recherche correspondante et redirige naturellement vers l'outil plutôt que de le dupliquer en texte.",
     "maillage": {
       "racesLiees": [
-        { "slug": "labrador", "espece": "chien" },
-        { "slug": "cavalier-king-charles", "espece": "chien" },
-        { "slug": "golden-retriever", "espece": "chien" }
+        {
+          "slug": "labrador",
+          "espece": "chien"
+        },
+        {
+          "slug": "cavalier-king-charles",
+          "espece": "chien"
+        },
+        {
+          "slug": "golden-retriever",
+          "espece": "chien"
+        }
       ],
-      "outils": ["/outils/quelle-race-me-correspond/"]
+      "outils": [
+        "/outils/quelle-race-me-correspond/"
+      ]
     },
-    "statut": "à rédiger"
+    "statut": "rédigé, prêt",
+    "datePublicationPrevue": "2026-10-11"
   },
   {
     "semaine": 6,
@@ -132,13 +196,23 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
     "intention": "Distinct du guide hypoallergénique (semaine 1) : la mue et les allergènes sont deux mécanismes différents, une confusion fréquente qui mérite d'être clarifiée plutôt qu'un simple doublon de mots-clés.",
     "maillage": {
       "racesLiees": [
-        { "slug": "caniche", "espece": "chien" },
-        { "slug": "yorkshire-terrier", "espece": "chien" },
-        { "slug": "basenji", "espece": "chien" }
+        {
+          "slug": "caniche",
+          "espece": "chien"
+        },
+        {
+          "slug": "yorkshire-terrier",
+          "espece": "chien"
+        },
+        {
+          "slug": "basenji",
+          "espece": "chien"
+        }
       ],
       "outils": []
     },
-    "statut": "à rédiger"
+    "statut": "rédigé, prêt",
+    "datePublicationPrevue": "2026-10-18"
   },
   {
     "semaine": 7,
@@ -149,13 +223,23 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
     "intention": "Pendant du guide 'races compatibles avec enfants' existant, sur l'angle multi-espèces plutôt que multi-âges — foyers qui ont déjà un chien et envisagent un chat, ou l'inverse.",
     "maillage": {
       "racesLiees": [
-        { "slug": "maine-coon", "espece": "chat" },
-        { "slug": "ragdoll", "espece": "chat" },
-        { "slug": "europeen", "espece": "chat" }
+        {
+          "slug": "maine-coon",
+          "espece": "chat"
+        },
+        {
+          "slug": "ragdoll",
+          "espece": "chat"
+        },
+        {
+          "slug": "europeen",
+          "espece": "chat"
+        }
       ],
       "outils": []
     },
-    "statut": "à rédiger"
+    "statut": "rédigé, prêt",
+    "datePublicationPrevue": "2026-10-25"
   },
   {
     "semaine": 8,
@@ -166,13 +250,23 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
     "intention": "Requête à forte charge d'idées reçues (agressivité confondue avec vigilance) — traitement 'mythe vs réalité' dans l'esprit déjà établi sur les fiches race, sur un sujet que les guides actuels ne couvrent pas.",
     "maillage": {
       "racesLiees": [
-        { "slug": "berger-allemand", "espece": "chien" },
-        { "slug": "rottweiler", "espece": "chien" },
-        { "slug": "malinois", "espece": "chien" }
+        {
+          "slug": "berger-allemand",
+          "espece": "chien"
+        },
+        {
+          "slug": "rottweiler",
+          "espece": "chien"
+        },
+        {
+          "slug": "malinois",
+          "espece": "chien"
+        }
       ],
       "outils": []
     },
-    "statut": "à rédiger"
+    "statut": "rédigé, prêt",
+    "datePublicationPrevue": "2026-11-01"
   },
   {
     "semaine": 9,
@@ -183,12 +277,21 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
     "intention": "Pendant chat du guide semaine 3 (côté chien) — complète le guide de coût mensuel chat existant sur l'angle des dépenses ponctuelles de la première année plutôt que récurrentes.",
     "maillage": {
       "racesLiees": [
-        { "slug": "british-shorthair", "espece": "chat" },
-        { "slug": "bengal", "espece": "chat" }
+        {
+          "slug": "british-shorthair",
+          "espece": "chat"
+        },
+        {
+          "slug": "bengal",
+          "espece": "chat"
+        }
       ],
-      "outils": ["/outils/cout-mensuel-chat/"]
+      "outils": [
+        "/outils/cout-mensuel-chat/"
+      ]
     },
-    "statut": "à rédiger"
+    "statut": "rédigé, prêt",
+    "datePublicationPrevue": "2026-11-08"
   },
   {
     "semaine": 10,
@@ -199,13 +302,25 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
     "intention": "Pendant chat du guide 'race de chien pour appartement' déjà publié — angle différent (besoin d'enrichissement environnemental en intérieur pur, pas juste de gabarit).",
     "maillage": {
       "racesLiees": [
-        { "slug": "british-shorthair", "espece": "chat" },
-        { "slug": "chartreux", "espece": "chat" },
-        { "slug": "persan", "espece": "chat" }
+        {
+          "slug": "british-shorthair",
+          "espece": "chat"
+        },
+        {
+          "slug": "chartreux",
+          "espece": "chat"
+        },
+        {
+          "slug": "persan",
+          "espece": "chat"
+        }
       ],
-      "outils": ["/outils/quelle-race-me-correspond/"]
+      "outils": [
+        "/outils/quelle-race-me-correspond/"
+      ]
     },
-    "statut": "à rédiger"
+    "statut": "rédigé, prêt",
+    "datePublicationPrevue": "2026-11-15"
   },
   {
     "semaine": 11,
@@ -216,13 +331,23 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
     "intention": "Agrège transversalement les prédispositions de santé déjà documentées fiche par fiche (dysplasie, syndrome obstructif brachycéphale...) en un point d'entrée dédié — angle santé absent des guides actuels.",
     "maillage": {
       "racesLiees": [
-        { "slug": "bouledogue-francais", "espece": "chien" },
-        { "slug": "berger-allemand", "espece": "chien" },
-        { "slug": "cavalier-king-charles", "espece": "chien" }
+        {
+          "slug": "bouledogue-francais",
+          "espece": "chien"
+        },
+        {
+          "slug": "berger-allemand",
+          "espece": "chien"
+        },
+        {
+          "slug": "cavalier-king-charles",
+          "espece": "chien"
+        }
       ],
       "outils": []
     },
-    "statut": "à rédiger"
+    "statut": "rédigé, prêt",
+    "datePublicationPrevue": "2026-11-22"
   },
   {
     "semaine": 12,
@@ -233,13 +358,25 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
     "intention": "Angle démographique spécifique non couvert — foyers cherchant explicitement un niveau d'activité faible, distinct du guide appartement (une race calme n'est pas forcément une petite race).",
     "maillage": {
       "racesLiees": [
-        { "slug": "cavalier-king-charles", "espece": "chien" },
-        { "slug": "basenji", "espece": "chien" },
-        { "slug": "shih-tzu", "espece": "chien" }
+        {
+          "slug": "cavalier-king-charles",
+          "espece": "chien"
+        },
+        {
+          "slug": "shih-tzu",
+          "espece": "chien"
+        },
+        {
+          "slug": "bouledogue-francais",
+          "espece": "chien"
+        }
       ],
-      "outils": ["/outils/quelle-race-me-correspond/"]
+      "outils": [
+        "/outils/quelle-race-me-correspond/"
+      ]
     },
-    "statut": "à rédiger"
+    "statut": "rédigé, prêt",
+    "datePublicationPrevue": "2026-11-29"
   },
   {
     "semaine": 13,
@@ -250,13 +387,25 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
     "intention": "Clôture le trimestre sur le pendant exact du guide semaine 4 (affectueux vs indépendant) — les deux couvrent ensemble le spectre complet de la requête de personnalité féline, sans se dupliquer.",
     "maillage": {
       "racesLiees": [
-        { "slug": "chartreux", "espece": "chat" },
-        { "slug": "american-shorthair", "espece": "chat" },
-        { "slug": "abyssin", "espece": "chat" }
+        {
+          "slug": "chartreux",
+          "espece": "chat"
+        },
+        {
+          "slug": "american-shorthair",
+          "espece": "chat"
+        },
+        {
+          "slug": "abyssin",
+          "espece": "chat"
+        }
       ],
-      "outils": ["/outils/quelle-race-me-correspond/"]
+      "outils": [
+        "/outils/quelle-race-me-correspond/"
+      ]
     },
-    "statut": "à rédiger"
+    "statut": "rédigé, prêt",
+    "datePublicationPrevue": "2026-12-06"
   }
 ]
 ```
@@ -307,28 +456,37 @@ recherche présenté comme mesuré (dire "requête fréquente" plutôt que donne
 un point "ce qu'on croit vs ce qui est vrai" quand le sujet s'y prête (cf. `mythes` sur les fiches race), et des
 liens internes contextuels — jamais une liste de liens ajoutée à la fin pour la forme.
 
-## Le workflow, et pourquoi il reste volontairement semi-automatisé
+## Le workflow
 
-Quatre étapes, dont trois sont réellement automatisées et une reste manuelle par choix éditorial assumé, pas par
-limitation technique :
+Cinq étapes. La rédaction reste volontairement non automatisée via une API (même choix que le pipeline réseaux
+sociaux, `social/`) ; tout le reste — scaffolding, promotion hebdomadaire, build, déploiement — est mécanique.
 
-1. **Scaffolding automatique** (`npm run guide:next`, script `scripts/next-guide-draft.mjs`) : lit ce fichier,
-   trouve la première semaine `"à rédiger"`, crée `src/content/guides/<slug>.mdx` avec le frontmatter pré-rempli
-   (titre, racesLiees résolus depuis le calendrier, date du jour) et un squelette de `## ` correspondant aux
-   sources d'intention listées — puis passe le statut de cette semaine à `"brouillon créé"`. **Automatisé.**
-2. **Rédaction** : faite par Claude en session, avec la même rigueur que les fiches race (recherche réelle,
-   pas de contenu généré par simple substitution de variables). **Volontairement non automatisée via une API** —
-   même choix que pour le pipeline réseaux sociaux (`social/`), qui n'appelle aucune IA générative non supervisée
-   : un vrai appel API nécessiterait une clé Anthropic à la charge de l'utilisateur, sans le contrôle qualité
-   qu'apporte une session de rédaction supervisée, pour un contenu dont la valeur SEO dépend justement de ne
-   *pas* avoir l'air généré en masse.
-3. **Validation humaine obligatoire** : avant tout `git push` (qui déclenche le déploiement automatique Netlify),
-   l'utilisateur relit le guide rendu — comme pour chaque changement de ce projet, aucun commit n'est poussé sans
-   confirmation explicite. C'est le même garde-fou que pour tout le reste du site, pas une étape ajoutée
-   spécifiquement ici.
-4. **Publication** : une fois approuvé, `git push` suffit — sitemap (`@astrojs/sitemap`), données structurées
-   (Article + FAQPage si `faq` présent), maillage interne et page `/guides/` se mettent à jour automatiquement
-   au build, sans intervention manuelle supplémentaire. **Automatisé.**
+1. **Scaffolding** (`npm run guide:next`, `scripts/next-guide-draft.mjs`) : crée le prochain guide `"à
+   rédiger"` du calendrier avec frontmatter et maillage pré-remplis. **Automatisé.**
+2. **Rédaction** : faite par Claude en session, avec la même rigueur que les fiches race (recherche réelle à
+   partir des données déjà vérifiées des fiches liées, pas de substitution de variables). **Volontairement non
+   automatisée via une API** — un vrai appel nécessiterait une clé Anthropic à la charge de l'utilisateur, sans
+   le contrôle qualité d'une session supervisée, pour un contenu dont la valeur SEO dépend justement de ne pas
+   avoir l'air généré en masse.
+3. **Écriture en attente** : chaque guide rédigé est enregistré en `<slug>.mdx.draft` (extension volontairement
+   hors du glob `**/*.mdx` du loader de contenu — invisible au build et au site tant qu'il n'est pas promu),
+   avec sa date de publication prévue (`datePublicationPrevue`) dans le calendrier ci-dessus. Rédiger à l'avance
+   ne veut donc jamais dire publier à l'avance.
+4. **Promotion hebdomadaire** (`npm run guide:publish-week`, `scripts/publish-next-guide.mjs`) : trouve le
+   brouillon dont la date de publication prévue est atteinte, le renomme `.mdx.draft` → `.mdx` (il entre alors
+   dans le build), met à jour son statut et relance un build de vérification. Déclenchée automatiquement chaque
+   semaine par une tâche planifiée (voir ci-dessous), qui commit et push ensuite si le build est propre —
+   sitemap, JSON-LD (Article + FAQPage) et page `/guides/` se régénèrent alors sans intervention. **Automatisé,
+   au rythme d'un guide par semaine — jamais plus vite, pour ne pas casser le signal éditorial étalé qui est
+   tout l'objet de ce calendrier.**
+5. **Suivi** : chaque publication notifie une synthèse ; `SEO_GUIDES_PLAN.md` reste la source de vérité pour
+   vérifier ce qui est publié, en attente, ou à rédiger.
+
+**Sur la validation humaine** : les 12 guides de ce lot ont été rédigés et relus en une seule session, à la
+demande explicite de l'utilisateur ("rédiger les 12 maintenant, publier 1/semaine") — la relecture a donc eu
+lieu à l'écriture, pas individuellement à chaque publication hebdomadaire qui suit. C'est un choix assumé et
+demandé, différent du mode "guide par guide" (rédaction et relecture au fil de l'eau) qui reste l'alternative
+si une vigilance plus fine est souhaitée sur un prochain trimestre.
 
 ## Historique
 
@@ -336,3 +494,7 @@ limitation technique :
   série, choisi comme sujet le plus stratégique (volume informationnel évergreen le plus élevé du secteur canin,
   4 fiches déjà publiées à lier). Ajout au passage du support FAQPage aux guides (`content.config.ts` +
   `GuideLayout.astro`), jusque-là réservé aux fiches race.
+- **13 septembre 2026** : les 12 guides restants du trimestre (semaines 2 à 13) rédigés en une session, à la
+  demande de l'utilisateur, et mis en attente de publication hebdomadaire (`.mdx.draft` + `datePublicationPrevue`
+  dans le calendrier). Ajout du script de promotion (`scripts/publish-next-guide.mjs`) et d'une tâche planifiée
+  hebdomadaire pour la publication automatique, jusqu'au 6 décembre 2026.

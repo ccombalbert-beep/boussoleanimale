@@ -1,0 +1,71 @@
+---
+titre: "Race de chat pour un appartement sans accès à l'extérieur"
+titreCourt: "Chat pour appartement sans extérieur"
+resume: "Un chat 100% intérieur a des besoins d'enrichissement différents d'un chat qui sort. Les races les plus adaptées à ce mode de vie, et ce que l'intérieur pur exige en retour."
+
+image: "../../assets/images/races/chartreux.jpg"
+imageAlt: "Chat Chartreux au pelage bleu-gris dense, yeux cuivrés, portrait en gros plan de face"
+imageCredit:
+  auteur: "Heikki Siltala"
+  licence: "CC BY 3.0"
+  lienLicence: "https://creativecommons.org/licenses/by/3.0/deed.fr"
+  source: "https://commons.wikimedia.org/wiki/File:IC_Blue_Melody_Flipper_CHA_male_EX1_CACIB.jpg"
+
+racesLiees:
+  - { slug: british-shorthair, espece: chat }
+  - { slug: chartreux, espece: chat }
+  - { slug: persan, espece: chat }
+
+faq:
+  - question: "Un chat d'intérieur s'ennuie-t-il plus qu'un chat qui sort ?"
+    reponse: "Il peut s'ennuyer davantage si l'environnement n'est pas suffisamment stimulant, mais ce n'est pas une fatalité liée à la vie en intérieur elle-même. Un chat 100% intérieur avec des griffoirs, des perchoirs en hauteur et des séances de jeu quotidiennes s'épanouit aussi bien qu'un chat qui sort — c'est l'absence de stimulation, pas l'absence de sortie, qui pose problème."
+  - question: "Le Persan convient-il à un appartement malgré son poil long ?"
+    reponse: "Oui pour le mode de vie (niveau d'activité faible, tempérament calme, parfaitement adapté à l'intérieur), mais avec une vigilance santé réelle : sa morphologie brachycéphale expose à des troubles respiratoires, oculaires et rénaux documentés. Le poil long demande par ailleurs un brossage quotidien pour éviter les nœuds, un entretien à anticiper avant l'adoption."
+  - question: "Faut-il un espace minimum pour un chat qui ne sort jamais ?"
+    reponse: "Il n'existe pas de seuil strict, mais la verticalité compte plus que la surface au sol : un studio bien aménagé (perchoirs, étagères, arbre à chat haut) convient mieux qu'un grand appartement sans aucun point en hauteur. L'accès à une fenêtre sécurisée pour observer l'extérieur améliore aussi nettement le bien-être d'un chat qui ne sort jamais."
+
+sources:
+  - "Fiches race Boussole Animale (niveau d'activité et compatibilité appartement documentés par race)"
+
+auteur: "Rédaction Boussole Animale"
+dateMiseAJour: 2026-11-15
+---
+
+## Un chat d'intérieur pur a des besoins différents d'un chat qui sort
+
+Un chat qui ne sort jamais ne perd pas ses besoins d'exploration, de chasse simulée et de stimulation — il a
+simplement besoin qu'on les recrée à l'intérieur. C'est cette compensation, plus que la race elle-même, qui
+détermine si un chat 100% intérieur s'épanouit ou s'ennuie.
+
+## Les races les plus citées pour ce mode de vie, et pourquoi
+
+Le [British Shorthair](/chats/races/british-shorthair/), au niveau d'activité faible et au tempérament calme,
+s'adapte naturellement à un environnement fermé — avec un point de vigilance : son flegme légendaire en fait
+aussi l'une des races les plus exposées au surpoids, un risque accru en intérieur pur sans dépense physique
+compensée.
+
+Le [Chartreux](/chats/races/chartreux/), niveau d'activité modéré et tempérament robuste et équilibré, gère
+bien l'intérieur tout en gardant un besoin de jeu plus marqué que le British Shorthair — un bon compromis
+entre calme et dynamisme.
+
+Le [Persan](/chats/races/persan/), niveau d'activité faible, est également bien adapté au mode de vie
+intérieur, mais sa morphologie brachycéphale expose à des troubles respiratoires, oculaires et rénaux
+documentés — un facteur de santé à connaître, indépendant de la question de l'appartement.
+
+## Ce que l'intérieur pur exige en retour
+
+- **Verticalité** : arbre à chat haut, étagères, perchoirs — un chat qui ne sort pas compense le manque
+  d'exploration horizontale par la hauteur.
+- **Séances de jeu quotidiennes actives** (canne à pêche, laser, jouets à capturer) : au moins deux courtes
+  sessions par jour pour simuler l'activité de chasse.
+- **Griffoirs multiples** répartis dans le logement, pas un seul dans un coin isolé.
+- **Surveillance du poids** particulièrement pour les races à faible activité comme le British Shorthair,
+  l'absence de dépense extérieure augmentant le risque de surpoids.
+
+## Comment vérifier que l'appartement est vraiment adapté
+
+Au-delà de la race, observer l'agencement réel du logement (présence de points en hauteur, fenêtres
+sécurisées, espace pour un arbre à chat) et le temps réellement disponible pour les séances de jeu quotidiennes
+donne une meilleure indication que la seule surface au sol. Le
+[quiz "quelle race me correspond"](/outils/quelle-race-me-correspond/) permet de croiser ces critères avec le
+temps disponible au quotidien.

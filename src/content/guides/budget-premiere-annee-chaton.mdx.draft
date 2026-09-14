@@ -1,0 +1,65 @@
+---
+titre: "Budget première année d'un chaton : adoption, équipement, stérilisation"
+titreCourt: "Budget première année d'un chaton"
+resume: "Le budget mensuel ne raconte pas toute l'histoire : identification, primo-vaccination, stérilisation et équipement arrivent tous la première année. Ce qu'il faut prévoir, race par race."
+
+image: "../../assets/images/races/british-shorthair.jpg"
+imageAlt: "British Shorthair au pelage bleu-gris dense, silhouette ronde et compacte, assis calmement"
+imageCredit:
+  auteur: "George E. Koronaios"
+  licence: "CC BY-SA 4.0"
+  lienLicence: "https://creativecommons.org/licenses/by-sa/4.0/"
+  source: "https://commons.wikimedia.org/wiki/File:British_Shorthair_cat._Female._18_months_old.jpg"
+
+racesLiees:
+  - { slug: british-shorthair, espece: chat }
+  - { slug: bengal, espece: chat }
+
+faq:
+  - question: "L'identification est-elle obligatoire pour un chat en France ?"
+    reponse: "Oui, depuis 2012 : tout chat né après le 1er janvier 2012 doit être identifié par puce électronique ou tatouage avant l'âge de 7 mois, y compris les chats d'intérieur qui ne sortent jamais. C'est une obligation légale distincte du prix d'achat, presque toujours déjà réalisée avant la vente ou l'adoption."
+  - question: "La stérilisation est-elle recommandée dès la première année ?"
+    reponse: "Oui, généralement autour de 5 à 6 mois, avant la première chaleur pour une femelle. C'est à la fois une recommandation vétérinaire de santé (réduction des risques de tumeurs mammaires notamment) et souvent une obligation légale pour les chats ayant accès à l'extérieur non identifiés comme reproducteurs déclarés."
+  - question: "Le Bengal coûte-t-il vraiment plus cher à l'achat que les autres races ?"
+    reponse: "Oui, sensiblement : 1 200 à 2 500 € contre 900 à 2 000 € pour un British Shorthair. Cet écart reflète la sélection plus récente et plus complexe de la race (croisement avec un chat sauvage à l'origine, plusieurs générations nécessaires avant reconnaissance comme chat de compagnie), pas un coût d'entretien mensuel proportionnellement plus élevé."
+
+sources:
+  - "Fiches race Boussole Animale (prix d'achat par race)"
+  - "Code rural et de la pêche maritime (obligation d'identification des carnivores domestiques)"
+
+auteur: "Rédaction Boussole Animale"
+dateMiseAJour: 2026-11-08
+---
+
+## Le budget mensuel ne raconte pas toute l'histoire de la première année
+
+Le [calculateur de coût mensuel](/outils/cout-mensuel-chat/) donne une estimation fiable du budget récurrent
+— mais la première année cumule aussi des dépenses ponctuelles qui n'apparaissent pas dans ce chiffre mensuel,
+et qui prennent souvent les nouveaux propriétaires au dépourvu.
+
+## Les postes ponctuels qu'on oublie systématiquement
+
+- **Identification** : obligatoire par puce électronique depuis 2012, pour tout chat y compris ceux qui ne
+  sortent jamais. Presque toujours déjà réalisée avant la vente ou l'adoption, son coût est intégré au prix
+  d'achat.
+- **Primo-vaccination** (typhus, coryza, leucose) : plusieurs injections échelonnées les premiers mois,
+  généralement 80 à 150 € au total.
+- **Stérilisation** : recommandée autour de 5 à 6 mois, entre 100 et 250 € selon le sexe et la clinique.
+- **Équipement de base** (litière, bac, griffoir, arbre à chat, transporteur) : 150 à 300 € pour un
+  équipement durable, plus si on investit dans un arbre à chat de qualité dès le départ.
+
+## Ce que ça donne en pratique, selon la race
+
+Sur les fiches déjà publiées, l'écart de prix d'achat entre races reste significatif :
+[British Shorthair](/chats/races/british-shorthair/) (900 à 2 000 €) et
+[Bengal](/chats/races/bengal/) (1 200 à 2 500 €) partagent un budget mensuel proche (50-100 € contre 60-110 €),
+mais le prix d'acquisition du Bengal reflète une sélection génétique plus récente et plus complexe — un
+croisement avec un chat sauvage à l'origine de la race, qui a demandé plusieurs générations avant
+reconnaissance comme chat de compagnie à part entière.
+
+## Comment lisser cette dépense plutôt que la découvrir d'un coup
+
+Le total des frais ponctuels de la première année (hors prix d'achat) atteint facilement 350 à 700 € selon les
+choix — un montant à anticiper avant l'adoption plutôt qu'à découvrir facture après facture. Prévoir ce budget
+dès le départ, plutôt que de ne budgétiser que le coût mensuel récurrent, évite les mauvaises surprises des
+premiers mois.

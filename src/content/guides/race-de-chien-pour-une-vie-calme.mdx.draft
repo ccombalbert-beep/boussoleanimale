@@ -1,0 +1,69 @@
+---
+titre: "Race de chien adaptée à une vie calme ou à une personne âgée"
+titreCourt: "Chien pour une vie calme"
+resume: "Une race calme n'est pas une race 'facile' — c'est un niveau d'énergie différent, pas moins d'attention nécessaire. Les profils les plus adaptés à un rythme de vie posé."
+
+image: "../../assets/images/races/shih-tzu.jpg"
+imageAlt: "Shih Tzu toiletté pour exposition, long pelage soyeux, chignon retenu par un nœud, gros plan sur le visage"
+imageCredit:
+  auteur: "danny O."
+  licence: "CC BY 2.0"
+  lienLicence: "https://creativecommons.org/licenses/by/2.0/deed.fr"
+  source: "https://commons.wikimedia.org/wiki/File:Shih_Tzu_portrait_show_dog.jpg"
+
+racesLiees:
+  - { slug: cavalier-king-charles, espece: chien }
+  - { slug: shih-tzu, espece: chien }
+  - { slug: bouledogue-francais, espece: chien }
+
+faq:
+  - question: "Une race calme demande-t-elle vraiment moins d'attention ?"
+    reponse: "Non, c'est un contresens fréquent : un niveau d'activité faible réduit le besoin d'exercice physique intense, mais pas le besoin de présence, de stimulation mentale ou de soins. Le Shih Tzu et le Cavalier King Charles réclament autant d'attention affective qu'une race plus active — simplement pas sous forme de dépense physique."
+  - question: "Le Bouledogue Français est-il adapté à une personne âgée malgré ses soucis respiratoires ?"
+    reponse: "Oui globalement, avec des précautions précises : éviter les sorties aux heures chaudes (sa morphologie brachycéphale le rend sensible aux coups de chaleur) et prévoir un suivi vétérinaire régulier. Son format compact, son faible besoin d'exercice intense et son tempérament calme en font par ailleurs un très bon compagnon pour un rythme de vie posé."
+  - question: "Faut-il éviter les chiots pour une vie calme ?"
+    reponse: "C'est souvent préférable : un chiot, même d'une race réputée calme à l'âge adulte, traverse une période d'énergie et d'apprentissage intense les premiers mois. Adopter un chien adulte ou senior, notamment via un refuge, permet de connaître le tempérament réel dès le départ plutôt que de parier sur son évolution."
+
+sources:
+  - "Fiches race Boussole Animale (niveau d'activité et tempérament documentés par race)"
+
+auteur: "Rédaction Boussole Animale"
+dateMiseAJour: 2026-11-29
+---
+
+## Une race "calme" n'est pas la même chose qu'une race "facile"
+
+Un niveau d'activité faible réduit le besoin d'exercice physique intense — il ne réduit pas le besoin de
+présence, d'affection ou de soins réguliers. C'est une distinction importante avant de choisir une race sur ce
+seul critère : un chien calme reste un engagement quotidien, simplement d'une nature différente.
+
+## Les races qui reviennent le plus souvent pour ce profil
+
+Le [Shih Tzu](/chiens/races/shih-tzu/) affiche le niveau d'activité le plus faible parmi les races déjà
+documentées sur Boussole Animale — un compagnon de canapé par excellence, à condition d'accepter l'entretien
+de son pelage long et une vigilance à la chaleur liée à sa morphologie brachycéphale.
+
+Le [Cavalier King Charles](/chiens/races/cavalier-king-charles/), niveau d'activité modéré et parfaitement
+adapté à l'appartement, complète ce profil avec une sociabilité marquée — un point de vigilance santé
+important : la race affiche l'une des prévalences de maladie cardiaque les plus documentées du monde canin,
+ce qui justifie un suivi vétérinaire régulier.
+
+Le [Bouledogue Français](/chiens/races/bouledogue-francais/), également modéré en activité et adapté à
+l'appartement, partage la même vigilance respiratoire que le Shih Tzu — deux races brachycéphales qui
+demandent d'éviter les efforts et la chaleur plutôt qu'une contrainte d'exercice.
+
+## Ce qu'une vie calme ne dispense pas de faire
+
+Même une race à faible activité a besoin de sorties courtes et régulières, pas seulement d'un jardin ou d'un
+balcon. La stimulation mentale (jeux, nouveaux trajets, interactions sociales) reste nécessaire pour éviter
+l'ennui, et un suivi vétérinaire plus rapproché devient important avec l'âge — les races brachycéphales
+citées ici demandent une attention particulière aux signes de gêne respiratoire, quel que soit leur niveau
+d'activité par ailleurs.
+
+## Pour une personne âgée spécifiquement, les critères qui comptent le plus
+
+Au-delà du niveau d'activité, un gabarit maniable en laisse, un budget de santé prévisible (moins pertinent
+pour les races à forte prédisposition non dépistée) et un tempérament non réactif face aux inconnus ou aux
+bruits comptent particulièrement. Adopter un chien adulte plutôt qu'un chiot, souvent disponible en refuge —
+voir notre [guide sur le coût d'adoption](/guides/cout-adoption-chien-refuge-eleveur/) — permet aussi de
+connaître le tempérament réel avant l'adoption plutôt que de parier sur son évolution.

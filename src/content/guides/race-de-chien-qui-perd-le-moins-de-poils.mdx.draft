@@ -1,0 +1,67 @@
+---
+titre: "Race de chien qui perd le moins de poils"
+titreCourt: "Chien qui perd le moins de poils"
+resume: "La longueur du poil ne détermine pas la quantité perdue — c'est la présence d'un sous-poil et le cycle de pousse qui comptent. Les races à mue quasi nulle, et ce qu'elles demandent en échange."
+
+image: "../../assets/images/races/caniche.jpg"
+imageAlt: "Caniche (variété moyenne ou grande) en position debout, poil frisé dense, illustrant une des quatre tailles reconnues par le standard"
+imageCredit:
+  auteur: "John Leslie"
+  licence: "CC BY 2.0"
+  lienLicence: "https://creativecommons.org/licenses/by/2.0/deed.fr"
+  source: "https://commons.wikimedia.org/wiki/File:Standard_Poodle_cream_standing.jpg"
+
+racesLiees:
+  - { slug: caniche, espece: chien }
+  - { slug: yorkshire-terrier, espece: chien }
+  - { slug: basenji, espece: chien }
+
+faq:
+  - question: "Un poil court garantit-il une mue faible ?"
+    reponse: "Non, c'est un raccourci trompeur. Un Labrador, malgré son poil court, a une double couche qui mue en continu et perd beaucoup — souvent plus qu'un chien à poil long mais à pousse continue comme le Yorkshire Terrier. Ce qui détermine la mue, c'est la présence d'un sous-poil dense et le cycle de renouvellement du pelage, pas la longueur visible."
+  - question: "Le Caniche perd-il vraiment très peu de poils ?"
+    reponse: "Oui, c'est l'une des races les plus fiables sur ce critère : son poil frisé et laineux pousse en continu, sans cycle de mue saisonnière documenté. Ce n'est pas un poil qui 'ne tombe jamais' — les poils morts restent simplement piégés dans la fourrure au lieu de se disperser, d'où l'obligation d'un toilettage régulier pour les évacuer."
+  - question: "Le Basenji est-il un bon choix pour limiter les poils à la maison malgré son poil court classique ?"
+    reponse: "Oui, mais pour une raison différente du Caniche ou du Yorkshire : son poil très court n'a pas de sous-poil épais, contrairement à la plupart des races à poil court. Moins de sous-poil signifie moins de matière à perdre lors des cycles de renouvellement, même si le mécanisme n'est pas la pousse continue observée chez les races à poil long à mue nulle."
+
+sources:
+  - "Fiches race Boussole Animale (type de poil documenté par race)"
+
+auteur: "Rédaction Boussole Animale"
+dateMiseAJour: 2026-10-18
+---
+
+## La longueur du poil ne détermine pas la quantité de poils perdus
+
+C'est le malentendu le plus répandu sur ce sujet — proche de celui qui entoure les
+[races hypoallergéniques](/guides/race-de-chien-hypoallergenique/), mais distinct : la mue et les allergènes
+sont deux sujets différents. Un chien à poil court avec une double couche dense, comme un
+[Berger Allemand](/chiens/races/berger-allemand/), peut perdre nettement plus de poils qu'un chien à poil long
+mais à pousse continue. Ce qui compte, c'est la présence d'un sous-poil et le cycle de renouvellement du
+pelage — pas la longueur visible.
+
+## Les races à mue quasi nulle, et le compromis en échange
+
+Le [Caniche](/chiens/races/caniche/) est la référence la plus documentée : poil frisé et laineux à pousse
+continue, sans mue saisonnière. Le [Yorkshire Terrier](/chiens/races/yorkshire-terrier/) suit le même
+mécanisme avec un poil fin et soyeux, proche en texture du cheveu humain, également sans sous-poil.
+
+Dans les deux cas, l'absence de mue a une contrepartie directe : les poils morts ne tombent pas naturellement,
+ils restent piégés dans la fourrure et feutrent rapidement sans brossage régulier. Un toilettage professionnel
+toutes les 4 à 8 semaines devient nécessaire — l'absence de poils sur le canapé se paie en entretien actif,
+pas en entretien nul.
+
+## Le Basenji : un mécanisme différent pour un résultat comparable
+
+Le [Basenji](/chiens/races/basenji/) atteint un résultat similaire par une autre voie : son poil très court
+n'a pas de sous-poil épais, contrairement à la plupart des races à poil court à double couche. Moins de
+matière de sous-poil signifie moins de perte lors des cycles de renouvellement, sans nécessiter le toilettage
+intensif des races à pousse continue — un profil d'entretien nettement plus léger, à tempérament près (race
+indépendante, peu adaptée à un premier chien).
+
+## Ce qui aide, quelle que soit la race
+
+Un brossage régulier reste le levier le plus efficace pour toute race, y compris celles à mue naturelle : il
+élimine les poils déjà morts avant qu'ils ne se détachent seuls dans la maison. Une alimentation de qualité
+joue aussi un rôle réel — une chute de poils inhabituelle, même chez une race à mue faible, est souvent un
+signe de carence ou de stress à ne pas ignorer.

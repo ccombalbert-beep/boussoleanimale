@@ -1,0 +1,75 @@
+---
+titre: "Combien coûte l'adoption d'un chien : refuge, éleveur, et les frais qu'on oublie"
+titreCourt: "Coût d'adoption d'un chien"
+resume: "Le prix affiché n'est jamais le coût réel d'acquisition. Identification, vaccins, stérilisation, équipement : ce qui s'ajoute selon qu'on adopte en refuge ou chez un éleveur."
+
+image: "../../assets/images/races/border-collie.jpg"
+imageAlt: "Border Collie noir et blanc en position basse caractéristique de la garde de troupeau, regard fixe et concentré"
+imageCredit:
+  auteur: "Tina creates"
+  licence: "CC BY-SA 3.0"
+  lienLicence: "https://creativecommons.org/licenses/by-sa/3.0/deed.fr"
+  source: "https://commons.wikimedia.org/wiki/File:Border_Collie_Tricolor.jpg"
+
+racesLiees:
+  - { slug: berger-allemand, espece: chien }
+  - { slug: border-collie, espece: chien }
+
+faq:
+  - question: "L'identification est-elle obligatoire pour un chien en France ?"
+    reponse: "Oui, sans exception : tout chien doit être identifié par puce électronique ou tatouage avant l'âge de 4 mois, que ce soit une obligation légale distincte du prix d'achat. En refuge, ce coût est presque toujours déjà inclus dans le tarif d'adoption ; chez un éleveur, le chiot est identifié avant la vente mais le coût est répercuté dans le prix d'achat, pas ajouté séparément."
+  - question: "La stérilisation est-elle incluse à l'adoption en refuge ?"
+    reponse: "Très souvent oui, ou fortement encouragée avec un tarif préférentiel via une convention avec un vétérinaire partenaire — beaucoup de refuges en font une condition d'adoption. Chez un éleveur, elle n'est presque jamais incluse : elle reste à la charge de l'acquéreur, généralement entre 150 et 300 € selon le poids et le sexe du chien."
+  - question: "Le prix d'achat élevé chez un éleveur garantit-il un chien en meilleure santé ?"
+    reponse: "Pas automatiquement. Un prix élevé reflète surtout la demande pour la race, la réputation de l'élevage et parfois un pedigree de concours — pas une garantie de dépistage santé des parents. Ce qui compte réellement, c'est de demander les certificats de dépistage (hanches, cœur selon la race) plutôt que de se fier au tarif affiché."
+
+sources:
+  - "Fiches race Boussole Animale (prix d'achat par race)"
+  - "Code rural et de la pêche maritime (obligation d'identification des carnivores domestiques)"
+
+auteur: "Rédaction Boussole Animale"
+dateMiseAJour: 2026-09-27
+---
+
+## Le prix affiché n'est jamais le coût réel de l'adoption
+
+Que ce soit un tarif de refuge ou un prix d'éleveur, le montant qu'on voit en premier ne couvre presque jamais
+l'ensemble des frais d'acquisition. La différence entre les deux options ne se joue pas seulement sur le prix
+de départ, mais sur ce qu'il inclut — ou pas.
+
+## Adopter en refuge : un tarif solidaire qui couvre déjà beaucoup
+
+Le montant demandé en refuge (généralement entre 150 et 300 € selon l'association et l'âge du chien) n'est pas
+un prix de vente mais une participation aux frais engagés par la structure. Il couvre le plus souvent
+l'identification (obligatoire par puce ou tatouage), la primo-vaccination, un premier traitement
+antiparasitaire, et très fréquemment la stérilisation — un poste qui, réglé séparément, coûte à lui seul 150 à
+300 € chez un vétérinaire. Sur le plan strictement financier, le refuge reste l'option la plus complète pour
+ce tarif de départ.
+
+## Acheter chez un éleveur : le prix d'achat n'inclut presque jamais ces postes
+
+Sur les fiches déjà publiées, le prix d'achat varie largement selon la race : 900 à 1 800 € pour un
+[Berger Allemand](/chiens/races/berger-allemand/), 900 à 1 700 € pour un
+[Border Collie](/chiens/races/border-collie/). Ce montant reflète la lignée, la réputation de l'élevage et la
+demande pour la race — pas systématiquement un dépistage santé rigoureux des parents. Il inclut généralement
+l'identification et la primo-vaccination (obligatoires avant la vente), mais quasiment jamais la stérilisation
+ni l'assurance santé, qui restent entièrement à la charge de l'acquéreur après l'achat.
+
+## Le tableau des frais qu'on oublie systématiquement, quelle que soit l'option
+
+- **Stérilisation** (si non incluse) : 150 à 300 € selon le poids et le sexe
+- **Équipement de base** (panier, gamelles, transport, laisse, collier) : 150 à 300 €
+- **Première année de traitements antiparasitaires et vaccins de rappel** : 100 à 200 €
+- **Assurance santé** (recommandée dès l'adoption, pas après un premier problème) : 20 à 35 € par mois
+
+Pour situer ces postes ponctuels dans un budget mensuel une fois le chien installé, le
+[calculateur de coût mensuel](/outils/cout-mensuel-chien/) permet d'ajuster selon la race et les choix
+d'assurance et d'alimentation.
+
+## Refuge ou éleveur : comment trancher sans se tromper
+
+Le choix ne devrait pas se réduire au prix. Un refuge convient à qui n'a pas d'exigence de race précise et
+privilégie l'adoption solidaire ; un éleveur sérieux se justifie surtout quand la prévisibilité du
+tempérament et de la santé de la race compte réellement (chien de travail, contexte familial avec contraintes
+spécifiques) — à condition de demander les certificats de dépistage des parents plutôt que de se fier au seul
+prix affiché.

@@ -1,0 +1,69 @@
+---
+titre: "Maladies héréditaires les plus fréquentes par race de chien : ce qu'il faut vérifier avant d'adopter"
+titreCourt: "Maladies héréditaires par race de chien"
+resume: "Toutes les races ont des prédispositions documentées — la question est de les connaître avant d'adopter, pas après. Trois exemples réels, et ce qu'on peut vérifier chez l'éleveur."
+
+image: "../../assets/images/races/bouledogue-francais.jpg"
+imageAlt: "Bouledogue Français aux oreilles de chauve-souris dressées, assis de face sur un fond neutre"
+imageCredit:
+  auteur: "Matt Wunderle"
+  licence: "CC BY 2.0"
+  lienLicence: "https://creativecommons.org/licenses/by/2.0/deed.fr"
+  source: "https://commons.wikimedia.org/wiki/File:A_French_Bulldog.jpg"
+
+racesLiees:
+  - { slug: bouledogue-francais, espece: chien }
+  - { slug: berger-allemand, espece: chien }
+  - { slug: cavalier-king-charles, espece: chien }
+
+faq:
+  - question: "Un chiot issu de parents dépistés est-il à l'abri de la maladie ?"
+    reponse: "Le risque est significativement réduit, mais rarement nul : la plupart de ces prédispositions sont polygéniques (influencées par plusieurs gènes) et parfois par l'environnement (poids, activité). Un dépistage des parents diminue fortement la probabilité de transmission sans constituer une garantie absolue — c'est une réduction de risque, pas une élimination."
+  - question: "Le syndrome obstructif du Bouledogue Français touche-t-il tous les sujets ?"
+    reponse: "La majorité des sujets présente un certain degré de syndrome obstructif respiratoire, lié à la morphologie brachycéphale même de la race, mais la sévérité varie fortement d'un chien à l'autre. Certains n'ont que des symptômes légers (ronflements, essoufflement à l'effort), d'autres nécessitent une intervention chirurgicale — d'où l'intérêt d'un examen respiratoire avant l'adoption."
+  - question: "Comment se déroule un dépistage cardiaque chez le Cavalier King Charles ?"
+    reponse: "Un vétérinaire réalise une auscultation cardiaque, complétée si besoin d'une échographie, pour détecter un souffle précoce lié à la maladie valvulaire mitrale — la prédisposition la plus documentée de la race. Un éleveur sérieux fait généralement dépister ses reproducteurs après 2,5 ans, l'âge où les premiers signes apparaissent le plus souvent."
+
+sources:
+  - "Fiches race Boussole Animale (prédispositions de santé documentées par race)"
+  - "Littérature vétérinaire sur les prédispositions héréditaires canines"
+
+auteur: "Rédaction Boussole Animale"
+dateMiseAJour: 2026-11-22
+---
+
+## Toutes les races ont des prédispositions — la question est de les connaître avant, pas après
+
+Aucune race n'est exempte de risques de santé documentés — la diversité génétique restreinte propre à la
+sélection par race a toujours une contrepartie. Ce n'est pas une raison d'éviter une race en particulier, mais
+une information à connaître avant l'adoption plutôt qu'à découvrir lors d'une première urgence vétérinaire.
+
+## Trois exemples documentés, trois mécanismes différents
+
+Le [Bouledogue Français](/chiens/races/bouledogue-francais/) illustre une prédisposition morphologique : sa
+tête plate caractéristique s'accompagne, chez la majorité des sujets, d'un certain degré de syndrome
+obstructif respiratoire brachycéphale — un coût de santé directement lié au standard esthétique de la race.
+
+Le [Berger Allemand](/chiens/races/berger-allemand/) est associé à des prédispositions orthopédiques bien
+documentées : dysplasie de la hanche et du coude, et chez les sujets âgés, une myélopathie dégénérative
+nécessitant un suivi prolongé — des risques structurels liés au gabarit et à la morphologie de travail de la
+race.
+
+Le [Cavalier King Charles](/chiens/races/cavalier-king-charles/) présente l'une des prévalences de maladie
+cardiaque les plus documentées du monde canin — la maladie valvulaire mitrale touche une proportion
+significative de la population, avec des premiers signes parfois dès 2,5 ans chez certains reproducteurs non
+dépistés.
+
+## Ce qu'on peut vérifier avant d'adopter
+
+Demander les certificats de dépistage des parents reste le geste le plus utile, quelle que soit la race :
+scores de dysplasie de la hanche et du coude pour le Berger Allemand, bilan cardiaque pour le Cavalier King
+Charles, examen respiratoire pour le Bouledogue Français. Un éleveur sérieux ne refuse jamais de montrer ces
+documents — leur absence ou un refus de les communiquer est en soi un signal à prendre au sérieux.
+
+## Ce que ça change pour le budget
+
+Ces prédispositions ne sont pas qu'une question de bien-être animal : elles pèsent directement sur le budget
+santé, notamment via le coût d'une assurance adaptée, souvent plus élevée pour ces races que pour un profil
+sans prédisposition connue. Le [guide sur le budget mensuel d'un chien](/guides/combien-coute-un-chien-par-mois/)
+détaille ce poste plus en détail.
