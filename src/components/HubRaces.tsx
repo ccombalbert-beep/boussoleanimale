@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'preact/hooks';
+import BoutonFavori from './BoutonFavori';
+import { trackEvent } from '../lib/analytics';
 
 type NiveauActivite = 'faible' | 'modere' | 'eleve' | 'tres_eleve';
 type Aboiement = 'rare' | 'occasionnel' | 'frequent';
@@ -42,6 +44,25 @@ export default function HubRaces({ races, espece }: Props) {
   const [appartement, setAppartement] = useState<'tous' | 'oui'>('tous');
   const [enfants, setEnfants] = useState<'tous' | 'oui'>('tous');
   const [aboiement, setAboiement] = useState<Aboiement | 'tous'>('tous');
+  // Sélection pour le comparateur avancé — volatile (pas de localStorage) :
+  // comparer 2-3 races est une tâche ponctuelle, pas un état à retrouver
+  // d'une visite à l'autre comme les favoris.
+  const [selection, setSelection] = useState<string[]>([]);
+  const MAX_COMPARAISON = 3;
+
+  function basculerSelection(slug: string) {
+    setSelection((prev) => {
+      if (prev.includes(slug)) return prev.filter((s) => s !== slug);
+      if (prev.length >= MAX_COMPARAISON) return prev;
+      return [...prev, slug];
+    });
+  }
+
+  function lancerComparaison() {
+    trackEvent('comparateur_lance', { espece, races: selection });
+    const params = new URLSearchParams({ especes: espece, races: selection.join(',') });
+    window.location.href = `/comparateur/?${params.toString()}`;
+  }
 
   const rechercheNormalisee = normaliser(recherche.trim());
 
@@ -152,34 +173,72 @@ export default function HubRaces({ races, espece }: Props) {
             // charger en lazy comme les autres retarderait inutilement son
             // fetch et pénaliserait le LCP réel.
             const estCandidatLCP = i === 0;
+            const estSelectionne = selection.includes(race.slug);
             return (
-              <a
-                href={`/${espece === 'chien' ? 'chiens' : 'chats'}/races/${race.slug}/`}
-                class="card-lift group block border border-sable-300 bg-sable-50 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-terracotta-400"
-              >
-                <div class="relative overflow-hidden border-b border-sable-300 p-2">
-                  <img
-                    src={race.imageSrc}
-                    width={race.imageWidth}
-                    height={race.imageHeight}
-                    alt={race.imageAlt}
-                    loading={estCandidatLCP ? 'eager' : 'lazy'}
-                    fetchpriority={estCandidatLCP ? 'high' : undefined}
-                    class="race-photo aspect-[4/3] w-full object-cover"
-                    style={`view-transition-name: race-photo-${race.slug}`}
+              <div class="card-lift group relative border border-sable-300 bg-sable-50 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-terracotta-400">
+                <div class="absolute right-2 top-2 z-10">
+                  <BoutonFavori type={espece === 'chien' ? 'chiens' : 'chats'} slug={race.slug} compact />
+                </div>
+                <label
+                  class="absolute left-2 top-2 z-10 flex h-8 items-center gap-1.5 border border-sable-400 bg-sable-50/95 px-2 text-xs font-medium text-encre-900"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <input
+                    type="checkbox"
+                    checked={estSelectionne}
+                    disabled={!estSelectionne && selection.length >= MAX_COMPARAISON}
+                    onChange={() => basculerSelection(race.slug)}
                   />
-                  <div class="reveal-on-hover pointer-events-none absolute inset-x-2 bottom-2 items-center gap-x-2 bg-boussole-700/90 px-3 py-2 text-xs text-white">
-                    {traits.join(' · ')}
+                  Comparer
+                </label>
+                <a href={`/${espece === 'chien' ? 'chiens' : 'chats'}/races/${race.slug}/`} class="block">
+                  <div class="relative overflow-hidden border-b border-sable-300 p-2">
+                    <img
+                      src={race.imageSrc}
+                      width={race.imageWidth}
+                      height={race.imageHeight}
+                      alt={race.imageAlt}
+                      loading={estCandidatLCP ? 'eager' : 'lazy'}
+                      fetchpriority={estCandidatLCP ? 'high' : undefined}
+                      class="race-photo aspect-[4/3] w-full object-cover"
+                      style={`view-transition-name: race-photo-${race.slug}`}
+                    />
+                    <div class="reveal-on-hover pointer-events-none absolute inset-x-2 bottom-2 items-center gap-x-2 bg-boussole-700/90 px-3 py-2 text-xs text-white">
+                      {traits.join(' · ')}
+                    </div>
                   </div>
-                </div>
-                <div class="p-4">
-                  <h2 class="font-display text-lg font-medium text-encre-900 transition-colors group-hover:text-terracotta-600">{race.nom}</h2>
-                  <p class="mt-1 line-clamp-2 text-sm text-encre-700">{race.resume}</p>
-                  <p class="reveal-on-touch mt-2 text-xs text-encre-700/80">{traits.join(' · ')}</p>
-                </div>
-              </a>
+                  <div class="p-4">
+                    <h2 class="font-display text-lg font-medium text-encre-900 transition-colors group-hover:text-terracotta-600">{race.nom}</h2>
+                    <p class="mt-1 line-clamp-2 text-sm text-encre-700">{race.resume}</p>
+                    <p class="reveal-on-touch mt-2 text-xs text-encre-700/80">{traits.join(' · ')}</p>
+                  </div>
+                </a>
+              </div>
             );
           })}
+        </div>
+      )}
+
+      {selection.length >= 2 && (
+        <div class="fixed inset-x-0 bottom-0 z-30 border-t border-sable-400 bg-sable-50 p-4 shadow-lg">
+          <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4">
+            <p class="text-sm font-medium text-encre-900">
+              {selection.length} race{selection.length > 1 ? 's' : ''} sélectionnée{selection.length > 1 ? 's' : ''}
+              {selection.length >= MAX_COMPARAISON ? ` (maximum ${MAX_COMPARAISON})` : ''}
+            </p>
+            <div class="flex items-center gap-3">
+              <button type="button" onClick={() => setSelection([])} class="text-sm font-medium text-encre-700 hover:text-terracotta-600">
+                Annuler
+              </button>
+              <button
+                type="button"
+                onClick={lancerComparaison}
+                class="border border-terracotta-500 bg-terracotta-500 px-4 py-2 text-sm font-medium text-white transition-colors duration-150 hover:bg-terracotta-600 active:scale-[0.98]"
+              >
+                Comparer →
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

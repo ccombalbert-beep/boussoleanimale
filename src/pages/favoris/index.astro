@@ -1,0 +1,66 @@
+---
+import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FavorisListe, { type CarteItem } from '../../components/FavorisListe.tsx';
+
+// Les favoris eux-mêmes vivent en localStorage (client uniquement) — cette
+// page pré-charge donc TOUT le catalogue (mêmes données que les hubs et
+// /guides/), et FavorisListe.tsx filtre côté client au montage selon les
+// favoris réels du visiteur. Même stratégie que HubRaces.tsx pour les
+// filtres, appliquée ici aux favoris plutôt qu'à une recherche.
+const [chiens, chats, guides] = await Promise.all([
+  getCollection('chiens'),
+  getCollection('chats'),
+  getCollection('guides'),
+]);
+
+async function versCarteItem(entry: any, espece: 'chien' | 'chat' | 'guide'): Promise<CarteItem> {
+  const image = await getImage({
+    src: entry.data.image,
+    width: 400,
+    height: 300,
+    position: entry.data.imagePosition ?? 'center',
+    format: 'webp',
+  });
+  const href =
+    espece === 'chien'
+      ? `/chiens/races/${entry.id}/`
+      : espece === 'chat'
+        ? `/chats/races/${entry.id}/`
+        : `/guides/${entry.id}/`;
+  return {
+    slug: entry.id,
+    href,
+    titre: entry.data.nom ?? entry.data.titre,
+    resume: entry.data.resume,
+    imageSrc: image.src,
+    imageAlt: entry.data.imageAlt,
+    etiquette: espece === 'chien' ? 'Chien' : espece === 'chat' ? 'Chat' : 'Guide',
+  };
+}
+
+const chiensItems = await Promise.all(chiens.map((e) => versCarteItem(e, 'chien')));
+const chatsItems = await Promise.all(chats.map((e) => versCarteItem(e, 'chat')));
+const guidesItems = await Promise.all(guides.map((e) => versCarteItem(e, 'guide')));
+---
+
+<Layout
+  title="Mes favoris"
+  description="Vos fiches race et guides sauvegardés sur Boussole Animale."
+>
+  <div class="mx-auto max-w-5xl px-4 py-12">
+    <Breadcrumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Favoris' }]} />
+
+    <h1 class="font-display text-3xl font-medium text-encre-900">Mes favoris</h1>
+    <p class="mt-2 max-w-2xl text-encre-700">
+      Sauvegardés sur cet appareil et ce navigateur uniquement — pas de compte sur Boussole Animale, donc pas de
+      synchronisation entre appareils.
+    </p>
+
+    <div class="mt-8">
+      <FavorisListe client:load chiens={chiensItems} chats={chatsItems} guides={guidesItems} />
+    </div>
+  </div>
+</Layout>

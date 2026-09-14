@@ -1,6 +1,6 @@
 # Checklist Croissance, CRO & Industrialisation — Boussole Animale
 
-**Progression : 5/12 tâches (42%)**
+**Progression : 7/12 tâches (58%)**
 
 Dernière mise à jour : 14 septembre 2026 — Chantier ouvert aujourd'hui, en continuité directe des 4 chantiers
 terminés (UX/UI 26/26, SEO 15/15, Réseaux Sociaux 14/14, Production-Ready & Hardening 10/10). Objectif : passer
@@ -48,7 +48,7 @@ n'est pas paresse, voir le détail dans chaque item concerné et la section "Ce 
 
 ## Phase 2 — Conversion, Rétention & Expérience Utilisateur (CRO)
 
-**1/3 sous-tâches**
+**3/3 sous-tâches**
 
 - [x] **Instrumentation GA4 des tunnels de conversion**
   `src/lib/analytics.ts` (nouveau) : helper `trackEvent()` partagé, même garde de consentement que le reste du
@@ -63,15 +63,30 @@ n'est pas paresse, voir le détail dans chaque item concerné et la section "Ce 
   réponse à la première question ; `calculator_view` puis `calculator_interact` (`taille: grand`,
   `assurance: true`) confirmés sur le calculateur de coût chien. `npx astro check` : 0 erreur.
 
-- [ ] **Favoris utilisateur (localStorage)**
-  Proposition initiale : bouton "Sauvegarder" sur les fiches race et guides, persistance localStorage (comme le
-  choix de thème ou de cookies), page `/favoris/` listant les fiches sauvegardées. **Scope à valider avec
-  l'utilisateur avant de coder** : c'est une vraie fonctionnalité produit, pas de la plomberie — mérite une
-  confirmation explicite plutôt qu'une implémentation silencieuse.
+- [x] **Favoris utilisateur (localStorage)**
+  Scope validé avec l'utilisateur : fiches race + guides (pas seulement les fiches). `src/lib/favoris.ts`
+  (stockage localStorage, événement `favoris:maj` pour synchroniser plusieurs boutons affichés sur une même
+  page — même schéma que `consentement.ts`) + `src/components/BoutonFavori.tsx` (icône cœur, variante compacte
+  en superposition sur les cartes des hubs, variante standard sur l'en-tête des fiches/guides). Nouvelle page
+  `/favoris/` (`src/pages/favoris/index.astro` + `FavorisListe.tsx`) : précharge tout le catalogue côté serveur
+  (comme les hubs), filtre côté client selon les favoris réels au montage — obligatoire sur un site statique
+  sans compte utilisateur, le localStorage n'existant que côté navigateur. Lien "Favoris" ajouté à la navigation
+  (desktop et menu mobile). **Testé en conditions réelles** : favori basculé sur une fiche et sur un guide,
+  retrouvés sur `/favoris/` avec la bonne image/titre/résumé ; état resynchronisé correctement entre les deux
+  emplacements (bouton sur la carte du hub et bouton sur la page de la fiche).
 
-- [ ] **Comparateurs avancés**
-  Mentionné dans le brief sans périmètre précis (comparer plusieurs races côte à côte ? sur quels critères ?).
-  **À cadrer avec l'utilisateur avant tout développement.**
+- [x] **Comparateurs avancés**
+  Scope validé avec l'utilisateur : même espèce uniquement (pas chien vs chat), 2 à 3 races, sélection via des
+  cases à cocher sur les pages `/chiens/` et `/chats/` (pas une page de recherche dédiée). Ajout dans
+  `HubRaces.tsx` : case "Comparer" par carte (plafonnée à 3), barre flottante "Comparer (n) →" qui apparaît dès
+  2 sélections et redirige vers `/comparateur/?especes=...&races=slug1,slug2`. Nouvelle page `/comparateur/`
+  (`src/pages/comparateur/index.astro` + `Comparateur.tsx`) : la sélection vit dans l'URL mais n'est lue que
+  côté client (site statique, pas de SSR) — même stratégie que les filtres des hubs. Tableau comparatif sur
+  taille, poids, espérance de vie, niveau d'activité, type de poil, aboiement (chiens), appartement, enfants,
+  prix d'achat et coût mensuel, avec un bouton "Retirer" par colonne qui met à jour l'URL sans recharger la
+  page. **Testé en conditions réelles** : 2 races cochées sur `/chiens/` → barre flottante → tableau généré
+  avec les vraies données (American Staffordshire Terrier vs Basenji vérifiés à l'écran), aucune erreur console.
+  `npx astro check` : 0 erreur après ajout de ces deux fonctionnalités (76 pages au total, +2 vs avant).
 
 ---
 
@@ -128,13 +143,13 @@ n'est pas paresse, voir le détail dans chaque item concerné et la section "Ce 
 
 - **Search Console** : pas assez de données pour être exploitable avant début octobre 2026 environ (3-4 semaines
   après connexion) — rien à débloquer, juste à attendre.
-- **Favoris localStorage et comparateurs avancés** : décisions de scope produit à valider avant tout code.
 - **Automatisation Instagram/TikTok** : nécessite la création de comptes développeur Meta et TikTok, et la
   validation business associée — actions que seul l'utilisateur peut engager.
+- **Nouvelles sources de contenu pour le pipeline social** : périmètre pas encore défini.
 
 ## Prochaine action recommandée
 
-L'instrumentation GA4 est faite — reste à laisser les données s'accumuler (1-2 semaines) avant d'en tirer des
-conclusions sur les tunnels réels. En attendant, toutes les tâches non bloquées restantes de ce chantier
-demandent une décision de scope de l'utilisateur (favoris, comparateurs avancés, nouvelles sources de contenu
-social) plutôt qu'un choix technique — rien à coder à l'aveugle avant d'avoir cette confirmation.
+L'instrumentation GA4, les favoris et le comparateur sont faits — reste à laisser les données s'accumuler (1-2
+semaines) avant d'en tirer des conclusions sur les tunnels réels et l'usage réel des favoris/comparateur.
+Toutes les tâches non bloquées restantes demandent une décision de scope de l'utilisateur (nouvelles sources de
+contenu social) plutôt qu'un choix technique — rien à coder à l'aveugle avant d'avoir cette confirmation.

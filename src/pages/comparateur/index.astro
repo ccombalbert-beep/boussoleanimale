@@ -1,0 +1,66 @@
+---
+import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Comparateur, { type CompareItem } from '../../components/Comparateur.tsx';
+
+// Site statique (pas de SSR) : la sélection à comparer vit dans l'URL
+// (?especes=chien&races=slug1,slug2) mais n'est lue que côté client, dans
+// Comparateur.tsx — même stratégie que HubRaces.tsx pour les filtres et
+// FavorisListe.tsx pour les favoris. Cette page précharge donc tout le
+// catalogue d'une espèce, jamais une race à la fois.
+async function versCompareItem(entry: any, espece: 'chien' | 'chat'): Promise<CompareItem> {
+  const image = await getImage({
+    src: entry.data.image,
+    width: 400,
+    height: 300,
+    position: entry.data.imagePosition ?? 'center',
+    format: 'webp',
+  });
+  return {
+    slug: entry.id,
+    nom: entry.data.nom,
+    href: `/${espece === 'chien' ? 'chiens' : 'chats'}/races/${entry.id}/`,
+    imageSrc: image.src,
+    imageAlt: entry.data.imageAlt,
+    tailleMin: entry.data.taille.min,
+    tailleMax: entry.data.taille.max,
+    poidsMin: entry.data.poids.min,
+    poidsMax: entry.data.poids.max,
+    esperanceMin: entry.data.esperanceDeVie.min,
+    esperanceMax: entry.data.esperanceDeVie.max,
+    niveauActivite: entry.data.niveauActivite,
+    typeDePoil: entry.data.typeDePoil,
+    aboiement: entry.data.aboiement,
+    adapteAppartement: entry.data.adapteAppartement,
+    adapteEnfants: entry.data.adapteEnfants,
+    prixAchatMin: entry.data.budget.prixAchatMin,
+    prixAchatMax: entry.data.budget.prixAchatMax,
+    coutMensuelMin: entry.data.budget.coutMensuelMin,
+    coutMensuelMax: entry.data.budget.coutMensuelMax,
+  };
+}
+
+const [chiensEntries, chatsEntries] = await Promise.all([getCollection('chiens'), getCollection('chats')]);
+const chiens = await Promise.all(chiensEntries.map((e) => versCompareItem(e, 'chien')));
+const chats = await Promise.all(chatsEntries.map((e) => versCompareItem(e, 'chat')));
+---
+
+<Layout
+  title="Comparateur de races"
+  description="Comparez 2 à 3 races de chien ou de chat côte à côte : taille, budget, entretien, santé."
+>
+  <div class="mx-auto max-w-5xl px-4 py-12">
+    <Breadcrumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Comparateur' }]} />
+
+    <h1 class="font-display text-3xl font-medium text-encre-900">Comparateur de races</h1>
+    <p class="mt-2 max-w-2xl text-encre-700">
+      Mettez 2 à 3 races côte à côte sur les critères qui comptent vraiment avant d'adopter.
+    </p>
+
+    <div class="mt-8">
+      <Comparateur client:load chiens={chiens} chats={chats} />
+    </div>
+  </div>
+</Layout>
