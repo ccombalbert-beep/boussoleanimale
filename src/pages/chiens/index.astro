@@ -31,12 +31,30 @@ const racesItems: RaceItem[] = await Promise.all(
     };
   })
 );
+
+// ItemList : signale explicitement à Google qu'il s'agit d'un catalogue
+// complet de races (pas une simple page de blog), avec sa position dans le
+// classement alphabétique déjà appliqué ci-dessus — dérivé automatiquement
+// de racesItems, jamais désynchronisé d'une nouvelle fiche ajoutée.
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Races de chiens',
+  numberOfItems: racesItems.length,
+  itemListElement: racesItems.map((race, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: race.nom,
+    url: new URL(`/chiens/races/${race.slug}/`, Astro.site).toString(),
+  })),
+};
 ---
 
 <Layout
   title="Toutes les races de chiens"
   description="Fiches détaillées sur les races de chiens : caractère, budget réel, santé, entretien. Guide indépendant et régulièrement mis à jour."
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(itemListSchema)} is:inline />
   <div class="mx-auto max-w-5xl px-4 py-12">
     <Breadcrumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Chiens' }]} />
 

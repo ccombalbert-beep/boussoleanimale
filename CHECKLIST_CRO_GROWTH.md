@@ -1,6 +1,6 @@
 # Checklist Croissance, CRO & Industrialisation — Boussole Animale
 
-**Progression : 9/14 tâches (64%)**
+**Progression : 11/15 tâches (73%)**
 
 Dernière mise à jour : 14 septembre 2026 — Chantier ouvert aujourd'hui, en continuité directe des 4 chantiers
 terminés (UX/UI 26/26, SEO 15/15, Réseaux Sociaux 14/14, Production-Ready & Hardening 10/10). Objectif : passer
@@ -15,7 +15,7 @@ n'est pas paresse, voir le détail dans chaque item concerné et la section "Ce 
 
 ## Phase 1 — Expansion Sémantique & Automatisation SEO Avancée
 
-**2/4 sous-tâches**
+**3/5 sous-tâches**
 
 - [x] **Pipeline de guides hebdomadaires industrialisé**
   Déjà construit et en production depuis le 13 septembre 2026, pas un nouveau chantier : voir
@@ -31,6 +31,22 @@ n'est pas paresse, voir le détail dans chaque item concerné et la section "Ce 
   — le maillage des 8 fiches ajoutées hier (Beauceron, Bouledogue Anglais, Carlin, Staffordshire Bull Terrier,
   Bleu Russe, Exotic Shorthair, Somali, Munchkin) est correctement intégré aux hubs. À relancer après chaque
   ajout de contenu, pas seulement aujourd'hui.
+
+- [x] **Ré-audit titres/meta/alt et ajout de données structurées ItemList**
+  Répond à la question "que peut-on faire pour pousser le SEO au maximum ?" : le plus gros levier restant
+  (backlinks/autorité externe) n'est pas actionnable de ce côté — nécessite des actions réelles de
+  l'utilisateur (annuaires, partenariats, contenu invité). Concentré donc sur ce qui l'est.
+  **Ré-audit des 16 fiches ajoutées depuis le dernier audit SEO** (8 races du 13 septembre + 8 du 14 septembre) :
+  titres SEO générés par le même gabarit que tout le catalogue (`${nom} : caractère, prix, santé`, 50 à 71
+  caractères + suffixe site — cohérent avec la fourchette cible 45-70 déjà validée, un seul cas à 71
+  caractères, écart négligeable) ; alt text 74 à 110 caractères sur les 16, aucun générique, aucun manquant ;
+  meta descriptions passées par la même fonction de troncature centralisée (`tronquerPourMeta()`,
+  `src/lib/seo.ts`) que tout le site — rien à corriger, le gabarit existant tenait déjà la charge.
+  **Ajout de données structurées `ItemList`** sur `/chiens/` et `/chats/` (nouveau, pas encore fait) : signale
+  explicitement à Google qu'il s'agit d'un catalogue complet de races, pas une simple liste de blog — généré
+  automatiquement depuis les mêmes données que la grille affichée (34 et 26 éléments respectivement), donc
+  jamais désynchronisé d'une nouvelle fiche ajoutée. **Testé en conditions réelles** : JSON-LD vérifié dans le
+  navigateur sur les deux hubs, `numberOfItems` et `itemListElement` corrects, URLs absolues valides.
 
 - [ ] **Extension du calendrier éditorial au-delà de la semaine 13**
   Le calendrier actuel couvre un trimestre (jusqu'au 6 décembre 2026). Reprendre la méthode de
@@ -129,7 +145,7 @@ n'est pas paresse, voir le détail dans chaque item concerné et la section "Ce 
 
 ## Phase 3 — Performance, Core Web Vitals & Résilience 2.0
 
-**1/2 sous-tâches**
+**2/2 sous-tâches**
 
 - [x] **RUM (Real User Monitoring) — Core Web Vitals en conditions réelles**
   `src/components/WebVitals.astro` (nouveau), branché dans `Layout.astro` à côté d'`Analytics.astro`. Utilise la
@@ -145,10 +161,21 @@ n'est pas paresse, voir le détail dans chaque item concerné et la section "Ce 
   l'interaction, logique interne de la librairie officielle, pas du code custom à ce projet) — le mécanisme
   bout-en-bout est vérifié, pas supposé.
 
-- [ ] **Budget de performance et veille anti-régression**
-  Pas d'action concrète identifiée aujourd'hui : aucune régression détectée, scores Lighthouse stables depuis le
-  chantier Hardening. À reprendre quand le catalogue de contenu aura suffisamment grossi (nouvelles images,
-  nouveaux guides) pour justifier un nouvel audit comparatif — pas une tâche à cocher par anticipation.
+- [x] **Budget de performance et veille anti-régression — premier audit comparatif**
+  Le catalogue est passé de 65 à 84 pages depuis le chantier Hardening (+16 fiches race, +guides, +favoris,
+  +comparateur) — le seuil "catalogue suffisamment grossi" noté ci-dessus est atteint, premier vrai audit
+  comparatif lancé (`npx lighthouse`, même méthodologie que le chantier Hardening : build de production,
+  serveur local gzippé reproduisant Netlify).
+  **Résultats** : accueil stable (Performance 95, a11y/best-practices/SEO 100 — identique au chantier
+  Hardening). Hub `/chiens/` : 93 → 91 (LCP 2.9s → 3.1s). Hub `/chats/` : 95 → 92. **Régression réelle mais
+  attendue et proportionnée** : les deux hubs affichent désormais 34 et 26 cartes (poids, images) contre un
+  catalogue plus restreint au moment du premier audit — pas un bug introduit, la conséquence mécanique de
+  16 fiches supplémentaires dans une grille qui charge tout en une fois. Les deux scores restent confortablement
+  dans la zone "bon" de Lighthouse (≥ 90) ; a11y/best-practices/SEO restent à 100 partout. **Décision assumée,
+  pas d'optimisation forcée à ce stade** : une pagination ou un chargement progressif des hubs serait la
+  correction naturelle si la baisse continuait avec le catalogue, mais 2-3 points sur une grille qui a grossi
+  de plus de 40 % ne justifie pas cette complexité aujourd'hui — à surveiller au prochain lot de fiches, pas à
+  corriger par anticipation.
 
 ---
 
@@ -183,10 +210,15 @@ n'est pas paresse, voir le détail dans chaque item concerné et la section "Ce 
 - **Automatisation Instagram/TikTok** : nécessite la création de comptes développeur Meta et TikTok, et la
   validation business associée — actions que seul l'utilisateur peut engager.
 - **Nouvelles sources de contenu pour le pipeline social** : périmètre pas encore défini.
+- **Backlinks / autorité externe** : identifié comme le plus gros levier SEO restant (14 septembre 2026), mais
+  entièrement hors de portée technique — annuaires spécialisés, partenariats éleveurs/vétérinaires/associations,
+  contenu invité. Aucune action de ce côté sans engagement réel de l'utilisateur ; possibilité d'aider à préparer
+  un support (argumentaire, liste de cibles) si le sujet est repris.
 
 ## Prochaine action recommandée
 
-L'instrumentation GA4, les favoris et le comparateur sont faits — reste à laisser les données s'accumuler (1-2
-semaines) avant d'en tirer des conclusions sur les tunnels réels et l'usage réel des favoris/comparateur.
-Toutes les tâches non bloquées restantes demandent une décision de scope de l'utilisateur (nouvelles sources de
-contenu social) plutôt qu'un choix technique — rien à coder à l'aveugle avant d'avoir cette confirmation.
+L'instrumentation GA4, les favoris, le comparateur et les données structurées sont en place — reste à laisser
+les données s'accumuler (1-2 semaines pour GA4, 3-4 pour Search Console) avant d'en tirer des conclusions.
+Toutes les tâches non bloquées restantes demandent soit une décision de scope de l'utilisateur (nouvelles
+sources de contenu social), soit une démarche hors-site (backlinks) — rien à coder à l'aveugle avant l'une ou
+l'autre.
