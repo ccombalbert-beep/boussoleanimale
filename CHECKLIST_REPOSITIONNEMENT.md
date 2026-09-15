@@ -1,6 +1,6 @@
 # Checklist — Repositionnement stratégique Boussole Animale
 
-**Progression : 7/14 tâches (50%)**
+**Progression : 8/14 tâches (57%)**
 
 Contexte : analyse concurrentielle jugeant le marché des quiz "race" et calculateurs de budget déjà
 occupé (Royal Canin, Woopets, assure-mon-chien.fr, royaume-des-animaux.fr), mais sans concurrent identifié
@@ -76,11 +76,18 @@ avoir en tête avant de trancher les options :
 - **C2** : les calculateurs individuels redirigent avec un bandeau "essayez aussi le diagnostic complet"
   plutôt que de rester des points d'entrée neutres.
 
-### Option D — Structure de la section éditoriale
-- **D1** : nouvelle collection de contenu `enquetes` séparée de `guides`, avec son propre schéma
-  (sources journalistiques, ton long-form) et son propre layout.
-- **D2** : un champ `type: 'guide' | 'enquete'` ajouté à la collection `guides` existante, avec un layout
-  conditionnel — moins de duplication de code, mais mélange deux tons éditoriaux dans une seule collection.
+### Option D — Structure de la section éditoriale — ✅ TRANCHÉE : D1
+- **D1 (retenu)** : nouvelle collection de contenu `enquetes` séparée de `guides`, avec son propre schéma
+  (sources journalistiques, ton long-form) et son propre layout — l'URL et le schéma à part sont ce qui
+  rend la différenciation éditoriale visible, pas seulement le ton du texte. Construit en réutilisant la
+  structure de `GuideLayout.astro` plutôt qu'en dupliquant à l'aveugle.
+- **D2** : un champ `type: 'guide' | 'enquete'` ajouté à la collection `guides` existante — écarté, dilue
+  la différenciation recherchée sous une URL `/guides/...` commune.
+
+**Décidé mais pas construit** : bâtir la collection/le schéma/le layout à vide, sans article réel, reviendrait
+à deviner la forme des champs (citations, structure, interviews) avant de savoir ce qu'un vrai article
+demande. Construction repoussée au moment où un article réel sera prêt à intégrer, plutôt que faite en
+amont sur devis.
 
 ### Option E — Régie publicitaire
 - À définir : réseau (AdSense / Ezoic / Mediavine / autre), nombre et emplacement des slots, priorité
@@ -139,14 +146,16 @@ avoir en tête avant de trancher les options :
 
 ## Chantier 3 — Section éditoriale "Bien-être animal en ville"
 
-**0/3 sous-tâches**
+**1/3 sous-tâches**
 
-- [ ] **Trancher l'option D** (structure de contenu)
-- [ ] **Intégrer le premier article** ("Le bien-être animal en ville : enquête sur une cohabitation sous
-      tension") une fois l'option D tranchée et une image Wikimedia Commons sourcée et vérifiée (licence +
-      inspection visuelle, même exigence que pour les fiches race) — remplacer les liens internes de
-      l'article vers des outils qui n'existent pas encore ("calculateur d'espace vital", "calculateur de
-      budget annuel", "temps de présence requis") par les outils réels au moment de l'intégration.
+- [x] **Trancher l'option D** — retenu : **D1**, nouvelle collection `enquetes` séparée (voir détail
+      ci-dessus).
+- [ ] **Intégrer le premier article** — **en attente d'un article réel**, volontairement non construit à
+      vide (voir note sous l'option D). L'utilisateur attend un appel avec le président d'une association
+      pour du contenu original (interview) avant de rédiger l'article ; le brouillon précédent ("Le
+      bien-être animal en ville : enquête sur une cohabitation sous tension") a été annulé faute d'image
+      Wikimedia sourcée et vérifiée. La collection, le schéma et le layout `enquetes` seront construits en
+      même temps que ce premier article, pas avant.
 - [ ] **Schema.org Article + FAQPage** sur ce type de contenu, sur le modèle déjà en place pour les guides
       (`GuideLayout.astro` génère déjà FAQPage automatiquement si `faq` est présent en frontmatter).
 
@@ -171,16 +180,17 @@ avoir en tête avant de trancher les options :
 
 ---
 
-## Ce qui reste bloqué sur une décision utilisateur
+## Ce qui reste bloqué sur une décision utilisateur ou une information externe
 
-- Toutes les options A à E ci-dessus.
-- Le choix de la régie publicitaire (chantier 5) n'a techniquement aucune dépendance envers les autres
-  chantiers, mais a plus de sens une fois la structure de page stabilisée — recommandation : le traiter en
-  dernier.
+- **Option E** (régie publicitaire) — décision utilisateur encore ouverte, voir chantier 5.
+- **Chantier 3** (premier article "enquête") — bloqué sur un événement externe, pas une décision : l'utilisateur
+  attend un appel avec le président d'une association pour obtenir du contenu original (interview) avant
+  de rédiger. Rien à faire de mon côté tant que ce contenu n'existe pas.
 
 ## Prochaine action recommandée
 
-Valider les options A à E (ou certaines d'entre elles pour débloquer un chantier à la fois, vu la
-contrainte de 2-4h/semaine) — aucun code de production n'est modifié tant que ce n'est pas fait. Le
-chantier 1 (calculateur espace vital, option A1 recommandée) est le plus indépendant et le plus rapide à
-livrer en premier : il ne dépend d'aucune autre option tranchée.
+Options A, B, C et D sont tranchées, chantiers 1 et 2 livrés et en production. Il reste : attendre le
+contenu du chantier 3 (hors de mon contrôle), ou avancer sur le chantier 4 (SEO & maillage — maillage
+interne, sitemap, meta) qui ne dépend d'aucune option restante et peut être fait dès maintenant si
+l'utilisateur veut continuer sans attendre l'article. L'option E (régie pub) reste recommandée en dernier,
+une fois la structure de page stabilisée.
