@@ -37,13 +37,13 @@ export default defineConfig({
         if (chemin === '/') {
           return { ...item, priority: 1.0, changefreq: EnumChangefreq.WEEKLY };
         }
-        if (/^\/(chiens|chats|guides|outils)\/$/.test(chemin)) {
+        if (/^\/(chiens|chats|guides|outils|enquetes)\/$/.test(chemin)) {
           return { ...item, priority: 0.8, changefreq: EnumChangefreq.WEEKLY };
         }
         if (/^\/(chiens|chats)\/races\/[^/]+\/$/.test(chemin)) {
           return { ...item, priority: 0.7, changefreq: EnumChangefreq.MONTHLY };
         }
-        if (/^\/guides\/[^/]+\/$/.test(chemin)) {
+        if (/^\/(guides|enquetes)\/[^/]+\/$/.test(chemin)) {
           return { ...item, priority: 0.7, changefreq: EnumChangefreq.MONTHLY };
         }
         if (chemin.startsWith('/outils/')) {
