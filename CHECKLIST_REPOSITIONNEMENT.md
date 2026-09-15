@@ -1,6 +1,6 @@
 # Checklist — Repositionnement stratégique Boussole Animale
 
-**Progression : 3/14 tâches (21%)**
+**Progression : 4/14 tâches (29%)**
 
 Contexte : analyse concurrentielle jugeant le marché des quiz "race" et calculateurs de budget déjà
 occupé (Royal Canin, Woopets, assure-mon-chien.fr, royaume-des-animaux.fr), mais sans concurrent identifié
@@ -91,7 +91,7 @@ avoir en tête avant de trancher les options :
 
 ## Chantier 1 — Calculateur espace vital (le rendre central)
 
-**3/4 sous-tâches**
+**4/4 sous-tâches — chantier terminé**
 
 - [x] **Trancher l'option A** — retenu : **A1**, scoring sur les données race existantes (taille,
       niveauActivite, adapteAppartement), aucune fiche à retoucher.
@@ -106,9 +106,13 @@ avoir en tête avant de trancher les options :
       tous verts.
 - [x] **Ajouter le suivi GA4** — `calculator_view` (calculator: espace_vital) au montage, `calculator_interact`
       par réponse et sur le résultat final, même pattern que `CalculateurCout.tsx` via `src/lib/analytics.ts`.
-- [ ] **Trancher l'option B** puis repositionner l'entrée du calculateur (accueil et/ou nav) en
-      conséquence — non fait volontairement : modification structurante de l'accueil, en attente de
-      validation.
+- [x] **Trancher l'option B** — retenu : **B1**. Hero de l'accueil (`src/pages/index.astro`) réécrit :
+      le calculateur d'espace vital devient le CTA principal ("Votre logement est-il fait pour ce chien ou
+      ce chat ?" → "Tester mon logement →"), le quiz race reste immédiatement visible juste en dessous
+      en lien secondaire ("Faites le quiz complet →") plutôt qu'enterré dans Outils — pour ne pas perdre
+      son trafic et ses conversions déjà établis pendant que l'espace vital fait ses preuves. Reste de la
+      page (fiches à la une, cartes Chiens/Chats/Outils, derniers guides) inchangé. Vérifié en navigateur
+      (desktop + mobile) et `npm run build` + `npm run audit:links` tous verts après la modification.
 
 ## Chantier 2 — Diagnostic unifié (fusion des calculateurs)
 
