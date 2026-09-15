@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import DiagnosticUnifie, { type RaceDiagnosticItem } from '../../components/DiagnosticUnifie.tsx';
+
+// Même pool que les autres outils : tout le catalogue publié, chiens et
+// chats confondus, jamais une sélection figée.
+const [chiens, chats] = await Promise.all([getCollection('chiens'), getCollection('chats')]);
+
+const races: RaceDiagnosticItem[] = [
+  ...chiens.map((race) => ({
+    slug: race.id,
+    nom: race.data.nom,
+    resume: race.data.resume,
+    espece: 'chien' as const,
+    niveauActivite: race.data.niveauActivite,
+    adapteAppartement: race.data.adapteAppartement,
+    poidsMin: race.data.poids.min,
+    poidsMax: race.data.poids.max,
+    coutMensuelMin: race.data.budget.coutMensuelMin,
+    coutMensuelMax: race.data.budget.coutMensuelMax,
+  })),
+  ...chats.map((race) => ({
+    slug: race.id,
+    nom: race.data.nom,
+    resume: race.data.resume,
+    espece: 'chat' as const,
+    niveauActivite: race.data.niveauActivite,
+    adapteAppartement: race.data.adapteAppartement,
+    poidsMin: race.data.poids.min,
+    poidsMax: race.data.poids.max,
+    coutMensuelMin: race.data.budget.coutMensuelMin,
+    coutMensuelMax: race.data.budget.coutMensuelMax,
+  })),
+];
+
+const faq = [
+  {
+    question: 'En quoi ce diagnostic diffère-t-il du calculateur d\'espace vital ou du quiz race ?',
+    reponse:
+      "Ce sont trois outils complémentaires, pas redondants. L'espace vital se concentre uniquement sur le logement, le quiz race croise logement/taille/activité/expérience/budget/aboiements en restant focalisé sur le chien. Le diagnostic unifié va plus loin en ajoutant un critère que ni l'un ni l'autre ne couvre : le temps que l'animal passera seul chaque jour — et couvre chiens et chats dans un seul parcours.",
+  },
+  {
+    question: 'Pourquoi "plus de 8h seul" n\'est-il pas éliminatoire pour un chat ?',
+    reponse:
+      "Parce que la tolérance à la solitude n'est pas la même selon l'espèce : un chat s'accommode structurellement mieux de longues journées seul qu'un chien, à condition d'un environnement enrichi. Ce diagnostic distingue les deux plutôt que d'appliquer la même règle partout — voir le détail par race dans les résultats.",
+  },
+  {
+    question: 'Le score global cache-t-il des détails importants ?',
+    reponse:
+      "Non : chaque race affiche le détail par critère (espace, budget, présence quotidienne, expérience requise), pas seulement un chiffre global. Un score correct peut cacher un seul critère problématique — c'est justement ce que le détail permet de repérer avant de se décider.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.reponse },
+  })),
+};
+---
+
+<Layout
+  title="Diagnostic complet : quelle race pour mon mode de vie ?"
+  description="Croisez en une seule fois votre logement, votre budget, le temps de présence quotidien et votre expérience pour identifier les races de chien ou de chat vraiment compatibles."
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />
+  <div class="mx-auto max-w-2xl px-4 py-12">
+    <p class="label text-terracotta-600">Diagnostic complet</p>
+    <h1 class="mt-2 font-display text-3xl font-medium text-encre-900">Quelle race pour votre mode de vie, vraiment ?</h1>
+    <p class="mt-3 text-encre-700">
+      7 questions pour croiser en une fois votre logement, votre budget, le temps de présence quotidien et votre
+      expérience — sur {chiens.length} races de chien et {chats.length} races de chat, avec le détail de
+      correspondance critère par critère, pas juste un score.
+    </p>
+
+    <div class="mt-10 border border-sable-300 bg-sable-50 p-6 sm:p-8">
+      <DiagnosticUnifie client:visible races={races} />
+    </div>
+
+    <p class="mt-6 text-sm text-encre-700">
+      Vous préférez un outil ciblé sur un seul critère ? <a href="/outils/espace-vital/" class="font-medium text-terracotta-600 hover:text-terracotta-500">Espace vital</a>, <a href="/outils/quelle-race-me-correspond/" class="font-medium text-terracotta-600 hover:text-terracotta-500">quiz race</a> ou <a href="/outils/" class="font-medium text-terracotta-600 hover:text-terracotta-500">tous les outils</a>.
+    </p>
+
+    <section class="mt-16" aria-labelledby="faq-titre">
+      <h2 id="faq-titre" class="mb-4 font-display text-2xl font-medium text-encre-900">Questions fréquentes</h2>
+      <div class="divide-y divide-sable-300">
+        {faq.map((item) => (
+          <details class="group py-4">
+            <summary class="faq-summary cursor-pointer list-none font-medium text-encre-900 group-open:text-terracotta-600">
+              {item.question}
+            </summary>
+            <p class="mt-2 text-encre-700">{item.reponse}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </div>
+</Layout>

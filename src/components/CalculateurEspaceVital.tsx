@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { trackEvent } from '../lib/analytics';
+import { NIVEAU_ORDRE, SURFACE_RANG, tailleChien, type NiveauActivite, type Surface } from '../lib/raceScoring';
 
-type Espece = 'chien' | 'chat';
-type Surface = 'petite' | 'moyenne' | 'grande' | 'tres_grande';
-type Exterieur = 'aucun' | 'balcon' | 'jardin';
-type Etage = 'rdc_ascenseur' | 'sans_ascenseur';
-type NiveauActivite = 'faible' | 'modere' | 'eleve' | 'tres_eleve';
+export type Espece = 'chien' | 'chat';
+export type Exterieur = 'aucun' | 'balcon' | 'jardin';
+export type Etage = 'rdc_ascenseur' | 'sans_ascenseur';
 
 // Données réelles issues des collections `chiens` et `chats` (voir la page
 // qui rend ce composant) — même principe que QuizRace.tsx : le pool s'élargit
@@ -21,7 +20,10 @@ export interface RaceEspaceItem {
   poidsMax: number;
 }
 
-interface Reponses {
+// Exportées pour être réutilisées telles quelles par le diagnostic unifié
+// (DiagnosticUnifie.tsx), qui ajoute budget/présence/expérience à ces mêmes
+// critères d'espace plutôt que de reécrire le scoring.
+export interface Reponses {
   espece: Espece | null;
   surface: Surface | null;
   exterieur: Exterieur | null;
@@ -32,23 +34,7 @@ interface Props {
   races: RaceEspaceItem[];
 }
 
-const NIVEAU_ORDRE: Record<NiveauActivite, number> = { faible: 0, modere: 1, eleve: 2, tres_eleve: 3 };
-const SURFACE_RANG: Record<Surface, number> = { petite: 0, moyenne: 1, grande: 2, tres_grande: 3 };
-
-// Mêmes seuils que le quiz race (QuizRace.tsx) et le calculateur d'âge, pour
-// ne pas avoir un troisième découpage "petit/moyen/grand" différent sur le
-// site. Pertinent seulement côté chien : chez le chat, le poids ne dit
-// presque rien du besoin d'espace (un Maine Coon de 8 kg n'a pas besoin de
-// deux fois plus de place qu'un chat de gouttière de 4 kg — c'est
-// l'aménagement vertical qui compte, pas la surface au sol).
-function tailleChien(race: RaceEspaceItem): 'petit' | 'moyen' | 'grand' {
-  const moyen = (race.poidsMin + race.poidsMax) / 2;
-  if (moyen < 9) return 'petit';
-  if (moyen < 23) return 'moyen';
-  return 'grand';
-}
-
-interface Resultat {
+export interface Resultat {
   race: RaceEspaceItem;
   score: number;
   raisons: { texte: string; positif: boolean }[];
@@ -59,11 +45,11 @@ interface Resultat {
 // déclarés — pas juste "grand chien = besoin d'espace". Un grand chien à
 // faible niveau d'activité et un petit chien très actif sont bien traités
 // différemment (voir NIVEAU_ORDRE ci-dessous, indépendant du gabarit).
-function scoreChien(race: RaceEspaceItem, r: Reponses): Resultat {
+export function scoreChien(race: RaceEspaceItem, r: Reponses): Resultat {
   const raisons: Resultat['raisons'] = [];
   let score = 0;
 
-  const taille = tailleChien(race);
+  const taille = tailleChien(race.poidsMin, race.poidsMax);
   const surfaceRang = SURFACE_RANG[r.surface!];
   const rangRequis = taille === 'petit' ? 0 : taille === 'moyen' ? 1 : 2;
   const ecart = surfaceRang - rangRequis;
@@ -122,7 +108,7 @@ function scoreChien(race: RaceEspaceItem, r: Reponses): Resultat {
 // poids n'est pas un indicateur pertinent du besoin d'espace, l'accès à un
 // extérieur n'est pas un simple bonus (risque de chute ou de fugue à
 // sécuriser) et l'aménagement vertical compte plus que la surface au sol.
-function scoreChat(race: RaceEspaceItem, r: Reponses): Resultat {
+export function scoreChat(race: RaceEspaceItem, r: Reponses): Resultat {
   const raisons: Resultat['raisons'] = [];
   let score = 0;
 

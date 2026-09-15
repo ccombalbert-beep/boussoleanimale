@@ -1,6 +1,6 @@
 # Checklist — Repositionnement stratégique Boussole Animale
 
-**Progression : 4/14 tâches (29%)**
+**Progression : 7/14 tâches (50%)**
 
 Contexte : analyse concurrentielle jugeant le marché des quiz "race" et calculateurs de budget déjà
 occupé (Royal Canin, Woopets, assure-mon-chien.fr, royaume-des-animaux.fr), mais sans concurrent identifié
@@ -116,15 +116,26 @@ avoir en tête avant de trancher les options :
 
 ## Chantier 2 — Diagnostic unifié (fusion des calculateurs)
 
-**0/3 sous-tâches**
+**3/3 sous-tâches — chantier terminé**
 
-- [ ] **Trancher l'option C**
-- [ ] **Construire le parcours unifié** : une saisie (espace, budget, temps de présence quotidien,
-      expérience), sortie = score de compatibilité global + détail par critère, réutilisant les fonctions
-      de scoring déjà écrites pour le quiz (`tailleRace()`, `budgetRace()`, distance ordinale sur
-      `niveauActivite`) plutôt que de les dupliquer.
-- [ ] **Garder les calculateurs individuels en l'état** pour le SEO longue traîne (aucune régression sur
-      les URLs existantes déjà indexées).
+- [x] **Trancher l'option C** — retenu : **C1**, nouvelle page à part, aucun bandeau promotionnel sur les
+      calculateurs individuels pour l'instant (à revisiter avec des données GA4 réelles, même discipline
+      que pour B1).
+- [x] **Construire le parcours unifié** (`/outils/diagnostic/`) — `src/components/DiagnosticUnifie.tsx`,
+      7 questions (espèce, surface, extérieur, étage, budget, présence quotidienne, expérience), résultat
+      en détail par critère (espace & logement, budget, présence, expérience), pas qu'un score global.
+      Refactor de fond pour éviter la duplication demandée : les primitives de scoring (`tailleChien()`,
+      `budgetRace()`, `NIVEAU_ORDRE`, `SURFACE_RANG`, etc.) ont été extraites dans un nouveau
+      `src/lib/raceScoring.ts`, partagé désormais par `QuizRace.tsx`, `CalculateurEspaceVital.tsx` et
+      `DiagnosticUnifie.tsx` — qui réutilise en plus directement `scoreChien()`/`scoreChat()` du
+      calculateur d'espace vital plutôt que de réécrire cette logique. Le critère "présence quotidienne"
+      est un nouvel axe (temps seul chaque jour), traité différemment chien/chat comme le reste (le chat
+      tolère mieux la solitude à niveau d'activité équivalent). Testé en navigateur bout en bout, `npx
+      astro check` (0 erreur), `npm run build` (86 pages, +1) et `npm run audit:links` (0 lien cassé, 0
+      page orpheline) — tous verts.
+- [x] **Garder les calculateurs individuels en l'état** — `/outils/espace-vital/`, `/outils/cout-mensuel-*/`
+      et le quiz race ne sont pas touchés, toujours accessibles pour le SEO longue traîne existant. Le
+      diagnostic est purement additif, listé en premier sur `/outils/` mais sans redirection ni bandeau.
 
 ## Chantier 3 — Section éditoriale "Bien-être animal en ville"
 

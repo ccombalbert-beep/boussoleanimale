@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { trackEvent } from '../lib/analytics';
+import { NIVEAU_ORDRE, TAILLE_ORDRE, tailleChien, BUDGET_ORDRE, budgetRace } from '../lib/raceScoring';
 
 type Logement = 'appartement' | 'maison_jardin';
 type Activite = 'faible' | 'modere' | 'eleve';
@@ -42,33 +43,10 @@ interface Props {
   races: RaceQuizItem[];
 }
 
-const NIVEAU_ORDRE: Record<NiveauActivite, number> = { faible: 0, modere: 1, eleve: 2, tres_eleve: 3 };
 // La réponse "eleve" du quiz ("plus d'1h30, activement") doit couvrir aussi
 // bien les races 'eleve' que 'tres_eleve' du catalogue — d'où une cible à
 // 2.5 plutôt que 2, à mi-chemin entre les deux niveaux réels.
 const NIVEAU_CIBLE: Record<Activite, number> = { faible: 0, modere: 1, eleve: 2.5 };
-
-const TAILLE_ORDRE: Record<'petit' | 'moyen' | 'grand', number> = { petit: 0, moyen: 1, grand: 2 };
-// Seuils de poids repris tels quels du calculateur d'âge (CalculateurAge.tsx)
-// pour ne pas avoir deux découpages "petit/moyen/grand" différents sur le
-// site. Classée sur le poids moyen de la race, pas sur min ou max seul.
-function tailleRace(race: RaceQuizItem): 'petit' | 'moyen' | 'grand' {
-  const moyen = (race.poidsMin + race.poidsMax) / 2;
-  if (moyen < 9) return 'petit';
-  if (moyen < 23) return 'moyen';
-  return 'grand';
-}
-
-const BUDGET_ORDRE: Record<'bas' | 'moyen' | 'eleve', number> = { bas: 0, moyen: 1, eleve: 2 };
-// Seuils choisis en regardant la distribution réelle des coûts mensuels sur
-// les 30 fiches chien (de 30-60 € à 100-200 €) plutôt qu'arbitrairement —
-// coupent le catalogue en trois groupes à peu près équilibrés.
-function budgetRace(race: RaceQuizItem): 'bas' | 'moyen' | 'eleve' {
-  const moyen = (race.coutMensuelMin + race.coutMensuelMax) / 2;
-  if (moyen < 70) return 'bas';
-  if (moyen < 120) return 'moyen';
-  return 'eleve';
-}
 
 function scoreRace(race: RaceQuizItem, r: Reponses): number {
   let score = 0;
@@ -77,7 +55,7 @@ function scoreRace(race: RaceQuizItem, r: Reponses): number {
   if (r.logement === 'maison_jardin') score += 3; // une maison avec jardin convient à toutes les races
 
   if (r.taille && r.taille !== 'peu_importe') {
-    const distance = Math.abs(TAILLE_ORDRE[tailleRace(race)] - TAILLE_ORDRE[r.taille]);
+    const distance = Math.abs(TAILLE_ORDRE[tailleChien(race.poidsMin, race.poidsMax)] - TAILLE_ORDRE[r.taille]);
     score += Math.max(0, 2 - distance);
   }
 
@@ -93,7 +71,7 @@ function scoreRace(race: RaceQuizItem, r: Reponses): number {
   if (r.experience === 'debutant' && race.niveauActivite === 'tres_eleve') score -= 3;
 
   if (r.budget && r.budget !== 'peu_importe') {
-    const distance = Math.abs(BUDGET_ORDRE[budgetRace(race)] - BUDGET_ORDRE[r.budget]);
+    const distance = Math.abs(BUDGET_ORDRE[budgetRace(race.coutMensuelMin, race.coutMensuelMax)] - BUDGET_ORDRE[r.budget]);
     score += Math.max(0, 2 - distance);
   }
 
