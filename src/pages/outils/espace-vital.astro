@@ -1,0 +1,105 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import CalculateurEspaceVital, { type RaceEspaceItem } from '../../components/CalculateurEspaceVital.tsx';
+
+// Pool de races = tout le catalogue publié, chiens et chats confondus, comme
+// QuizRace.tsx : une nouvelle fiche apparaît automatiquement ici au prochain
+// build.
+const [chiens, chats] = await Promise.all([getCollection('chiens'), getCollection('chats')]);
+
+const races: RaceEspaceItem[] = [
+  ...chiens.map((race) => ({
+    slug: race.id,
+    nom: race.data.nom,
+    resume: race.data.resume,
+    espece: 'chien' as const,
+    niveauActivite: race.data.niveauActivite,
+    adapteAppartement: race.data.adapteAppartement,
+    poidsMin: race.data.poids.min,
+    poidsMax: race.data.poids.max,
+  })),
+  ...chats.map((race) => ({
+    slug: race.id,
+    nom: race.data.nom,
+    resume: race.data.resume,
+    espece: 'chat' as const,
+    niveauActivite: race.data.niveauActivite,
+    adapteAppartement: race.data.adapteAppartement,
+    poidsMin: race.data.poids.min,
+    poidsMax: race.data.poids.max,
+  })),
+];
+
+const faq = [
+  {
+    question: "Un grand chien peut-il vraiment vivre en appartement ?",
+    reponse:
+      "Ça dépend beaucoup plus du niveau d'activité et de l'accès à un extérieur que de la seule taille. Un grand chien calme avec des sorties régulières s'adapte souvent mieux à un appartement qu'un petit chien très actif enfermé toute la journée — c'est exactement ce que ce calculateur croise, plutôt que de réduire la compatibilité au seul gabarit.",
+  },
+  {
+    question: "Pourquoi le poids ne compte-t-il pas pour les chats ?",
+    reponse:
+      "Parce que chez le chat, le besoin d'espace dépend surtout de l'aménagement vertical (arbre à chat, étagères, accès en hauteur) et du niveau d'activité, pas du poids : un Maine Coon de 8 kg n'a pas besoin de deux fois plus de place qu'un chat de 4 kg tant que l'environnement est bien pensé.",
+  },
+  {
+    question: "Un jardin est-il toujours un avantage pour un chat ?",
+    reponse:
+      "Pas automatiquement : un accès extérieur non sécurisé expose à un vrai risque de chute ou de fugue, y compris pour un chat prudent. Ce calculateur le signale plutôt que de compter un jardin comme un bonus systématique, contrairement à ce qui vaut pour un chien.",
+  },
+  {
+    question: "Ce calculateur remplace-t-il le quiz \"quelle race me correspond\" ?",
+    reponse:
+      "Non, il se concentre uniquement sur la compatibilité logement (surface, extérieur, étage) face au gabarit et au niveau d'activité de chaque race. Le quiz croise en plus le budget, l'expérience et la présence d'enfants — les deux sont complémentaires.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.reponse },
+  })),
+};
+---
+
+<Layout
+  title="Quel espace vital pour mon chien ou mon chat ?"
+  description="Calculateur d'espace vital par race : croisez surface, extérieur et étage de votre logement avec le gabarit et le niveau d'activité réel de chaque race de chien ou de chat."
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />
+  <div class="mx-auto max-w-2xl px-4 py-12">
+    <p class="label text-terracotta-600">Outil interactif</p>
+    <h1 class="mt-2 font-display text-3xl font-medium text-encre-900">Quel espace vital pour mon chien ou mon chat ?</h1>
+    <p class="mt-3 text-encre-700">
+      4 questions sur votre logement pour identifier, parmi {chiens.length} races de chien et {chats.length} races de
+      chat, celles dont le gabarit et le niveau d'activité réels correspondent vraiment à votre espace — pas une
+      règle simpliste "grand chien = besoin d'espace".
+    </p>
+
+    <div class="mt-10 border border-sable-300 bg-sable-50 p-6 sm:p-8">
+      <CalculateurEspaceVital client:visible races={races} />
+    </div>
+
+    <p class="mt-6 text-sm text-encre-700">
+      Vous préférez un diagnostic plus complet (budget, expérience, enfants inclus) ?{' '}
+      <a href="/outils/quelle-race-me-correspond/" class="font-medium text-terracotta-600 hover:text-terracotta-500">Faites le quiz "quelle race me correspond"</a>.
+    </p>
+
+    <section class="mt-16" aria-labelledby="faq-titre">
+      <h2 id="faq-titre" class="mb-4 font-display text-2xl font-medium text-encre-900">Questions fréquentes</h2>
+      <div class="divide-y divide-sable-300">
+        {faq.map((item) => (
+          <details class="group py-4">
+            <summary class="faq-summary cursor-pointer list-none font-medium text-encre-900 group-open:text-terracotta-600">
+              {item.question}
+            </summary>
+            <p class="mt-2 text-encre-700">{item.reponse}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </div>
+</Layout>
