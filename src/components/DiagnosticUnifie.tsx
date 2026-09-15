@@ -18,6 +18,10 @@ import {
 export interface RaceDiagnosticItem extends RaceEspaceItem {
   coutMensuelMin: number;
   coutMensuelMax: number;
+  // Anxiété de séparation / intolérance documentée à la solitude prolongée
+  // — voir content.config.ts. N'existe que sur ce diagnostic, pas sur
+  // l'espace vital qui n'a pas de critère de présence.
+  intoleranceSolitude?: boolean;
 }
 
 type Presence = 'moins_4h' | '4_8h' | 'plus_8h';
@@ -74,9 +78,24 @@ function scoreBudget(race: RaceDiagnosticItem, r: Reponses): Critere & { score: 
 
 // Le chat tolère mieux la solitude que le chien à niveau d'activité
 // équivalent — traité différemment plutôt que la même règle pour les deux
-// espèces (même principe que le calculateur d'espace vital).
+// espèces (même principe que le calculateur d'espace vital). L'anxiété de
+// séparation documentée sur certaines races (Bichon Frisé, Épagneul Breton,
+// Siamois...) est un facteur réel et distinct du niveau d'activité — un
+// chien calme peut très bien mal supporter la solitude, et inversement —
+// donc prioritaire sur l'heuristique activité seule plutôt que d'y être
+// noyé.
 function scorePresence(race: RaceDiagnosticItem, r: Reponses): Critere & { score: number } {
   const activite = NIVEAU_ORDRE[race.niveauActivite];
+
+  if (r.presence !== 'moins_4h' && race.intoleranceSolitude) {
+    return {
+      label: 'Présence quotidienne',
+      ok: false,
+      detail: `Anxiété de séparation documentée sur cette race : ${r.presence === 'plus_8h' ? 'plus de 8h' : '4 à 8h'} seul chaque jour est à risque réel, indépendamment du niveau d'activité — une transition progressive à la solitude ou une solution de garde est recommandée.`,
+      score: r.presence === 'plus_8h' ? -3 : -2,
+    };
+  }
+
   if (r.presence === 'plus_8h') {
     if (race.espece === 'chien' && activite >= 2) {
       return {

@@ -209,6 +209,32 @@ seulement une question de poids.
   Américain) restent en ✓ sans fausse alerte. `npx astro check` (0 erreur), `npm run build` (86 pages) et
   `npm run audit:links` (0 lien cassé) tous verts.
 
+### Approfondissement vétérinaire (15/09/2026) — dysplasie de la hanche et anxiété de séparation
+
+Suite à la demande de "pousser le sujet à fond", deux autres prédispositions déjà documentées dans les
+fiches mais jamais exploitées par les outils ont été intégrées :
+
+- **Dysplasie de la hanche** (déjà articulaire, donc ajoutée au même champ `risqueArticulaireOuDorsal`,
+  sans nouveau champ de schéma) sur 14 fiches supplémentaires : American Staffordshire Terrier, Berger
+  Allemand, Border Collie, Beauceron, Berger Australien, Bouvier Bernois, Berger des Shetland, Golden
+  Retriever, Husky Sibérien, Malinois, Rottweiler, Cocker Spaniel, Labrador (+ Caniche, déjà flaggé pour
+  luxation de la rotule). Corrige un angle mort : plusieurs de ces races (Border Collie, Berger Australien,
+  Berger des Shetland, Husky Sibérien, Cocker Spaniel) sont de gabarit "moyen", donc jusqu'ici jamais
+  couvertes par la pénalité "sans ascenseur" limitée au gabarit "grand".
+- **Anxiété de séparation / intolérance à la solitude documentée** — nouveau champ
+  `predispositions.intoleranceSolitude`, dérivé des claims explicites déjà présents dans le texte des
+  fiches ("supporte mal la solitude", "anxiété de séparation"), pas d'une simple mention d'attachement
+  générique (vérifié fiche par fiche pour écarter les faux positifs — "très attaché à sa famille" seul
+  n'a pas suffi à qualifier une race). 7 fiches concernées : chiens — Bichon Frisé, Épagneul Breton,
+  Caniche, Dogue de Bordeaux ; chats — Siamois, Abyssin, Oriental.
+- Le critère "Présence quotidienne" de `DiagnosticUnifie.tsx` traite désormais l'intolérance à la solitude
+  documentée comme un motif prioritaire et distinct du niveau d'activité (un chien calme peut très mal
+  supporter la solitude), plutôt que d'utiliser l'activité seule comme proxy imparfait.
+- FAQ mise à jour sur `/outils/diagnostic/` pour expliquer ce changement.
+- Vérifié en navigateur (les races concernées sont correctement reléguées hors du top de classement en
+  cas de longue solitude déclarée, sans casser les races non concernées), `npx astro check` (0 erreur),
+  `npm run build` (86 pages) et `npm run audit:links` (0 lien cassé) tous verts.
+
 ---
 
 ## Ce qui reste bloqué sur une décision utilisateur ou une information externe

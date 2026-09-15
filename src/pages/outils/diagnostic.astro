@@ -21,6 +21,7 @@ const races: RaceDiagnosticItem[] = [
     coutMensuelMax: race.data.budget.coutMensuelMax,
     brachycephale: race.data.predispositions?.brachycephale,
     risqueArticulaireOuDorsal: race.data.predispositions?.risqueArticulaireOuDorsal,
+    intoleranceSolitude: race.data.predispositions?.intoleranceSolitude,
   })),
   ...chats.map((race) => ({
     slug: race.id,
@@ -35,6 +36,7 @@ const races: RaceDiagnosticItem[] = [
     coutMensuelMax: race.data.budget.coutMensuelMax,
     brachycephale: race.data.predispositions?.brachycephale,
     risqueArticulaireOuDorsal: race.data.predispositions?.risqueArticulaireOuDorsal,
+    intoleranceSolitude: race.data.predispositions?.intoleranceSolitude,
   })),
 ];
 
@@ -48,6 +50,11 @@ const faq = [
     question: 'Pourquoi "plus de 8h seul" n\'est-il pas éliminatoire pour un chat ?',
     reponse:
       "Parce que la tolérance à la solitude n'est pas la même selon l'espèce : un chat s'accommode structurellement mieux de longues journées seul qu'un chien, à condition d'un environnement enrichi. Ce diagnostic distingue les deux plutôt que d'appliquer la même règle partout — voir le détail par race dans les résultats.",
+  },
+  {
+    question: 'Le critère "présence quotidienne" se base-t-il uniquement sur le niveau d\'activité ?',
+    reponse:
+      "Non, plus depuis un ajustement suite à un retour vétérinaire : certaines races ont une anxiété de séparation documentée sur leur fiche (Bichon Frisé, Épagneul Breton, Caniche, Dogue de Bordeaux, Siamois, Abyssin, Oriental...), un facteur distinct et parfois indépendant du niveau d'activité — un chien calme peut très mal supporter la solitude. Ce diagnostic le traite comme un motif à part, prioritaire sur la simple estimation par l'activité.",
   },
   {
     question: 'Le score global cache-t-il des détails importants ?',

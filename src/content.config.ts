@@ -39,9 +39,13 @@ const raceSchema = ({ image }: SchemaContext) => z.object({
       // chaleur mal tolérés, escaliers répétés inclus.
       brachycephale: z.boolean().optional(),
       // Luxation de la rotule, hernie discale/chondrodystrophie,
-      // hémivertèbres, dysplasie — tout ce qui rend les escaliers répétés
-      // une vraie sollicitation articulaire ou dorsale à éviter.
+      // hémivertèbres, dysplasie de la hanche — tout ce qui rend les
+      // escaliers répétés une vraie sollicitation articulaire ou dorsale.
       risqueArticulaireOuDorsal: z.boolean().optional(),
+      // Anxiété de séparation / intolérance documentée à la solitude
+      // prolongée — distinct du niveau d'activité, utilisé par le
+      // diagnostic unifié pour le critère "présence quotidienne".
+      intoleranceSolitude: z.boolean().optional(),
     })
     .optional(),
 
