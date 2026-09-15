@@ -1,6 +1,6 @@
 # Checklist — Boussole Animale (tâches restantes)
 
-**Progression : 0/10 tâches (0%)**
+**Progression : 3/10 tâches (30%)**
 
 Checklist unique, compilée le 15 septembre 2026 à partir de tout ce qui restait ouvert dans
 `CHECKLIST_PROD.md` (100% terminé, rien à reporter), `CHECKLIST_CRO_GROWTH.md` (73%) et
@@ -36,17 +36,21 @@ livré reste dans l'historique git (chaque chantier a été commité et document
       Connecté depuis le 13 septembre 2026 seulement — pas assez de recul pour en tirer des priorités
       fiables. À reprendre début octobre 2026 environ (3-4 semaines de données), pas avant : cocher
       cette case plus tôt reviendrait à décider sur une intention plutôt que sur des données réelles.
-- [ ] **Maillage interne du repositionnement**
-      Liens contextuels dans les deux sens entre fiches de race, calculateurs (espace vital,
-      diagnostic unifié) et future section éditoriale — même logique déjà pratiquée dans les guides
-      existants, à étendre aux nouveaux outils et à la section enquêtes une fois publiée.
-- [ ] **Sitemap : ajouter le motif d'URL `enquetes`**
-      Une ligne de regex à ajouter dans `serialize()` (`astro.config.mjs`), en même temps que la
-      construction réelle de la section — pas un chantier à part.
-- [ ] **Meta title/description sur les nouvelles pages du repositionnement**
-      Cibler les mots-clés longue traîne identifiés : "espace vital chien appartement", "quel chien
-      pour mon appartement", "bien-être animal en ville" — sur `/outils/espace-vital/`,
-      `/outils/diagnostic/` et la future section enquêtes.
+- [x] **Maillage interne du repositionnement**
+      Liens contextuels ajoutés dans les deux sens : chaque fiche de race pointe désormais vers le
+      calculateur d'espace vital depuis son bloc de données (`RaceLayout.astro`), le guide "quelle
+      race pour appartement" mène vers espace vital + diagnostic avant le quiz, et la page du quiz
+      renvoie vers le diagnostic unifié. `npm run audit:links` : 0 lien cassé, 0 page orpheline.
+- [x] **Sitemap : ajouter le motif d'URL `enquetes`**
+      Ligne de regex ajoutée dans `serialize()` (`astro.config.mjs`), en avance sur la construction
+      réelle de la section — ne matche rien tant qu'aucune page `enquetes` n'existe, prêt pour quand
+      elle sera publiée. Vérifié : `/outils/espace-vital/` et `/outils/diagnostic/` déjà couverts par
+      le motif `/outils/*` existant, rien à ajouter de ce côté.
+- [x] **Meta title/description sur `/outils/espace-vital/`**
+      Reciblé sur "quel chien pour mon appartement" et "espace vital chien appartement" (titre et
+      description, le mot "appartement" n'apparaissait auparavant que dans la FAQ). Le troisième
+      mot-clé visé, "bien-être animal en ville", sera couvert naturellement par l'article Monceau Dog
+      Club une fois publié — pas de page existante pertinente pour le cibler en attendant.
 
 ## Réseaux sociaux
 
@@ -85,7 +89,8 @@ livré reste dans l'historique git (chaque chantier a été commité et document
 
 ## Prochaine action recommandée
 
-La validation de Vincent Danna débloque directement deux tâches (premier article + schema.org
-associé). En parallèle, le maillage interne, le sitemap et les meta du repositionnement ne dépendent
-d'aucune décision externe et peuvent avancer dès maintenant si l'utilisateur veut continuer sans
-attendre cette validation.
+Maillage interne, sitemap et meta du repositionnement sont faits (15/09/2026). La validation de
+Vincent Danna reste la clé pour débloquer les deux dernières tâches de contenu éditorial (premier
+article + schema.org associé). En dehors de ça, ce qui reste demande soit une décision de
+l'utilisateur (nouvelles sources sociales, option E régie pub), soit d'attendre (Search Console,
+comptes développeur Instagram/TikTok).
