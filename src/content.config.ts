@@ -46,6 +46,15 @@ const raceSchema = ({ image }: SchemaContext) => z.object({
       // prolongée — distinct du niveau d'activité, utilisé par le
       // diagnostic unifié pour le critère "présence quotidienne".
       intoleranceSolitude: z.boolean().optional(),
+      // Les trois champs suivants alimentent des notes informatives (pas de
+      // score) sur les résultats des calculateurs — volontairement laissés
+      // hors du scoring de compatibilité logement, contrairement aux trois
+      // champs ci-dessus : ce sont des conseils de vigilance santé, pas des
+      // critères qui rendent une race plus ou moins adaptée à un logement
+      // donné. Voir aussi `notesSante()` dans src/lib/raceScoring.ts.
+      risqueSurpoids: z.boolean().optional(),
+      sensibiliteChaleur: z.boolean().optional(),
+      sensibiliteFroid: z.boolean().optional(),
     })
     .optional(),
 

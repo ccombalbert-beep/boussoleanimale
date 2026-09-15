@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { trackEvent } from '../lib/analytics';
-import { NIVEAU_ORDRE, SURFACE_RANG, tailleChien, type NiveauActivite, type Surface } from '../lib/raceScoring';
+import { NIVEAU_ORDRE, SURFACE_RANG, tailleChien, notesSante, type NiveauActivite, type Surface } from '../lib/raceScoring';
 
 export type Espece = 'chien' | 'chat';
 export type Exterieur = 'aucun' | 'balcon' | 'jardin';
@@ -23,6 +23,11 @@ export interface RaceEspaceItem {
   // "non" garanti.
   brachycephale?: boolean;
   risqueArticulaireOuDorsal?: boolean;
+  // Alimentent des notes de vigilance santé non scorées — voir notesSante()
+  // dans src/lib/raceScoring.ts.
+  risqueSurpoids?: boolean;
+  sensibiliteChaleur?: boolean;
+  sensibiliteFroid?: boolean;
 }
 
 // Exportées pour être réutilisées telles quelles par le diagnostic unifié
@@ -271,7 +276,9 @@ export default function CalculateurEspaceVital({ races }: Props) {
           Races compatibles avec votre logement
         </h2>
         <div class="space-y-4">
-          {resultats.map((res, i) => (
+          {resultats.map((res, i) => {
+            const notes = notesSante(res.race);
+            return (
             <div key={res.race.slug} class="border border-sable-300 bg-sable-50 p-5">
               <p class="text-sm font-medium text-terracotta-600">#{i + 1} correspondance</p>
               <h3 class="mt-1 font-display text-xl font-medium">{res.race.nom}</h3>
@@ -284,6 +291,19 @@ export default function CalculateurEspaceVital({ races }: Props) {
                   </li>
                 ))}
               </ul>
+              {notes.length > 0 && (
+                <div class="mt-4 border-t border-sable-300 pt-3">
+                  <p class="text-xs font-medium uppercase tracking-wide text-encre-700/70">À savoir</p>
+                  <ul class="mt-1.5 space-y-1 text-sm text-encre-700">
+                    {notes.map((note) => (
+                      <li key={note} class="flex gap-2">
+                        <span aria-hidden="true">ℹ</span>
+                        <span>{note}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               <a
                 href={`/${res.race.espece === 'chien' ? 'chiens' : 'chats'}/races/${res.race.slug}/`}
                 class="mt-4 inline-block text-sm font-medium text-encre-900 hover:text-terracotta-600"
@@ -291,7 +311,8 @@ export default function CalculateurEspaceVital({ races }: Props) {
                 Voir la fiche complète →
               </a>
             </div>
-          ))}
+            );
+          })}
         </div>
         <button
           type="button"

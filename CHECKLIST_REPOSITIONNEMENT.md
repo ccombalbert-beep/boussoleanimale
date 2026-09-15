@@ -235,6 +235,39 @@ fiches mais jamais exploitées par les outils ont été intégrées :
   cas de longue solitude déclarée, sans casser les races non concernées), `npx astro check` (0 erreur),
   `npm run build` (86 pages) et `npm run audit:links` (0 lien cassé) tous verts.
 
+### Recherche vétérinaire élargie (15/09/2026) — notes de vigilance santé non scorées
+
+Suite à la demande explicite d'aller au-delà des deux premiers axes (escaliers, présence quotidienne),
+recherche systématique d'autres prédispositions déjà documentées dans les fiches mais non exploitées :
+
+- **Intégrées, sous forme de notes "À savoir" non scorées** (n'affectent pas le classement des races,
+  contrairement aux critères précédents — un risque de surpoids ne rend pas une race plus ou moins adaptée
+  à un logement donné, mais reste un vrai conseil à connaître) :
+  - **Surpoids/obésité documenté** : Labrador, Beagle, Carlin, Teckel (chiens) ; British Shorthair,
+    Européen, Siamois (chats) — 7 fiches.
+  - **Sensibilité au froid documentée** (absence de sous-poil ou masse corporelle très faible) :
+    Chihuahua (chien), Cornish Rex (chat) — 2 fiches.
+  - **Sensibilité à la chaleur** : réutilise le flag `brachycephale` déjà en place (BOAS = intolérance à
+    la chaleur inhérente) + un nouveau flag pour le Husky Sibérien, seule race chaude-sensible non
+    brachycéphale identifiée (pelage double couche, morphologie arctique) — évite de dupliquer
+    l'information sur les races déjà marquées brachycéphales.
+  - Nouvelle fonction partagée `notesSante()` dans `src/lib/raceScoring.ts`, appelée par
+    `CalculateurEspaceVital.tsx` et `DiagnosticUnifie.tsx` (pas de duplication entre les deux outils).
+- **Délibérément écarté du scoring et des notes** : la **cardiomyopathie hypertrophique féline**, très
+  documentée sur 7 fiches chat (Maine Coon, Ragdoll, Sibérien, British Shorthair, Bengal, American
+  Shorthair, Devon Rex). Raison : c'est un vrai sujet de vigilance santé, mais **pas un facteur de
+  compatibilité logement/mode de vie** — le suivi (dépistage génétique, échographie régulière) dépend du
+  choix de l'éleveur et du vétérinaire, pas de la surface ou du temps de présence. L'intégrer aurait fait
+  sortir l'outil de son périmètre (diagnostic logement) vers un rôle qui n'est pas le sien. Cette
+  information reste à sa place, dans la section santé de chaque fiche concernée.
+- **Vérification** : `npx astro check` (0 erreur), `npm run build` (86 pages) et `npm run audit:links`
+  (0 lien cassé) tous verts. **Vérification navigateur non concluante ce tour-ci** : le panneau navigateur
+  était masqué côté interface pendant les tests, ce qui empêche l'hydratation Preact de s'exécuter
+  normalement (comportement standard d'un onglet en arrière-plan) — confirmé en reproduisant exactement le
+  même symptôme sur le quiz existant, non modifié dans ce lot, ce qui écarte un défaut de code plutôt qu'un
+  problème d'environnement de test. À re-vérifier en navigateur dès qu'une session avec panneau visible le
+  permettra.
+
 ---
 
 ## Ce qui reste bloqué sur une décision utilisateur ou une information externe

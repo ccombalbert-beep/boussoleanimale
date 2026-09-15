@@ -38,3 +38,39 @@ export function budgetRace(coutMensuelMin: number, coutMensuelMax: number): Budg
   if (moyen < 120) return 'moyen';
   return 'eleve';
 }
+
+// Sous-ensemble de `predispositions` (content.config.ts) utilisé pour
+// générer des notes de vigilance santé — volontairement séparées du score
+// de compatibilité logement (CalculateurEspaceVital.tsx) : un risque de
+// surpoids ou une sensibilité thermique ne rendent pas une race plus ou
+// moins adaptée à un appartement donné, mais restent des conseils réels à
+// connaître avant d'adopter. Affichées sur l'espace vital et le diagnostic
+// unifié, jamais utilisées pour classer les races entre elles.
+export interface PredispositionsSante {
+  brachycephale?: boolean;
+  risqueSurpoids?: boolean;
+  sensibiliteChaleur?: boolean;
+  sensibiliteFroid?: boolean;
+}
+
+export function notesSante(p: PredispositionsSante): string[] {
+  const notes: string[] = [];
+  if (p.risqueSurpoids) {
+    notes.push(
+      "Prédisposée au surpoids : un contrôle strict des quantités et des friandises fait une vraie différence sur sa santé et son espérance de vie."
+    );
+  }
+  // La brachycéphalie implique déjà une intolérance à la chaleur (voir
+  // scoreChien/scoreChat) — sensibiliteChaleur ne documente que les cas non
+  // brachycéphales (ex. Husky Sibérien), pour éviter de renseigner deux fois
+  // la même information sur les races déjà marquées brachycephale.
+  if (p.brachycephale || p.sensibiliteChaleur) {
+    notes.push(
+      "Sensible aux fortes chaleurs : évitez les sorties ou efforts aux heures chaudes, veillez à un accès permanent à l'eau et à l'ombre."
+    );
+  }
+  if (p.sensibiliteFroid) {
+    notes.push("Sensible au froid : un manteau ou un intérieur bien chauffé en hiver n'est pas un luxe pour cette race.");
+  }
+  return notes;
+}
