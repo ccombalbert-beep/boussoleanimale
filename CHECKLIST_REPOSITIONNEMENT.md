@@ -180,6 +180,37 @@ amont sur devis.
 
 ---
 
+## Retours utilisateurs post-lancement
+
+### Retour vétérinaire (15/09/2026) — pénalité "étage sans ascenseur" trop limitée au gabarit
+
+**Constat** : un testeur (avec expertise vétérinaire) a signalé qu'avec le scénario "appartement en étage
+sans ascenseur", le calculateur d'espace vital recommandait Bouledogue Français, Bouledogue Anglais, Bichon
+Frisé et Carlin — trois races brachycéphales et plusieurs races à risque de hernie discale/luxation de la
+rotule, alors que la pénalité "sans ascenseur" ne s'appliquait qu'au gabarit "grand" dans le code d'origine.
+Escaliers répétés + brachycéphalie ou prédisposition articulaire/dorsale = vraie sollicitation santé, pas
+seulement une question de poids.
+
+**Correction apportée** :
+- Ajout d'un champ optionnel `predispositions: { brachycephale, risqueArticulaireOuDorsal }` au schéma des
+  races (`src/content.config.ts`) — **dérivé du texte déjà documenté** en section "Santé et prédispositions"
+  de chaque fiche (BOAS, hémivertèbres, luxation de la rotule, hernie discale, dysplasie...), pas une
+  nouvelle recherche inventée. 19 fiches concernées : chiens — Bouledogue Anglais, Bouledogue Français
+  (les deux prédispositions), Boxer, Carlin, Dogue de Bordeaux, Shih Tzu (brachycéphalie) ; Bichon Frisé,
+  Chihuahua, Caniche, Spitz Nain, Staffordshire Bull Terrier, Yorkshire Terrier, Jack Russell Terrier,
+  Teckel (articulaire/dorsal). Chats — Himalayen, Exotic Shorthair, Persan (brachycéphalie) ; Chartreux,
+  Devon Rex, Maine Coon (articulaire/dorsal).
+- Le scoring "étage sans ascenseur" dans `CalculateurEspaceVital.tsx` (réutilisé par le diagnostic unifié)
+  cumule désormais les motifs applicables — grand gabarit, brachycéphalie, prédisposition articulaire ou
+  dorsale — plutôt qu'un seul critère exclusif, avec un message qui nomme la raison précise.
+- Nouvelle question FAQ ajoutée sur `/outils/espace-vital/` expliquant ce choix.
+- Vérifié en reproduisant exactement le scénario signalé : Bichon Frisé et Bouledogue Anglais affichent
+  désormais un △ avec l'explication correcte, les races non concernées (Cavalier King Charles, Cocker
+  Américain) restent en ✓ sans fausse alerte. `npx astro check` (0 erreur), `npm run build` (86 pages) et
+  `npm run audit:links` (0 lien cassé) tous verts.
+
+---
+
 ## Ce qui reste bloqué sur une décision utilisateur ou une information externe
 
 - **Option E** (régie publicitaire) — décision utilisateur encore ouverte, voir chantier 5.

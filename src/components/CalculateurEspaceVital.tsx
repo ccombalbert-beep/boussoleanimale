@@ -18,6 +18,11 @@ export interface RaceEspaceItem {
   adapteAppartement: boolean;
   poidsMin: number;
   poidsMax: number;
+  // Prédispositions santé pertinentes pour les escaliers répétés — voir
+  // content.config.ts. Absentes = non documentées, jamais traitées comme un
+  // "non" garanti.
+  brachycephale?: boolean;
+  risqueArticulaireOuDorsal?: boolean;
 }
 
 // Exportées pour être réutilisées telles quelles par le diagnostic unifié
@@ -96,9 +101,26 @@ export function scoreChien(race: RaceEspaceItem, r: Reponses): Resultat {
     }
   }
 
-  if (r.etage === 'sans_ascenseur' && taille === 'grand') {
-    score -= 1;
-    raisons.push({ texte: 'Escaliers sans ascenseur : à anticiper pour un grand gabarit, en particulier en vieillissant.', positif: false });
+  // Les escaliers répétés ne sont pas qu'un enjeu de gabarit : la
+  // brachycéphalie (effort respiratoire) et les prédispositions articulaires
+  // ou dorsales (luxation de la rotule, hernie discale, hémivertèbres...)
+  // documentées sur de petites races concernent tout autant, sinon plus, que
+  // le seul grand gabarit — corrigé suite à un retour vétérinaire sur ce
+  // calculateur (voir CHECKLIST_REPOSITIONNEMENT.md, chantier 1).
+  if (r.etage === 'sans_ascenseur') {
+    const motifs: string[] = [];
+    if (taille === 'grand') motifs.push('son grand gabarit');
+    if (race.brachycephale) motifs.push('sa prédisposition respiratoire (brachycéphalie)');
+    if (race.risqueArticulaireOuDorsal) motifs.push('sa prédisposition articulaire ou dorsale documentée sur sa fiche');
+
+    if (motifs.length > 0) {
+      score -= motifs.length;
+      const liste = motifs.length === 1 ? motifs[0] : motifs.slice(0, -1).join(', ') + ' et ' + motifs[motifs.length - 1];
+      raisons.push({
+        texte: `Escaliers sans ascenseur : à anticiper avec ${liste} — les montées répétées sont une vraie sollicitation, pas un détail.`,
+        positif: false,
+      });
+    }
   }
 
   return { race, score, raisons };

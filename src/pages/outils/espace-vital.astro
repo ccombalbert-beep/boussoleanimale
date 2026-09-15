@@ -18,6 +18,8 @@ const races: RaceEspaceItem[] = [
     adapteAppartement: race.data.adapteAppartement,
     poidsMin: race.data.poids.min,
     poidsMax: race.data.poids.max,
+    brachycephale: race.data.predispositions?.brachycephale,
+    risqueArticulaireOuDorsal: race.data.predispositions?.risqueArticulaireOuDorsal,
   })),
   ...chats.map((race) => ({
     slug: race.id,
@@ -28,6 +30,8 @@ const races: RaceEspaceItem[] = [
     adapteAppartement: race.data.adapteAppartement,
     poidsMin: race.data.poids.min,
     poidsMax: race.data.poids.max,
+    brachycephale: race.data.predispositions?.brachycephale,
+    risqueArticulaireOuDorsal: race.data.predispositions?.risqueArticulaireOuDorsal,
   })),
 ];
 
@@ -46,6 +50,11 @@ const faq = [
     question: "Un jardin est-il toujours un avantage pour un chat ?",
     reponse:
       "Pas automatiquement : un accès extérieur non sécurisé expose à un vrai risque de chute ou de fugue, y compris pour un chat prudent. Ce calculateur le signale plutôt que de compter un jardin comme un bonus systématique, contrairement à ce qui vaut pour un chien.",
+  },
+  {
+    question: "Un petit chien peut-il quand même être pénalisé pour un étage sans ascenseur ?",
+    reponse:
+      "Oui, et c'est volontaire : le gabarit n'est pas le seul facteur qui rend des escaliers répétés difficiles. Certaines petites races cumulent une brachycéphalie (Carlin, Bouledogue Français...) ou des prédispositions articulaires ou dorsales documentées (luxation de la rotule, hernie discale...), qui rendent les montées d'escalier tout aussi sollicitantes que pour un grand chien — cette nuance, absente des premières versions du calculateur, a été ajoutée après un retour d'un vétérinaire.",
   },
   {
     question: "Ce calculateur remplace-t-il le quiz \"quelle race me correspond\" ?",

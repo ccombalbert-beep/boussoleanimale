@@ -19,6 +19,8 @@ const races: RaceDiagnosticItem[] = [
     poidsMax: race.data.poids.max,
     coutMensuelMin: race.data.budget.coutMensuelMin,
     coutMensuelMax: race.data.budget.coutMensuelMax,
+    brachycephale: race.data.predispositions?.brachycephale,
+    risqueArticulaireOuDorsal: race.data.predispositions?.risqueArticulaireOuDorsal,
   })),
   ...chats.map((race) => ({
     slug: race.id,
@@ -31,6 +33,8 @@ const races: RaceDiagnosticItem[] = [
     poidsMax: race.data.poids.max,
     coutMensuelMin: race.data.budget.coutMensuelMin,
     coutMensuelMax: race.data.budget.coutMensuelMax,
+    brachycephale: race.data.predispositions?.brachycephale,
+    risqueArticulaireOuDorsal: race.data.predispositions?.risqueArticulaireOuDorsal,
   })),
 ];
 

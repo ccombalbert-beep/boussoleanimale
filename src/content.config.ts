@@ -27,6 +27,24 @@ const raceSchema = ({ image }: SchemaContext) => z.object({
   adapteAppartement: z.boolean(),
   adapteEnfants: z.boolean(),
 
+  // Prédispositions pertinentes pour la mobilité (escaliers, effort physique
+  // répété) — dérivées du texte déjà documenté en section "Santé et
+  // prédispositions" de chaque fiche, pas une nouvelle recherche à part.
+  // Absentes (undefined) = non documentées pour cette race, jamais traitées
+  // comme "false" garanti. Utilisées par le calculateur d'espace vital pour
+  // ne plus réserver l'alerte "sans ascenseur" aux seuls grands gabarits.
+  predispositions: z
+    .object({
+      // Syndrome obstructif des races brachycéphales (BOAS) : effort et
+      // chaleur mal tolérés, escaliers répétés inclus.
+      brachycephale: z.boolean().optional(),
+      // Luxation de la rotule, hernie discale/chondrodystrophie,
+      // hémivertèbres, dysplasie — tout ce qui rend les escaliers répétés
+      // une vraie sollicitation articulaire ou dorsale à éviter.
+      risqueArticulaireOuDorsal: z.boolean().optional(),
+    })
+    .optional(),
+
   budget: z.object({
     prixAchatMin: z.number(),
     prixAchatMax: z.number(),
