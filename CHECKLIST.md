@@ -1,0 +1,91 @@
+# Checklist — Boussole Animale (tâches restantes)
+
+**Progression : 0/10 tâches (0%)**
+
+Checklist unique, compilée le 15 septembre 2026 à partir de tout ce qui restait ouvert dans
+`CHECKLIST_PROD.md` (100% terminé, rien à reporter), `CHECKLIST_CRO_GROWTH.md` (73%) et
+`CHECKLIST_REPOSITIONNEMENT.md` (57%) — ces trois fichiers sont supprimés une fois celle-ci en place.
+Seules les tâches non terminées sont reprises ici ; l'historique détaillé de tout ce qui a déjà été
+livré reste dans l'historique git (chaque chantier a été commité et documenté au fur et à mesure).
+
+---
+
+## Contenu éditorial
+
+- [ ] **Intégrer le premier article de la section "enquêtes"** — *en cours*
+      Article sur le Monceau Dog Club (parc Monceau, bien-être canin en ville), rédigé et affiné avec
+      l'utilisateur sur plusieurs versions (ton impersonnel aligné avec le reste du site, fidèle au
+      communiqué de presse fourni, mention de corédaction humain/IA ajoutée). Communiqué de presse
+      original reformaté en PDF pour être proposé au téléchargement. Email de validation à Vincent
+      Danna (fondateur du Monceau Dog Club) rédigé. **Reste à faire** : envoi de l'email et validation
+      de Vincent, puis construction réelle de l'infrastructure de contenu (collection `enquetes`,
+      schéma, layout — décidée en option D1 mais volontairement pas construite à vide, voir chantier
+      repositionnement) et publication effective sur le site une fois le feu vert obtenu.
+- [ ] **Schema.org Article + FAQPage pour les enquêtes**
+      Sur le modèle déjà en place pour les guides (`GuideLayout.astro` génère déjà `FAQPage`
+      automatiquement si `faq` est présent en frontmatter) — à répliquer sur le layout `enquetes` au
+      moment de la construction réelle, en même temps que le premier article.
+- [ ] **Étendre le calendrier éditorial des guides hebdomadaires au-delà de la semaine 13**
+      Le calendrier actuel (`SEO_GUIDES_PLAN.md`) couvre jusqu'au 6 décembre 2026. Reprendre la même
+      méthode (intention de recherche + maillage disponible + écart avec l'existant) pour planifier la
+      suite. Pas urgent — à faire quand la semaine 13 approche, pas maintenant.
+
+## SEO & données
+
+- [ ] **Exploiter les données Search Console**
+      Connecté depuis le 13 septembre 2026 seulement — pas assez de recul pour en tirer des priorités
+      fiables. À reprendre début octobre 2026 environ (3-4 semaines de données), pas avant : cocher
+      cette case plus tôt reviendrait à décider sur une intention plutôt que sur des données réelles.
+- [ ] **Maillage interne du repositionnement**
+      Liens contextuels dans les deux sens entre fiches de race, calculateurs (espace vital,
+      diagnostic unifié) et future section éditoriale — même logique déjà pratiquée dans les guides
+      existants, à étendre aux nouveaux outils et à la section enquêtes une fois publiée.
+- [ ] **Sitemap : ajouter le motif d'URL `enquetes`**
+      Une ligne de regex à ajouter dans `serialize()` (`astro.config.mjs`), en même temps que la
+      construction réelle de la section — pas un chantier à part.
+- [ ] **Meta title/description sur les nouvelles pages du repositionnement**
+      Cibler les mots-clés longue traîne identifiés : "espace vital chien appartement", "quel chien
+      pour mon appartement", "bien-être animal en ville" — sur `/outils/espace-vital/`,
+      `/outils/diagnostic/` et la future section enquêtes.
+
+## Réseaux sociaux
+
+- [ ] **Définir de nouvelles sources de contenu pour le pipeline social**
+      Le pipeline (`social/scripts/lib/content-source.mjs`) ne lit aujourd'hui que les fiches de race
+      et les guides. Extension possible : FAQ des fiches en format question/réponse dédié, données des
+      calculateurs. Périmètre pas encore défini — décision de scope à prendre avant tout développement.
+- [ ] **Automatiser les publications via API (Instagram Graph API / TikTok Content Posting API)**
+      Bloqué, non contournable sans l'utilisateur : nécessite un compte développeur Meta et TikTok,
+      une validation business (Meta exige une revue d'app pour l'accès en production), et des jetons
+      liés à de vrais comptes professionnels. Dès que ces accès existeront, le sas de validation
+      humaine déjà en place dans le pipeline doit rester le principe directeur — une API ne doit
+      remplacer que la publication mécanique, jamais la relecture avant publication.
+
+## Monétisation
+
+- [ ] **Trancher l'option E (régie publicitaire) puis intégrer les emplacements**
+      Réseau à choisir (AdSense / Ezoic / Mediavine / autre), nombre et emplacement des slots. Le
+      plumbing RGPD est déjà prêt (`src/lib/consentement.ts` déclare une catégorie `publicite`,
+      refusée par défaut) — le reste est à zéro. À positionner une fois la structure de page du
+      repositionnement stabilisée, pas avant.
+
+---
+
+## Ce qui reste bloqué sur une décision utilisateur ou une information externe
+
+- **Search Console** : question de temps, pas de décision — début octobre 2026 environ.
+- **Nouvelles sources de contenu social** : décision de scope à prendre par l'utilisateur.
+- **Automatisation Instagram/TikTok** : comptes développeur et validation business à créer par
+  l'utilisateur.
+- **Option E (régie publicitaire)** : décision utilisateur encore ouverte.
+- **Premier article enquêtes** : en attente de la validation de Vincent Danna (Monceau Dog Club).
+- **Backlinks / autorité externe** : identifié comme le plus gros levier SEO restant, mais entièrement
+  hors de portée technique (annuaires, partenariats éleveurs/vétérinaires/associations, contenu
+  invité) — nécessite un engagement réel de l'utilisateur, pas une action de code.
+
+## Prochaine action recommandée
+
+La validation de Vincent Danna débloque directement deux tâches (premier article + schema.org
+associé). En parallèle, le maillage interne, le sitemap et les meta du repositionnement ne dépendent
+d'aucune décision externe et peuvent avancer dès maintenant si l'utilisateur veut continuer sans
+attendre cette validation.
