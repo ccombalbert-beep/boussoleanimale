@@ -11,6 +11,18 @@ const ALIMENTATION: Record<Taille, Record<Gamme, number>> = {
   grand: { standard: 60, premium: 110 },
 };
 
+// Antiparasitaires, vermifuges et provision santé courante — les doses et la
+// plupart des actes vétérinaires courants se calculent au poids (voir notre
+// guide sur le budget d'un chien), donc ce forfait doit varier avec le
+// gabarit comme le fait déjà le coût de l'assurance ci-dessous. Corrigé
+// suite à un audit de cohérence (15/09/2026) : un montant fixe de 25 €
+// contredisait ce que le site explique lui-même dans sa FAQ budget.
+const HYGIENE_VETERINAIRE_BASE: Record<Taille, number> = {
+  petit: 18,
+  moyen: 25,
+  grand: 32,
+};
+
 // Exemples de fiches par gabarit, pour lier ce calculateur aux races
 // concernées plutôt qu'au seul hub générique.
 const RACES_PAR_TAILLE: Record<Taille, { slug: string; nom: string }[]> = {
@@ -36,7 +48,7 @@ export default function CalculateurCout() {
 
   const detail = useMemo(() => {
     const alimentation = ALIMENTATION[taille][gamme];
-    const hygieneVeterinaireBase = 25; // antiparasitaires, provision santé courante
+    const hygieneVeterinaireBase = HYGIENE_VETERINAIRE_BASE[taille];
     const assuranceCout = assurance ? (taille === 'grand' ? 35 : taille === 'moyen' ? 28 : 20) : 0;
     const toilettageCout = toilettage ? 40 : 0;
     const total = alimentation + hygieneVeterinaireBase + assuranceCout + toilettageCout;

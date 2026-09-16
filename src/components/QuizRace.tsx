@@ -48,44 +48,122 @@ interface Props {
 // 2.5 plutôt que 2, à mi-chemin entre les deux niveaux réels.
 const NIVEAU_CIBLE: Record<Activite, number> = { faible: 0, modere: 1, eleve: 2.5 };
 
-function scoreRace(race: RaceQuizItem, r: Reponses): number {
+interface Raison {
+  texte: string;
+  positif: boolean;
+}
+
+interface ScoreResultat {
+  score: number;
+  raisons: Raison[];
+}
+
+// Retourne le score ET les raisons qui l'expliquent — jusqu'ici le quiz
+// calculait un score opaque sans jamais montrer sa logique à l'utilisateur,
+// contrairement au calculateur d'espace vital et au diagnostic unifié.
+// Corrigé suite à un audit de cohérence (15/09/2026) : un utilisateur
+// répondant "appartement" pouvait se voir recommander une race à activité
+// élevée (Cocker Spaniel, Caniche...) sans jamais voir l'avertissement que
+// le guide "quelle race pour appartement" formule pourtant explicitement —
+// l'appartement ne dispense jamais du besoin d'exercice quotidien réel.
+function scoreRace(race: RaceQuizItem, r: Reponses): ScoreResultat {
+  const raisons: Raison[] = [];
   let score = 0;
 
-  if (r.logement === 'appartement') score += race.adapteAppartement ? 3 : -6;
-  if (r.logement === 'maison_jardin') score += 3; // une maison avec jardin convient à toutes les races
+  if (r.logement === 'appartement') {
+    if (race.adapteAppartement) {
+      score += 3;
+      raisons.push({ texte: 'Race documentée comme adaptée à la vie en appartement.', positif: true });
+    } else {
+      score -= 6;
+      raisons.push({ texte: 'Cette race n\'est pas documentée comme adaptée à l\'appartement.', positif: false });
+    }
+    if (race.niveauActivite === 'eleve' || race.niveauActivite === 'tres_eleve') {
+      raisons.push({
+        texte: 'Niveau d\'activité élevé : l\'appartement ne dispense pas de sorties quotidiennes réelles et actives.',
+        positif: false,
+      });
+    }
+  }
+  if (r.logement === 'maison_jardin') {
+    score += 3;
+    raisons.push({ texte: 'Une maison avec jardin convient à tous les gabarits.', positif: true });
+  }
 
   if (r.taille && r.taille !== 'peu_importe') {
-    const distance = Math.abs(TAILLE_ORDRE[tailleChien(race.poidsMin, race.poidsMax)] - TAILLE_ORDRE[r.taille]);
-    score += Math.max(0, 2 - distance);
+    const taille = tailleChien(race.poidsMin, race.poidsMax);
+    const distance = Math.abs(TAILLE_ORDRE[taille] - TAILLE_ORDRE[r.taille]);
+    const gain = Math.max(0, 2 - distance);
+    score += gain;
+    if (distance === 0) {
+      raisons.push({ texte: `Gabarit ${taille} : correspond à la taille recherchée.`, positif: true });
+    } else if (gain === 0) {
+      raisons.push({ texte: `Gabarit ${taille} : sensiblement différent de la taille recherchée.`, positif: false });
+    }
   }
 
   if (r.activite) {
     const distance = Math.abs(NIVEAU_ORDRE[race.niveauActivite] - NIVEAU_CIBLE[r.activite]);
-    score += Math.max(0, 3 - distance);
+    const gain = Math.max(0, 3 - distance);
+    score += gain;
+    if (distance <= 0.5) {
+      raisons.push({ texte: 'Niveau d\'activité cohérent avec le temps que vous pouvez y consacrer.', positif: true });
+    } else if (gain === 0) {
+      raisons.push({ texte: 'Niveau d\'activité nettement supérieur au temps que vous pouvez y consacrer.', positif: false });
+    }
   }
 
   // Pas de champ "adapté débutant" dans les fiches (ce serait un jugement
   // trop tranché pour figurer dans une fiche factuelle) — heuristique
   // éditoriale assumée : un niveau d'activité très élevé demande une
   // expérience réelle d'éducation canine, le reste convient à un débutant.
-  if (r.experience === 'debutant' && race.niveauActivite === 'tres_eleve') score -= 3;
+  if (r.experience === 'debutant' && race.niveauActivite === 'tres_eleve') {
+    score -= 3;
+    raisons.push({
+      texte: 'Niveau d\'activité très élevé : demande une vraie expérience d\'éducation, moins recommandé pour une première adoption.',
+      positif: false,
+    });
+  }
 
   if (r.budget && r.budget !== 'peu_importe') {
-    const distance = Math.abs(BUDGET_ORDRE[budgetRace(race.coutMensuelMin, race.coutMensuelMax)] - BUDGET_ORDRE[r.budget]);
-    score += Math.max(0, 2 - distance);
+    const niveauRace = budgetRace(race.coutMensuelMin, race.coutMensuelMax);
+    const distance = Math.abs(BUDGET_ORDRE[niveauRace] - BUDGET_ORDRE[r.budget]);
+    const gain = Math.max(0, 2 - distance);
+    score += gain;
+    if (distance === 0) {
+      raisons.push({ texte: `Budget mensuel réel (${race.coutMensuelMin}-${race.coutMensuelMax} €) cohérent avec votre enveloppe.`, positif: true });
+    } else if (gain === 0) {
+      raisons.push({ texte: `Budget mensuel réel (${race.coutMensuelMin}-${race.coutMensuelMax} €) au-delà de votre enveloppe visée.`, positif: false });
+    }
   }
 
   if (r.aboiement === 'faible' && race.aboiement) {
-    score += race.aboiement === 'rare' ? 1.5 : race.aboiement === 'occasionnel' ? 0.5 : -1.5;
+    if (race.aboiement === 'rare') {
+      score += 1.5;
+      raisons.push({ texte: 'Aboiement rare, documenté sur la fiche.', positif: true });
+    } else if (race.aboiement === 'occasionnel') {
+      score += 0.5;
+      raisons.push({ texte: 'Aboiement occasionnel : à garder en tête.', positif: true });
+    } else {
+      score -= 1.5;
+      raisons.push({ texte: 'Aboiement fréquent documenté : à anticiper si la tranquillité du voisinage compte pour vous.', positif: false });
+    }
   }
 
   if (r.enfants === true) {
-    // Critère éliminatoire plutôt que simple bonus : avec de jeunes enfants,
-    // une race non recommandée ne doit pas remonter dans le classement.
-    score += race.adapteEnfants ? 1 : -10;
+    // Critère quasi-éliminatoire plutôt que simple bonus : avec de jeunes
+    // enfants, une race non recommandée ne doit pas remonter dans le
+    // classement.
+    if (race.adapteEnfants) {
+      score += 1;
+      raisons.push({ texte: 'Race documentée comme compatible avec de jeunes enfants.', positif: true });
+    } else {
+      score -= 10;
+      raisons.push({ texte: 'Cette race n\'est pas recommandée avec de jeunes enfants en bas âge.', positif: false });
+    }
   }
 
-  return score;
+  return { score, raisons };
 }
 
 const QUESTIONS = [
@@ -200,7 +278,10 @@ export default function QuizRace({ races }: Props) {
     }
   }
 
-  const resultats = [...races].sort((a, b) => scoreRace(b, reponses) - scoreRace(a, reponses)).slice(0, 3);
+  const resultats = [...races]
+    .map((race) => ({ race, ...scoreRace(race, reponses) }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3);
 
   // Tunnel de conversion : démarrage au montage (implicite, ce useEffect ne
   // se déclenche qu'après), puis une lecture par question atteinte (permet
@@ -213,7 +294,7 @@ export default function QuizRace({ races }: Props) {
       return;
     }
     if (termine) {
-      trackEvent('quiz_complete', { top_result: resultats[0]?.slug });
+      trackEvent('quiz_complete', { top_result: resultats[0]?.race.slug });
     } else {
       trackEvent('quiz_step', { step: step + 1, total: totalSteps });
     }
@@ -243,14 +324,22 @@ export default function QuizRace({ races }: Props) {
           Vos races recommandées
         </h2>
         <div class="space-y-4">
-          {resultats.map((race, i) => (
-            <div key={race.slug} class="border border-sable-300 bg-sable-50 p-5">
+          {resultats.map((res, i) => (
+            <div key={res.race.slug} class="border border-sable-300 bg-sable-50 p-5">
               <p class="text-sm font-medium text-terracotta-600">#{i + 1} correspondance</p>
-              <h3 class="mt-1 font-display text-xl font-medium">{race.nom}</h3>
-              <p class="mt-1 text-encre-700">{race.resume}</p>
+              <h3 class="mt-1 font-display text-xl font-medium">{res.race.nom}</h3>
+              <p class="mt-1 text-encre-700">{res.race.resume}</p>
+              <ul class="mt-4 space-y-1.5 text-sm">
+                {res.raisons.map((raison) => (
+                  <li key={raison.texte} class={`flex gap-2 ${raison.positif ? 'text-pin-700' : 'text-encre-700'}`}>
+                    <span aria-hidden="true">{raison.positif ? '✓' : '△'}</span>
+                    <span>{raison.texte}</span>
+                  </li>
+                ))}
+              </ul>
               <a
-                href={`/chiens/races/${race.slug}/`}
-                class="mt-3 inline-block text-sm font-medium text-encre-900 hover:text-terracotta-600"
+                href={`/chiens/races/${res.race.slug}/`}
+                class="mt-4 inline-block text-sm font-medium text-encre-900 hover:text-terracotta-600"
               >
                 Voir la fiche complète →
               </a>
