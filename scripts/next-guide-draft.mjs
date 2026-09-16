@@ -51,6 +51,7 @@ const squelette = `---
 titre: "TODO — titre éditorial complet pour : ${prochaine.sujet}"
 titreCourt: "TODO"
 resume: "TODO — 200 caractères max, sert aussi de meta description."
+categorie: "TODO — une valeur parmi bien-etre-sante, education-comportement, mode-de-vie-urbain, budget-pratique (voir src/lib/guideCategories.ts)"
 
 image: "TODO — réutiliser une image déjà vérifiée d'une fiche race existante (../../assets/images/races/<slug>.jpg)"
 imageAlt: "TODO"

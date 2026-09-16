@@ -5,6 +5,7 @@ import Layout from './Layout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import BoutonFavori from '../components/BoutonFavori.tsx';
 import CompassMark from '../components/CompassMark.astro';
+import { CATEGORIE_LABELS } from '../lib/guideCategories';
 
 interface Props {
   data: CollectionEntry<'guides'>['data'];
@@ -64,7 +65,14 @@ const faqSchema = data.faq && data.faq.length > 0
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleSchema)} is:inline />
   {faqSchema && <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />}
   <article class="mx-auto max-w-3xl px-4 py-10">
-    <Breadcrumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Guides', href: '/guides/' }, { label: data.titre }]} />
+    <Breadcrumbs
+      items={[
+        { label: 'Accueil', href: '/' },
+        { label: 'Guides', href: '/guides/' },
+        ...(data.categorie ? [{ label: CATEGORIE_LABELS[data.categorie] }] : []),
+        { label: data.titre },
+      ]}
+    />
 
     <header class="mb-8">
       <div class="flex items-start justify-between gap-4">

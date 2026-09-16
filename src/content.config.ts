@@ -1,5 +1,6 @@
 import { defineCollection, z, type SchemaContext } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { CATEGORIES } from './lib/guideCategories';
 
 const raceSchema = ({ image }: SchemaContext) => z.object({
   nom: z.string(),
@@ -131,6 +132,12 @@ const guideSchema = ({ image }: SchemaContext) =>
     // Optionnel : retombe sur `titre` si absent.
     titreCourt: z.string().optional(),
     resume: z.string().max(200),
+    // Sous-catégorie éditoriale — optionnelle : les guides déjà publiés
+    // avant l'introduction de cette taxonomie (15/09/2026) restent valides
+    // sans elle, regroupés dans "Non classé" sur /guides/ jusqu'à
+    // rétrocatégorisation. Voir src/lib/guideCategories.ts pour la liste des
+    // valeurs et leurs libellés d'affichage.
+    categorie: z.enum(CATEGORIES).optional(),
     image: image(),
     imageAlt: z.string(),
     imagePosition: z.enum(['center', 'top', 'bottom']).optional(),
