@@ -1,6 +1,6 @@
 # Plan des guides SEO hebdomadaires — Boussole Animale
 
-**Statut : 1/13 publié, 12/13 rédigés et prêts — publication automatique 1/semaine jusqu'au 6 décembre 2026**
+**Statut : 2/13 publiés (dernier en date : semaine 2, 2026-10-07)**
 
 Chantier de contenu longue traîne : un guide par semaine sur un trimestre (13 semaines), articulé avec le
 maillage interne existant (26 fiches chien, 18 fiches chat, 5 outils) plutôt que des articles isolés. Objectif :
@@ -101,7 +101,7 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
         "/outils/cout-mensuel-chat/"
       ]
     },
-    "statut": "rédigé, prêt",
+    "statut": "publié",
     "datePublicationPrevue": "2026-09-20"
   },
   {
