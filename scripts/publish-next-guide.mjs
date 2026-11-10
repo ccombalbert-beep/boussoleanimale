@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Promeut le prochain guide SEO dû à publication (SEO_GUIDES_PLAN.md).
+// Promeut le ou les guides SEO dus à publication (SEO_GUIDES_PLAN.md).
 //
 // Ne rédige ni ne modifie aucun contenu : renomme le brouillon déjà écrit et
 // relu (<slug>.mdx.draft -> <slug>.mdx, ce qui le fait entrer dans le build
@@ -35,25 +35,36 @@ if (dus.length === 0) {
   process.exit(0);
 }
 
-const prochain = dus[0];
-const cheminDraft = path.join(GUIDES_DIR, `${prochain.slug}.mdx.draft`);
-const cheminFinal = path.join(GUIDES_DIR, `${prochain.slug}.mdx`);
+// Rythme normal : un guide par semaine. Tant qu'un retard s'est accumulé
+// (plusieurs guides déjà dus), on en publie deux pour le résorber.
+const aPublier = dus.slice(0, dus.length > 1 ? 2 : 1);
 
-if (!existsSync(cheminDraft)) {
-  console.error(`Brouillon introuvable : ${cheminDraft} — vérifier le calendrier avant de relancer.`);
-  process.exit(1);
-}
-if (existsSync(cheminFinal)) {
-  console.error(`${cheminFinal} existe déjà — un guide de ce slug est peut-être déjà publié.`);
-  process.exit(1);
+for (const guide of aPublier) {
+  const cheminDraft = path.join(GUIDES_DIR, `${guide.slug}.mdx.draft`);
+  const cheminFinal = path.join(GUIDES_DIR, `${guide.slug}.mdx`);
+  if (!existsSync(cheminDraft)) {
+    console.error(`Brouillon introuvable : ${cheminDraft} — vérifier le calendrier avant de relancer.`);
+    process.exit(1);
+  }
+  if (existsSync(cheminFinal)) {
+    console.error(`${cheminFinal} existe déjà — un guide de ce slug est peut-être déjà publié.`);
+    process.exit(1);
+  }
 }
 
-renameSync(cheminDraft, cheminFinal);
+const slugsPublies = new Set(aPublier.map((g) => g.slug));
+for (const guide of aPublier) {
+  renameSync(
+    path.join(GUIDES_DIR, `${guide.slug}.mdx.draft`),
+    path.join(GUIDES_DIR, `${guide.slug}.mdx`)
+  );
+}
 
 const calendrierMisAJour = calendrier.map((e) =>
-  e.slug === prochain.slug ? { ...e, statut: 'publié' } : e
+  slugsPublies.has(e.slug) ? { ...e, statut: 'publié' } : e
 );
 const nbPublies = calendrierMisAJour.filter((e) => e.statut === 'publié').length;
+const derniereSemaine = Math.max(...aPublier.map((g) => g.semaine));
 
 let planMisAJour = plan.replace(
   blockMatch[0],
@@ -61,10 +72,12 @@ let planMisAJour = plan.replace(
 );
 planMisAJour = planMisAJour.replace(
   /\*\*Statut : .*\*\*/,
-  `**Statut : ${nbPublies}/13 publiés (dernier en date : semaine ${prochain.semaine}, ${aujourdHui})**`
+  `**Statut : ${nbPublies}/13 publiés (dernier en date : semaine ${derniereSemaine}, ${aujourdHui})**`
 );
 writeFileSync(PLAN_PATH, planMisAJour);
 
-console.log(`✓ Publié : src/content/guides/${prochain.slug}.mdx (semaine ${prochain.semaine})`);
-console.log(`  Titre : ${prochain.sujet}`);
+for (const guide of aPublier) {
+  console.log(`✓ Publié : src/content/guides/${guide.slug}.mdx (semaine ${guide.semaine})`);
+  console.log(`  Titre : ${guide.sujet}`);
+}
 console.log(`  ${nbPublies}/13 guides publiés au total.`);

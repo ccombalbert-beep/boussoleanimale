@@ -1,0 +1,54 @@
+name: Publish weekly SEO guide
+
+on:
+  schedule:
+    - cron: '0 8 * * 0' # dimanche 08:00 UTC (9h ou 10h à Paris)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-weekly-guide
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Promote due guide(s)
+        run: npm run guide:publish-week
+
+      - name: Stop here if nothing changed
+        id: changes
+        run: |
+          if git diff --quiet && [ -z "$(git ls-files --others --exclude-standard src/content/guides)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build and check internal links
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          npm run build
+          npm run audit:links
+
+      - name: Commit and push
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add SEO_GUIDES_PLAN.md src/content/guides
+          git commit -m "Publish weekly SEO guide(s)"
+          git pull --rebase origin main
+          git push origin main
