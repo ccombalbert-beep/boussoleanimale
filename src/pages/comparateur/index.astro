@@ -4,6 +4,7 @@ import { getImage } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import Comparateur, { type CompareItem } from '../../components/Comparateur.tsx';
+import { webApplicationSchema } from '../../lib/schemas';
 
 // Site statique (pas de SSR) : la sélection à comparer vit dans l'URL
 // (?especes=chien&races=slug1,slug2) mais n'est lue que côté client, dans
@@ -45,12 +46,65 @@ async function versCompareItem(entry: any, espece: 'chien' | 'chat'): Promise<Co
 const [chiensEntries, chatsEntries] = await Promise.all([getCollection('chiens'), getCollection('chats')]);
 const chiens = await Promise.all(chiensEntries.map((e) => versCompareItem(e, 'chien')));
 const chats = await Promise.all(chatsEntries.map((e) => versCompareItem(e, 'chat')));
+
+const faq = [
+  {
+    question: 'Comment comparer deux races ?',
+    reponse:
+      "Cochez « Comparer » sur les fiches de 2 à 3 races de la même espèce (chiens ou chats), puis validez depuis la barre en bas de page. Vous pouvez aussi partir d'un des comparatifs proposés plus haut. La sélection est conservée dans l'adresse de la page : vous pouvez la copier pour la partager.",
+  },
+  {
+    question: 'Peut-on comparer un chien et un chat ?',
+    reponse:
+      "Non : la comparaison se fait au sein d'une même espèce, car certains critères n'ont de sens que pour l'une des deux. L'aboiement, par exemple, n'est affiché que pour les chiens. Pour hésiter entre un chien et un chat, voir notre guide « Chat ou chien : comment choisir selon son mode de vie ».",
+  },
+  {
+    question: "D'où viennent les données comparées ?",
+    reponse:
+      "Directement des fiches de race du site, rédigées à partir de sources citées sur chaque fiche (standards FCI, Société Centrale Canine, publications vétérinaires). Voir la page méthodologie pour le détail de la façon dont nous rédigeons et vérifions les contenus.",
+  },
+  {
+    question: 'Quels critères le comparateur affiche-t-il ?',
+    reponse:
+      "Taille, poids, espérance de vie, niveau d'activité, type de poil, aboiement (chiens uniquement), aptitude à l'appartement, compatibilité avec les enfants, prix d'achat et coût mensuel. Les prix sont des fourchettes indicatives, pas des tarifs fermes.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.reponse },
+  })),
+};
+
+const appSchema = webApplicationSchema({
+  nom: 'Comparateur de races de chiens et de chats',
+  url: 'https://boussoleanimale.fr/comparateur/',
+  description: "Compare 2 à 3 races de chien ou de chat côte à côte : taille, activité, budget, aptitude à l'appartement et aux enfants.",
+});
+
+const comparatifsChiens = [
+  { races: ['labrador', 'golden-retriever'], label: 'Labrador ou Golden Retriever' },
+  { races: ['bouledogue-francais', 'carlin'], label: 'Bouledogue Français ou Carlin' },
+  { races: ['chihuahua', 'bichon-frise', 'caniche'], label: 'Chihuahua, Bichon Frisé ou Caniche' },
+  { races: ['berger-allemand', 'border-collie'], label: 'Berger Allemand ou Border Collie' },
+];
+const comparatifsChats = [
+  { races: ['maine-coon', 'ragdoll'], label: 'Maine Coon ou Ragdoll' },
+  { races: ['british-shorthair', 'persan'], label: 'British Shorthair ou Persan' },
+  { races: ['siamois', 'sacre-de-birmanie'], label: 'Siamois ou Sacré de Birmanie' },
+];
 ---
 
 <Layout
   title="Comparateur de races"
   description="Comparez 2 à 3 races de chien ou de chat côte à côte : taille, budget, entretien, santé."
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(appSchema)} is:inline />
   <div class="mx-auto max-w-5xl px-4 py-12">
     <Breadcrumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Comparateur' }]} />
 
@@ -62,5 +116,51 @@ const chats = await Promise.all(chatsEntries.map((e) => versCompareItem(e, 'chat
     <div class="mt-8">
       <Comparateur client:load chiens={chiens} chats={chats} />
     </div>
+
+    <section class="mt-16" aria-labelledby="exemples-titre">
+      <h2 id="exemples-titre" class="mb-4 font-display text-2xl font-medium text-encre-900">Comparatifs fréquents</h2>
+      <p class="max-w-2xl text-encre-700">Des hésitations courantes entre races, à ouvrir en un clic.</p>
+      <div class="mt-4 grid gap-6 sm:grid-cols-2">
+        <div>
+          <h3 class="font-display text-lg font-medium text-encre-900">Chiens</h3>
+          <ul class="mt-2 space-y-1.5 text-encre-700">
+            {comparatifsChiens.map((c) => (
+              <li>
+                <a href={`/comparateur/?especes=chien&races=${c.races.join(',')}`} class="font-medium text-terracotta-600 hover:text-terracotta-500">{c.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-display text-lg font-medium text-encre-900">Chats</h3>
+          <ul class="mt-2 space-y-1.5 text-encre-700">
+            {comparatifsChats.map((c) => (
+              <li>
+                <a href={`/comparateur/?especes=chat&races=${c.races.join(',')}`} class="font-medium text-terracotta-600 hover:text-terracotta-500">{c.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-16 max-w-3xl" aria-labelledby="faq-titre">
+      <h2 id="faq-titre" class="mb-4 font-display text-2xl font-medium text-encre-900">Questions fréquentes</h2>
+      <div class="divide-y divide-sable-300">
+        {faq.map((item) => (
+          <details class="group py-4">
+            <summary class="faq-summary cursor-pointer list-none font-medium text-encre-900 group-open:text-terracotta-600">
+              {item.question}
+            </summary>
+            <p class="mt-2 text-encre-700">{item.reponse}</p>
+          </details>
+        ))}
+      </div>
+      <p class="mt-6 text-sm text-encre-700">
+        Pour savoir quelle race convient à votre situation plutôt que comparer des races déjà choisies, essayez le
+        <a href="/outils/diagnostic/" class="font-medium text-terracotta-600 hover:text-terracotta-500">diagnostic complet</a> ou le
+        <a href="/outils/espace-vital/" class="font-medium text-terracotta-600 hover:text-terracotta-500">calculateur d'espace vital</a>.
+      </p>
+    </section>
   </div>
 </Layout>

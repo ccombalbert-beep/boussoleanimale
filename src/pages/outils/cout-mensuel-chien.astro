@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { webApplicationSchema } from '../../lib/schemas';
 import CalculateurCout from '../../components/CalculateurCout.tsx';
 
 const faq = [
@@ -34,6 +35,13 @@ const faqSchema = {
     acceptedAnswer: { '@type': 'Answer', text: item.reponse },
   })),
 };
+
+const appSchema = webApplicationSchema({
+  nom: "Simulateur de coût mensuel d'un chien",
+  url: 'https://boussoleanimale.fr/outils/cout-mensuel-chien/',
+  description:
+    "Estime le budget mensuel d'un chien selon sa taille, son alimentation, l'assurance et le toilettage.",
+});
 ---
 
 <Layout
@@ -41,6 +49,7 @@ const faqSchema = {
   description="Calculez le coût mensuel réel d'un chien selon sa taille, son alimentation et vos choix (assurance, toilettage) avec ce simulateur interactif."
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(appSchema)} is:inline />
   <div class="mx-auto max-w-3xl px-4 py-12">
     <p class="label text-terracotta-600">Calculateur</p>
     <h1 class="mt-2 font-display text-3xl font-medium text-encre-900">Combien coûte un chien par mois ?</h1>

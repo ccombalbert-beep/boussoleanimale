@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import DiagnosticUnifie, { type RaceDiagnosticItem } from '../../components/DiagnosticUnifie.tsx';
+import { webApplicationSchema } from '../../lib/schemas';
 
 // Même pool que les autres outils : tout le catalogue publié, chiens et
 // chats confondus, jamais une sélection figée.
@@ -78,6 +79,13 @@ const faqSchema = {
     acceptedAnswer: { '@type': 'Answer', text: item.reponse },
   })),
 };
+
+const appSchema = webApplicationSchema({
+  nom: 'Diagnostic de compatibilité animal et mode de vie',
+  url: 'https://boussoleanimale.fr/outils/diagnostic/',
+  description:
+    "Croise logement, budget, temps de présence quotidien et expérience pour identifier les races de chien ou de chat compatibles, critère par critère.",
+});
 ---
 
 <Layout
@@ -85,6 +93,7 @@ const faqSchema = {
   description="Croisez en une seule fois votre logement, votre budget, le temps de présence quotidien et votre expérience pour identifier les races de chien ou de chat vraiment compatibles."
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(appSchema)} is:inline />
   <div class="mx-auto max-w-2xl px-4 py-12">
     <p class="label text-terracotta-600">Diagnostic complet</p>
     <h1 class="mt-2 font-display text-3xl font-medium text-encre-900">Quelle race pour votre mode de vie, vraiment ?</h1>
@@ -101,6 +110,39 @@ const faqSchema = {
     <p class="mt-6 text-sm text-encre-700">
       Vous préférez un outil ciblé sur un seul critère ? <a href="/outils/espace-vital/" class="font-medium text-terracotta-600 hover:text-terracotta-500">Espace vital</a>, <a href="/outils/quelle-race-me-correspond/" class="font-medium text-terracotta-600 hover:text-terracotta-500">quiz race</a> ou <a href="/outils/" class="font-medium text-terracotta-600 hover:text-terracotta-500">tous les outils</a>.
     </p>
+
+    <section class="mt-16" aria-labelledby="methode-titre">
+      <h2 id="methode-titre" class="mb-4 font-display text-2xl font-medium text-encre-900">Les quatre critères du diagnostic</h2>
+      <p class="text-encre-700">
+        Chaque race est évaluée sur quatre critères distincts, affichés séparément dans les résultats pour qu'un bon
+        score global ne masque pas un point bloquant :
+      </p>
+      <ul class="mt-4 list-disc space-y-2 pl-5 text-encre-700">
+        <li>
+          <strong>Espace et logement.</strong> Surface, extérieur et étage face au gabarit, au niveau d'activité et aux
+          prédispositions de santé de la race (même logique que le{' '}
+          <a href="/outils/espace-vital/" class="font-medium text-terracotta-600 hover:text-terracotta-500">calculateur d'espace vital</a>).
+        </li>
+        <li>
+          <strong>Budget.</strong> Le coût mensuel réel de la race, d'après sa fiche, comparé à l'enveloppe que vous
+          visez. Détail des postes dans le{' '}<a href="/guides/combien-coute-un-chien-par-mois/" class="font-medium text-terracotta-600 hover:text-terracotta-500">guide sur le budget d'un chien</a>.
+        </li>
+        <li>
+          <strong>Présence quotidienne.</strong> Le temps que l'animal passera seul. Un chat tolère mieux la solitude
+          qu'un chien ; certaines races ont une anxiété de séparation documentée, un facteur distinct du niveau
+          d'activité, traité en priorité.
+        </li>
+        <li>
+          <strong>Expérience requise.</strong> Les races au niveau d'activité très élevé demandent une vraie
+          expérience d'éducation et sont moins indiquées pour un premier animal.
+        </li>
+      </ul>
+      <p class="mt-4 text-encre-700">
+        Comme pour les autres outils, les résultats décrivent une race et non votre animal, et ne remplacent ni un
+        vétérinaire ni un éducateur. Hésitez encore entre un chien et un chat ? Lisez{' '}
+        <a href="/guides/chat-ou-chien-comment-choisir/" class="font-medium text-terracotta-600 hover:text-terracotta-500">notre guide pour choisir selon son mode de vie</a>.
+      </p>
+    </section>
 
     <section class="mt-16" aria-labelledby="faq-titre">
       <h2 id="faq-titre" class="mb-4 font-display text-2xl font-medium text-encre-900">Questions fréquentes</h2>

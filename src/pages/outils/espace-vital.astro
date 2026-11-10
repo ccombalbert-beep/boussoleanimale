@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import CalculateurEspaceVital, { type RaceEspaceItem } from '../../components/CalculateurEspaceVital.tsx';
+import { webApplicationSchema } from '../../lib/schemas';
 
 // Pool de races = tout le catalogue publié, chiens et chats confondus, comme
 // QuizRace.tsx : une nouvelle fiche apparaît automatiquement ici au prochain
@@ -78,6 +79,13 @@ const faqSchema = {
     acceptedAnswer: { '@type': 'Answer', text: item.reponse },
   })),
 };
+
+const appSchema = webApplicationSchema({
+  nom: "Calculateur d'espace vital chien et chat",
+  url: 'https://boussoleanimale.fr/outils/espace-vital/',
+  description:
+    "Croise la surface, l'étage et l'accès à un extérieur d'un logement avec le gabarit et le niveau d'activité de chaque race de chien ou de chat.",
+});
 ---
 
 <Layout
@@ -85,6 +93,7 @@ const faqSchema = {
   description="Calculateur d'espace vital chien et chat : croisez surface, étage et accès à un extérieur avec le gabarit et l'activité réelle de chaque race pour savoir laquelle convient vraiment à votre appartement."
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(appSchema)} is:inline />
   <div class="mx-auto max-w-2xl px-4 py-12">
     <p class="label text-terracotta-600">Outil interactif</p>
     <h1 class="mt-2 font-display text-3xl font-medium text-encre-900">Quel espace vital pour mon chien ou mon chat ?</h1>
@@ -103,6 +112,46 @@ const faqSchema = {
       <a href="/outils/quelle-race-me-correspond/" class="font-medium text-terracotta-600 hover:text-terracotta-500">Faites le quiz "quelle race me correspond"</a>.
     </p>
 
+    <section class="mt-16" aria-labelledby="methode-titre">
+      <h2 id="methode-titre" class="mb-4 font-display text-2xl font-medium text-encre-900">Comment le calculateur évalue chaque race</h2>
+      <p class="text-encre-700">
+        Chaque race reçoit un score à partir des données de sa fiche (poids, niveau d'activité, aptitude à
+        l'appartement, prédispositions de santé documentées). Le calculateur ne s'arrête pas à la taille :
+      </p>
+      <ul class="mt-4 list-disc space-y-2 pl-5 text-encre-700">
+        <li>
+          <strong>Gabarit et surface (chiens).</strong> Les races sont classées en petit, moyen ou grand gabarit
+          d'après leur poids. Un petit chien s'adapte à toutes les surfaces, y compris un studio ; un grand chien
+          demande plus de place pour circuler et se poser.
+        </li>
+        <li>
+          <strong>Niveau d'activité et extérieur.</strong> Un jardin couvre largement les besoins de dépense. Un
+          balcon suffit pour une race d'activité modérée, mais pas pour une race très active. Sans extérieur privé,
+          une race très active impose plusieurs sorties longues chaque jour.
+        </li>
+        <li>
+          <strong>Étage sans ascenseur.</strong> Le grand gabarit n'est pas le seul motif de pénalité : la
+          brachycéphalie (effort respiratoire) et les prédispositions articulaires ou dorsales documentées pèsent
+          aussi, et se cumulent quand une race en présente plusieurs.
+        </li>
+        <li>
+          <strong>Chats.</strong> Le poids ne compte pas : c'est le niveau d'activité, l'espace disponible et la
+          sécurité de l'extérieur qui comptent, plus l'aménagement vertical.
+        </li>
+        <li>
+          <strong>Notes de santé, hors score.</strong> Risque de surpoids, sensibilité à la chaleur ou au froid
+          s'affichent à part, sous « À savoir » : ce sont des points de vigilance, pas des critères qui rendent
+          une race plus ou moins compatible avec un logement.
+        </li>
+      </ul>
+      <p class="mt-4 text-encre-700">
+        Les résultats décrivent une <em>race</em>, pas votre animal : un individu peut s'écarter de la moyenne de sa
+        race, et le calculateur ne remplace pas l'avis d'un vétérinaire ou d'un éducateur. Il ne tient pas compte de
+        facteurs comme le voisinage ou le bruit. Pour ces critères, voir le{' '}
+        <a href="/outils/diagnostic/" class="font-medium text-terracotta-600 hover:text-terracotta-500">diagnostic complet</a>.
+      </p>
+    </section>
+
     <section class="mt-16" aria-labelledby="faq-titre">
       <h2 id="faq-titre" class="mb-4 font-display text-2xl font-medium text-encre-900">Questions fréquentes</h2>
       <div class="divide-y divide-sable-300">
@@ -115,6 +164,24 @@ const faqSchema = {
           </details>
         ))}
       </div>
+    </section>
+
+    <section class="mt-16" aria-labelledby="suite-titre">
+      <h2 id="suite-titre" class="mb-4 font-display text-2xl font-medium text-encre-900">Pour aller plus loin</h2>
+      <ul class="space-y-2 text-encre-700">
+        <li>
+          <a href="/guides/quelle-race-de-chien-pour-appartement/" class="font-medium text-terracotta-600 hover:text-terracotta-500">Quelle race de chien pour un appartement ?</a>
+          — les 6 races jugées adaptées sur nos fiches, et pourquoi « adapté » ne veut pas dire « calme ».
+        </li>
+        <li>
+          <a href="/outils/cout-mensuel-chien/" class="font-medium text-terracotta-600 hover:text-terracotta-500">Combien coûte un chien par mois ?</a>
+          — estimez le budget une fois la race choisie.
+        </li>
+        <li>
+          <a href="/chiens/" class="font-medium text-terracotta-600 hover:text-terracotta-500">Toutes les races de chiens</a> et
+          <a href="/chats/" class="font-medium text-terracotta-600 hover:text-terracotta-500">toutes les races de chats</a> — chaque fiche détaille caractère, santé et budget.
+        </li>
+      </ul>
     </section>
   </div>
 </Layout>

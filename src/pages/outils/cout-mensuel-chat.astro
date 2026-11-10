@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { webApplicationSchema } from '../../lib/schemas';
 import CalculateurCoutChat from '../../components/CalculateurCoutChat.tsx';
 
 const faq = [
@@ -34,6 +35,13 @@ const faqSchema = {
     acceptedAnswer: { '@type': 'Answer', text: item.reponse },
   })),
 };
+
+const appSchema = webApplicationSchema({
+  nom: "Simulateur de coût mensuel d'un chat",
+  url: 'https://boussoleanimale.fr/outils/cout-mensuel-chat/',
+  description:
+    "Estime le budget mensuel d'un chat selon son alimentation, sa litière, l'assurance et l'accès extérieur.",
+});
 ---
 
 <Layout
@@ -41,6 +49,7 @@ const faqSchema = {
   description="Calculez le coût mensuel réel d'un chat selon son alimentation, sa litière et vos choix (assurance, accès extérieur) avec ce simulateur interactif."
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(appSchema)} is:inline />
   <div class="mx-auto max-w-3xl px-4 py-12">
     <p class="label text-terracotta-600">Calculateur</p>
     <h1 class="mt-2 font-display text-3xl font-medium text-encre-900">Combien coûte un chat par mois ?</h1>
@@ -66,6 +75,24 @@ const faqSchema = {
           </details>
         ))}
       </div>
+    </section>
+
+    <section class="mt-16" aria-labelledby="suite-titre">
+      <h2 id="suite-titre" class="mb-4 font-display text-2xl font-medium text-encre-900">Pour aller plus loin</h2>
+      <ul class="space-y-2 text-encre-700">
+        <li>
+          <a href="/guides/combien-coute-un-chat-par-mois/" class="font-medium text-terracotta-600 hover:text-terracotta-500">Combien coûte un chat par mois ?</a>
+          — le détail des postes de dépense et les coûts cachés.
+        </li>
+        <li>
+          <a href="/guides/chat-ou-chien-comment-choisir/" class="font-medium text-terracotta-600 hover:text-terracotta-500">Chat ou chien : comment choisir selon son mode de vie</a>
+          — pour comparer les deux avant de décider.
+        </li>
+        <li>
+          <a href="/chats/" class="font-medium text-terracotta-600 hover:text-terracotta-500">Toutes les races de chats</a>
+          — caractère, santé et budget de chaque fiche.
+        </li>
+      </ul>
     </section>
   </div>
 </Layout>
