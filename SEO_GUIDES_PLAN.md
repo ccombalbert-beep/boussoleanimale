@@ -1,6 +1,6 @@
 # Plan des guides SEO hebdomadaires — Boussole Animale
 
-**Statut : 4/13 publiés (dernier en date : semaine 4, 2026-11-02)**
+**Statut : 6/13 publiés (dernier en date : semaine 6, 2026-11-15)**
 
 Chantier de contenu longue traîne : un guide par semaine sur un trimestre (13 semaines), articulé avec le
 maillage interne existant (26 fiches chien, 18 fiches chat, 5 outils) plutôt que des articles isolés. Objectif :
@@ -184,7 +184,7 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
         "/outils/quelle-race-me-correspond/"
       ]
     },
-    "statut": "rédigé, prêt",
+    "statut": "publié",
     "datePublicationPrevue": "2026-10-11"
   },
   {
@@ -211,7 +211,7 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
       ],
       "outils": []
     },
-    "statut": "rédigé, prêt",
+    "statut": "publié",
     "datePublicationPrevue": "2026-10-18"
   },
   {
