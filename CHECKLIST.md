@@ -35,8 +35,8 @@ livré reste dans l'historique git (chaque chantier a été commité et document
       pratiques). URLs de guides inchangées (`/guides/[slug]/`, zéro redirection). Les 7 guides publiés
       et les 12 brouillons en attente ont chacun reçu leur catégorie. `/guides/` regroupe désormais les
       guides par catégorie (avec un groupe "Non classé" de repli, non utilisé pour l'instant). Le fil
-      d'Ariane des fiches guide insère la catégorie entre "Guides" et le titre (label sans lien, valide
-      en JSON-LD `BreadcrumbList`). `scripts/next-guide-draft.mjs` inclut désormais un placeholder
+      d'Ariane des fiches guide insère la catégorie entre "Guides" et le titre (label sans lien, écarté du JSON-LD
+      `BreadcrumbList` car Google exige une URL sur chaque niveau intermédiaire). `scripts/next-guide-draft.mjs` inclut désormais un placeholder
       `categorie` dans le squelette généré. Vérifié : `npx astro check` (0 erreur), `npm run build` (86
       pages, aucune URL changée), `npm run audit:links` (0 lien cassé, 0 orphelin).
 

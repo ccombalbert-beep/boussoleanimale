@@ -10,10 +10,16 @@ interface Props {
 
 const { items } = Astro.props;
 
+// Google exige un champ "item" (URL) sur tous les éléments sauf le dernier :
+// un niveau d'affichage sans lien (ex. la catégorie d'un guide, qui n'a pas
+// de page dédiée) reste visible dans le fil d'Ariane mais est écarté du
+// balisage structuré.
+const itemsSchema = items.filter((item, i) => item.href || i === items.length - 1);
+
 const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
-  itemListElement: items.map((item, i) => ({
+  itemListElement: itemsSchema.map((item, i) => ({
     '@type': 'ListItem',
     position: i + 1,
     name: item.label,
@@ -32,7 +38,7 @@ const breadcrumbSchema = {
         {item.href ? (
           <a href={item.href} class="hover:text-terracotta-600">{item.label}</a>
         ) : (
-          <span class="text-encre-700/80" aria-current="page">{item.label}</span>
+          <span class="text-encre-700/80" aria-current={i === items.length - 1 ? 'page' : undefined}>{item.label}</span>
         )}
       </li>
     ))}
