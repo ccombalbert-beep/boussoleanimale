@@ -29,7 +29,7 @@ const racesAffichees = slugsAffiches
 
 const derniersGuides = guides
   .sort((a, b) => b.data.dateMiseAJour.valueOf() - a.data.dateMiseAJour.valueOf())
-  .slice(0, 2);
+  .slice(0, 3);
 ---
 
 <Layout
@@ -115,13 +115,20 @@ const derniersGuides = guides
           <p class="mt-2 text-encre-700">Quiz et calculateurs pour décider en connaissance de cause.</p>
         </a>
       </div>
+      <p class="mt-8 text-center text-sm text-encre-700">
+        Aussi : <a href="/outils/diagnostic/" class="font-medium text-terracotta-600 hover:text-terracotta-500">le diagnostic complet</a> et
+        <a href="/comparateur/" class="font-medium text-terracotta-600 hover:text-terracotta-500">le comparateur de races</a>.
+      </p>
     </div>
   </section>
 
   {derniersGuides.length > 0 && (
     <section class="mx-auto max-w-5xl px-4 py-16">
-      <h2 class="label text-terracotta-600">Derniers guides</h2>
-      <div class="mt-6 grid gap-6 sm:grid-cols-2">
+      <div class="flex items-baseline justify-between">
+        <h2 class="label text-terracotta-600">Derniers guides</h2>
+        <a href="/guides/" class="text-sm font-medium text-encre-700 hover:text-terracotta-600">Tous les guides →</a>
+      </div>
+      <div class="mt-6 grid gap-6 sm:grid-cols-3">
         {derniersGuides.map((guide) => (
           <a href={`/guides/${guide.id}/`} class="card-lift group block border border-sable-300 bg-sable-50 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-terracotta-400">
             <div class="overflow-hidden border-b border-sable-300 p-2">
