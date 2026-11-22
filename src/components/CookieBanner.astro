@@ -162,4 +162,11 @@
   }
 
   document.addEventListener('astro:page-load', initBandeauCookies);
+
+  // Délégation plutôt qu'un onclick en ligne : la CSP du site (script-src sans
+  // 'unsafe-inline') bloque les gestionnaires d'événements en ligne, ce qui
+  // rendait les boutons "Gérer les cookies" inopérants.
+  document.addEventListener('click', (event) => {
+    if ((event.target as HTMLElement).closest('[data-ouvrir-cookies]')) window.ouvrirPreferencesCookies?.();
+  });
 </script>
