@@ -1,6 +1,6 @@
 # Plan des guides SEO hebdomadaires — Boussole Animale
 
-**Statut : 8/13 publiés (dernier en date : semaine 8, 2026-11-22)**
+**Statut : 13/13 publiés (dernier en date : semaine 13, 2026-11-24)**
 
 Chantier de contenu longue traîne : un guide par semaine sur un trimestre (13 semaines), articulé avec le
 maillage interne existant (26 fiches chien, 18 fiches chat, 5 outils) plutôt que des articles isolés. Objectif :
@@ -290,7 +290,7 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
         "/outils/cout-mensuel-chat/"
       ]
     },
-    "statut": "rédigé, prêt",
+    "statut": "publié",
     "datePublicationPrevue": "2026-11-08"
   },
   {
@@ -319,7 +319,7 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
         "/outils/quelle-race-me-correspond/"
       ]
     },
-    "statut": "rédigé, prêt",
+    "statut": "publié",
     "datePublicationPrevue": "2026-11-15"
   },
   {
@@ -346,7 +346,7 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
       ],
       "outils": []
     },
-    "statut": "rédigé, prêt",
+    "statut": "publié",
     "datePublicationPrevue": "2026-11-22"
   },
   {
@@ -375,8 +375,8 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
         "/outils/quelle-race-me-correspond/"
       ]
     },
-    "statut": "rédigé, prêt",
-    "datePublicationPrevue": "2026-11-29"
+    "statut": "publié",
+    "datePublicationPrevue": "2026-11-24"
   },
   {
     "semaine": 13,
@@ -404,8 +404,8 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
         "/outils/quelle-race-me-correspond/"
       ]
     },
-    "statut": "rédigé, prêt",
-    "datePublicationPrevue": "2026-12-06"
+    "statut": "publié",
+    "datePublicationPrevue": "2026-11-24"
   }
 ]
 ```
