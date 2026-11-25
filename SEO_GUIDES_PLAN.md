@@ -406,6 +406,120 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
     },
     "statut": "publié",
     "datePublicationPrevue": "2026-11-24"
+  },
+  {
+    "semaine": 14,
+    "slug": "chien-seul-toute-la-journee-quelles-races",
+    "sujet": "Chien seul toute la journée : les races à éviter",
+    "requeteCible": "chien seul toute la journée quelle race",
+    "pilier": "Mode de vie",
+    "intention": "Guide fondé sur des données propres aux fiches du site (angle que les sites concurrents ne peuvent pas reproduire), rédigé en brouillon pour validation.",
+    "maillage": {
+      "racesLiees": [
+        {
+          "slug": "epagneul-breton",
+          "espece": "chien"
+        },
+        {
+          "slug": "bichon-frise",
+          "espece": "chien"
+        },
+        {
+          "slug": "dogue-de-bordeaux",
+          "espece": "chien"
+        }
+      ],
+      "outils": [
+        "/outils/diagnostic/"
+      ]
+    },
+    "statut": "brouillon à valider"
+  },
+  {
+    "semaine": 15,
+    "slug": "temps-de-sortie-par-jour-selon-la-race-de-chien",
+    "sujet": "Combien de temps de sortie par jour selon la race de chien",
+    "requeteCible": "temps de sortie chien par jour selon la race",
+    "pilier": "Comportement",
+    "intention": "Guide fondé sur des données propres aux fiches du site (angle que les sites concurrents ne peuvent pas reproduire), rédigé en brouillon pour validation.",
+    "maillage": {
+      "racesLiees": [
+        {
+          "slug": "labrador",
+          "espece": "chien"
+        },
+        {
+          "slug": "border-collie",
+          "espece": "chien"
+        },
+        {
+          "slug": "jack-russell-terrier",
+          "espece": "chien"
+        }
+      ],
+      "outils": [
+        "/outils/espace-vital/",
+        "/outils/diagnostic/"
+      ]
+    },
+    "statut": "brouillon à valider"
+  },
+  {
+    "semaine": 16,
+    "slug": "races-de-chien-brachycephales-chaleur-precautions",
+    "sujet": "Races de chien brachycéphales et chaleur",
+    "requeteCible": "races de chien brachycéphales chaleur précautions",
+    "pilier": "Santé",
+    "intention": "Guide fondé sur des données propres aux fiches du site (angle que les sites concurrents ne peuvent pas reproduire), rédigé en brouillon pour validation.",
+    "maillage": {
+      "racesLiees": [
+        {
+          "slug": "bouledogue-anglais",
+          "espece": "chien"
+        },
+        {
+          "slug": "bouledogue-francais",
+          "espece": "chien"
+        },
+        {
+          "slug": "persan",
+          "espece": "chat"
+        }
+      ],
+      "outils": [
+        "/comparateur/"
+      ]
+    },
+    "statut": "brouillon à valider"
+  },
+  {
+    "semaine": 17,
+    "slug": "classement-races-par-budget-mensuel",
+    "sujet": "Classement des races par budget mensuel",
+    "requeteCible": "budget mensuel par race de chien et de chat",
+    "pilier": "Budget",
+    "intention": "Guide fondé sur des données propres aux fiches du site (angle que les sites concurrents ne peuvent pas reproduire), rédigé en brouillon pour validation.",
+    "maillage": {
+      "racesLiees": [
+        {
+          "slug": "chihuahua",
+          "espece": "chien"
+        },
+        {
+          "slug": "bouledogue-francais",
+          "espece": "chien"
+        },
+        {
+          "slug": "savannah",
+          "espece": "chat"
+        }
+      ],
+      "outils": [
+        "/outils/cout-mensuel-chien/",
+        "/outils/cout-mensuel-chat/"
+      ]
+    },
+    "statut": "brouillon à valider"
   }
 ]
 ```

@@ -1,0 +1,73 @@
+---
+titre: "Combien de temps de sortie par jour selon la race de chien ?"
+titreCourt: "Temps de sortie par jour selon la race"
+resume: "Seules 7 de nos fiches chiffrent le temps d'activité quotidien, de 45 minutes à plus de 2 heures. Pour les autres, le niveau d'activité donne l'ordre de grandeur. Et la taille ne prédit pas tout."
+categorie: "education-comportement"
+
+image: "../../assets/images/races/border-collie.jpg"
+imageAlt: "Border Collie noir et blanc en position basse caractéristique de la garde de troupeau, regard fixe et concentré"
+imageCredit:
+  auteur: "Tina creates"
+  licence: "CC BY-SA 3.0"
+  lienLicence: "https://creativecommons.org/licenses/by-sa/3.0/deed.fr"
+  source: "https://commons.wikimedia.org/wiki/File:Border_Collie_Tricolor.jpg"
+
+racesLiees:
+  - { slug: labrador, espece: chien }
+  - { slug: cocker-spaniel, espece: chien }
+  - { slug: berger-allemand, espece: chien }
+  - { slug: malinois, espece: chien }
+  - { slug: jack-russell-terrier, espece: chien }
+  - { slug: berger-australien, espece: chien }
+  - { slug: border-collie, espece: chien }
+
+faq:
+  - question: "Combien de temps faut-il sortir un chien par jour ?"
+    reponse: "Cela dépend de la race. Sur nos fiches, les valeurs chiffrées vont d'au moins 45 minutes à 1 h pour un Labrador ou un Cocker Spaniel Anglais, à au moins 2 h pour un Border Collie. Pour les races sans durée chiffrée, le niveau d'activité de la fiche (faible, modéré, élevé, très élevé) donne l'ordre de grandeur."
+  - question: "Un petit chien a-t-il besoin de moins d'exercice ?"
+    reponse: "Pas toujours. Le Jack Russell Terrier pèse 5 à 8 kg, mais sa fiche indique au minimum une à deux heures d'activité physique et mentale par jour, soit plus que le Labrador (25 à 36 kg), pour lequel nous indiquons au moins 45 minutes à 1 h."
+  - question: "Une promenade en laisse suffit-elle pour une race très active ?"
+    reponse: "Non. Pour le Berger Australien, la fiche demande de l'activité physique réelle et pas de simples promenades en laisse, complétée par du travail mental. Pour le Malinois, un simple tour de pâté de maisons est très insuffisant. Le Border Collie, lui, a besoin de dépense physique et de stimulation mentale."
+
+sources:
+  - "Fiches race Boussole Animale (tempérament et prédispositions documentés par race) (niveau d'activité et durées d'exercice documentés par race)"
+auteur: "Rédaction Boussole Animale"
+dateMiseAJour: 2026-11-24
+---
+
+## Ce que disent nos fiches, en minutes
+
+Sur les 34 fiches de chiens, sept donnent une durée d'activité quotidienne minimale. Du plus modeste au plus exigeant :
+
+- **[Labrador Retriever](/chiens/races/labrador/)** : au moins 45 minutes à 1 h d'exercice, avec une appétence particulière pour la nage.
+- **[Cocker Spaniel Anglais](/chiens/races/cocker-spaniel/)** : au moins 45 minutes à 1 h, idéalement complétées par des activités qui sollicitent son flair.
+- **[Berger Allemand](/chiens/races/berger-allemand/)** : au moins 1 h à 1 h 30 d'activité réelle, qui combine marche, jeu et si possible du travail structuré.
+- **[Berger Belge Malinois](/chiens/races/malinois/)** : une à deux heures d'activité réellement structurée (obéissance, agility, pistage), pas seulement des promenades.
+- **[Jack Russell Terrier](/chiens/races/jack-russell-terrier/)** : au minimum une à deux heures d'activité physique et mentale.
+- **[Berger Australien](/chiens/races/berger-australien/)** : au minimum 1 h 30 à 2 h d'activité physique réelle, complétée par du travail mental.
+- **[Border Collie](/chiens/races/border-collie/)** : au moins deux heures, idéalement réparties entre plusieurs activités structurées.
+
+## La taille ne prédit pas le besoin d'exercice
+
+Le Jack Russell Terrier pèse 5 à 8 kg, et sa fiche demande pourtant plus d'activité que celle du Labrador, qui en pèse 25 à 36. Sa petite taille laisse penser à un chien facile, alors que ses besoins réels sont ceux d'un chien de travail. C'est la même logique que pour le logement : on ne choisit pas une race sur son gabarit seul. Notre guide sur les [races adaptées à l'appartement](/guides/quelle-race-de-chien-pour-appartement/) montre que deux races compatibles avec un petit espace ont un niveau d'activité élevé.
+
+## Quand la fiche ne chiffre pas : le niveau d'activité
+
+Chaque fiche classe la race sur quatre niveaux. C'est un repère qualitatif, pas une durée : il sert à comparer les races entre elles.
+
+- **Faible** : [Bouledogue Anglais](/chiens/races/bouledogue-anglais/), [Carlin](/chiens/races/carlin/), [Shih Tzu](/chiens/races/shih-tzu/).
+- **Modéré** : [Bichon Frisé](/chiens/races/bichon-frise/), [Bouledogue Français](/chiens/races/bouledogue-francais/), [Bouvier Bernois](/chiens/races/bouvier-bernois/), [Cavalier King Charles](/chiens/races/cavalier-king-charles/), [Chihuahua](/chiens/races/chihuahua/), [Cocker Spaniel Américain](/chiens/races/cocker-americain/), [Dogue de Bordeaux](/chiens/races/dogue-de-bordeaux/), [Spitz Nain](/chiens/races/spitz-nain/), [Teckel](/chiens/races/teckel/), [Yorkshire Terrier](/chiens/races/yorkshire-terrier/).
+- **Élevé** : [American Staffordshire Terrier](/chiens/races/american-staffordshire-terrier/), [Basenji](/chiens/races/basenji/), [Beagle](/chiens/races/beagle/), [Berger Allemand](/chiens/races/berger-allemand/), [Berger des Shetland](/chiens/races/berger-des-shetland/), [Boxer](/chiens/races/boxer/), [Caniche](/chiens/races/caniche/), [Cocker Spaniel Anglais](/chiens/races/cocker-spaniel/), [Golden Retriever](/chiens/races/golden-retriever/), [Labrador Retriever](/chiens/races/labrador/), [Rottweiler](/chiens/races/rottweiler/), [Staffordshire Bull Terrier](/chiens/races/staffordshire-bull-terrier/), [West Highland White Terrier](/chiens/races/west-highland-white-terrier/).
+- **Très élevé** : [Beauceron](/chiens/races/beauceron/), [Berger Australien](/chiens/races/berger-australien/), [Berger Belge Malinois](/chiens/races/malinois/), [Border Collie](/chiens/races/border-collie/), [Dalmatien](/chiens/races/dalmatien/), [Husky Sibérien](/chiens/races/husky-siberien/), [Jack Russell Terrier](/chiens/races/jack-russell-terrier/), [Épagneul Breton](/chiens/races/epagneul-breton/).
+
+## Dépense physique ne veut pas dire seulement marcher
+
+Plusieurs fiches insistent sur le travail mental. Le Border Collie reste sous-stimulé malgré la fatigue musculaire si on ne lui propose que de l'exercice physique. Le Berger Australien s'ennuie et le montre avec de simples balades tranquilles. Pour le Husky Sibérien, la surface disponible compte moins que l'activité structurée (canicross, cani-VTT, longues sorties en laisse longue) : un grand jardin ne suffit pas.
+
+## Un niveau faible ne veut pas dire aucune sortie
+
+Les trois races classées « faible » ont elles aussi besoin de sorties. Le Carlin, par exemple, prend rapidement du poids sans sorties quotidiennes régulières, même courtes, ce qui aggrave ses difficultés respiratoires. Le Bouledogue Français a besoin de sorties courtes et fractionnées, jamais en pleine chaleur (voir notre guide sur les [races brachycéphales](/guides/races-de-chien-brachycephales-chaleur-precautions/)). Et pour un chiot de grande race comme le Bouvier Bernois, la fiche recommande au contraire de limiter l'exercice avant la fin de la croissance, avec des sorties courtes et fréquentes.
+
+## Comparer avec votre emploi du temps
+
+Si vous hésitez, le [calculateur d'espace vital](/outils/espace-vital/) croise le niveau d'activité de chaque race avec votre logement et votre accès à un extérieur, et le [diagnostic complet](/outils/diagnostic/) y ajoute votre temps de présence. Pour une race dont la fiche n'est pas chiffrée, c'est le niveau d'activité qui vous servira de repère. Le [comparateur](/comparateur/) permet de mettre deux ou trois races côte à côte sur ce critère.

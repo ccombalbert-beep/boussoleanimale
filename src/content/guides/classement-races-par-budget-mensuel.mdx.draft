@@ -1,0 +1,119 @@
+---
+titre: "Combien coûte chaque race par mois : le classement de 60 races de chiens et de chats"
+titreCourt: "Classement des races par budget mensuel"
+resume: "Le budget mensuel des 34 races de chien et 26 races de chat de nos fiches, classé du moins cher au plus cher. Le gabarit n'explique pas tout : le Bouledogue Français dépasse le Labrador."
+categorie: "budget-pratique"
+
+image: "../../assets/images/races/chihuahua.jpg"
+imageAlt: "Chihuahua tête de pomme, poil court, assis et attentif, grands yeux ronds"
+imageCredit:
+  auteur: "Nolegolferpimp"
+  licence: "CC BY-SA 3.0"
+  lienLicence: "https://creativecommons.org/licenses/by-sa/3.0/deed.fr"
+  source: "https://commons.wikimedia.org/wiki/File:Alert_chihuahua.jpg"
+
+racesLiees:
+  - { slug: chihuahua, espece: chien }
+  - { slug: bouledogue-anglais, espece: chien }
+  - { slug: bouledogue-francais, espece: chien }
+  - { slug: labrador, espece: chien }
+  - { slug: caniche, espece: chien }
+  - { slug: savannah, espece: chat }
+  - { slug: europeen, espece: chat }
+
+faq:
+  - question: "Quelle est la race de chien la moins chère à entretenir ?"
+    reponse: "Sur nos fiches, le Chihuahua, avec 30 à 60 € par mois, suivi du Yorkshire Terrier (35 à 65 €) et du Spitz Nain (40 à 70 €)."
+  - question: "Quelle est la race la plus chère ?"
+    reponse: "Côté chiens, le Bouledogue Anglais (100 à 200 € par mois), puis le Dogue de Bordeaux (100 à 170 €). Côté chats, le Savannah (80 à 150 €) se détache nettement du reste du catalogue."
+  - question: "Un petit chien coûte-t-il toujours moins cher ?"
+    reponse: "Non. Le Bouledogue Français pèse 8 à 14 kg, mais sa fourchette (80 à 180 €) dépasse celle du Labrador (90 à 150 €) en milieu de fourchette. Les prédispositions de santé de la race pèsent sur le budget autant que le gabarit."
+  - question: "Ces montants incluent-ils l'assurance et le toilettage ?"
+    reponse: "Non. Ces fourchettes couvrent l'alimentation, la santé courante et une base d'entretien, mais pas les postes optionnels comme l'assurance ou le toilettage professionnel. Pour une estimation adaptée à vos choix, utilisez nos calculateurs de coût mensuel."
+
+sources:
+  - "Fiches race Boussole Animale (tempérament et prédispositions documentés par race) (budget mensuel documenté par race)"
+auteur: "Rédaction Boussole Animale"
+dateMiseAJour: 2026-11-24
+---
+
+## Comment lire ce classement
+
+Chaque fiche indique une fourchette de budget mensuel. Nous classons les races par milieu de fourchette, du moins cher au plus cher, et à égalité par la valeur haute. Ces fourchettes couvrent l'alimentation, la santé courante et une base d'entretien, mais pas les postes optionnels comme l'assurance ou le toilettage professionnel (détaillés dans notre guide [combien coûte un chien par mois](/guides/combien-coute-un-chien-par-mois/)). Ce sont des estimations indicatives, pas des tarifs.
+
+## Ce que le classement montre
+
+- **Chiens : de 30 € à 200 € par mois.** Le [Chihuahua](/chiens/races/chihuahua/) ouvre le classement (30 à 60 €) et le [Bouledogue Anglais](/chiens/races/bouledogue-anglais/) le ferme (100 à 200 €).
+- **Le gabarit n'explique pas tout.** Le [Bouledogue Français](/chiens/races/bouledogue-francais/) pèse 8 à 14 kg, mais sa fourchette (80 à 180 €) se place au-dessus de celle du [Labrador Retriever](/chiens/races/labrador/) (90 à 150 €) en milieu de fourchette. Nos fiches documentent pour cette race un suivi vétérinaire attentif lié à sa morphologie.
+- **Le [Caniche](/chiens/races/caniche/) a la fourchette la plus large** (70 à 180 €), parce que ses variétés vont du toy au grand.
+- **Chats : un budget bien plus resserré.** Hors Savannah, les 25 autres races se tiennent entre 40 et 110 € par mois, avec un milieu de fourchette de 55 à 85 €. Le [Savannah](/chats/races/savannah/) (80 à 150 €) est le seul à sortir du lot. Notre guide [combien coûte un chat par mois](/guides/combien-coute-un-chat-par-mois/) explique pourquoi la taille compte si peu chez le chat.
+
+## Le classement complet des chiens
+
+- [Chihuahua](/chiens/races/chihuahua/) : 30 à 60 € par mois
+- [Yorkshire Terrier](/chiens/races/yorkshire-terrier/) : 35 à 65 € par mois
+- [Spitz Nain](/chiens/races/spitz-nain/) : 40 à 70 € par mois
+- [Teckel](/chiens/races/teckel/) : 40 à 75 € par mois
+- [Beagle](/chiens/races/beagle/) : 45 à 85 € par mois
+- [Shih Tzu](/chiens/races/shih-tzu/) : 45 à 85 € par mois
+- [Épagneul Breton](/chiens/races/epagneul-breton/) : 45 à 85 € par mois
+- [Carlin](/chiens/races/carlin/) : 50 à 90 € par mois
+- [Jack Russell Terrier](/chiens/races/jack-russell-terrier/) : 50 à 90 € par mois
+- [West Highland White Terrier](/chiens/races/west-highland-white-terrier/) : 50 à 90 € par mois
+- [Cocker Spaniel Américain](/chiens/races/cocker-americain/) : 55 à 100 € par mois
+- [Basenji](/chiens/races/basenji/) : 60 à 100 € par mois
+- [Berger des Shetland](/chiens/races/berger-des-shetland/) : 60 à 100 € par mois
+- [Staffordshire Bull Terrier](/chiens/races/staffordshire-bull-terrier/) : 60 à 100 € par mois
+- [Berger Belge Malinois](/chiens/races/malinois/) : 60 à 110 € par mois
+- [Bichon Frisé](/chiens/races/bichon-frise/) : 60 à 120 € par mois
+- [American Staffordshire Terrier](/chiens/races/american-staffordshire-terrier/) : 70 à 120 € par mois
+- [Boxer](/chiens/races/boxer/) : 70 à 120 € par mois
+- [Cavalier King Charles](/chiens/races/cavalier-king-charles/) : 70 à 130 € par mois
+- [Husky Sibérien](/chiens/races/husky-siberien/) : 70 à 130 € par mois
+- [Border Collie](/chiens/races/border-collie/) : 80 à 140 € par mois
+- [Berger Australien](/chiens/races/berger-australien/) : 80 à 150 € par mois
+- [Dalmatien](/chiens/races/dalmatien/) : 80 à 150 € par mois
+- [Beauceron](/chiens/races/beauceron/) : 90 à 150 € par mois
+- [Berger Allemand](/chiens/races/berger-allemand/) : 90 à 150 € par mois
+- [Bouvier Bernois](/chiens/races/bouvier-bernois/) : 90 à 150 € par mois
+- [Labrador Retriever](/chiens/races/labrador/) : 90 à 150 € par mois
+- [Rottweiler](/chiens/races/rottweiler/) : 90 à 150 € par mois
+- [Golden Retriever](/chiens/races/golden-retriever/) : 90 à 160 € par mois
+- [Caniche](/chiens/races/caniche/) : 70 à 180 € par mois
+- [Cocker Spaniel Anglais](/chiens/races/cocker-spaniel/) : 90 à 170 € par mois
+- [Bouledogue Français](/chiens/races/bouledogue-francais/) : 80 à 180 € par mois
+- [Dogue de Bordeaux](/chiens/races/dogue-de-bordeaux/) : 100 à 170 € par mois
+- [Bouledogue Anglais](/chiens/races/bouledogue-anglais/) : 100 à 200 € par mois
+
+## Le classement complet des chats
+
+- [Bleu Russe](/chats/races/bleu-russe/) : 40 à 70 € par mois
+- [Européen](/chats/races/europeen/) : 40 à 70 € par mois
+- [Siamois](/chats/races/siamois/) : 40 à 70 € par mois
+- [Abyssin](/chats/races/abyssin/) : 45 à 80 € par mois
+- [American Shorthair](/chats/races/american-shorthair/) : 45 à 80 € par mois
+- [Angora Turc](/chats/races/angora-turc/) : 45 à 80 € par mois
+- [Burmese](/chats/races/burmese/) : 45 à 80 € par mois
+- [Chartreux](/chats/races/chartreux/) : 45 à 80 € par mois
+- [Oriental](/chats/races/oriental/) : 45 à 80 € par mois
+- [Sacré de Birmanie](/chats/races/sacre-de-birmanie/) : 50 à 80 € par mois
+- [Cornish Rex](/chats/races/cornish-rex/) : 50 à 90 € par mois
+- [Devon Rex](/chats/races/devon-rex/) : 50 à 90 € par mois
+- [Munchkin](/chats/races/munchkin/) : 50 à 90 € par mois
+- [Norvégien](/chats/races/norvegien/) : 50 à 90 € par mois
+- [Sibérien](/chats/races/siberien/) : 50 à 90 € par mois
+- [Somali](/chats/races/somali/) : 50 à 90 € par mois
+- [British Shorthair](/chats/races/british-shorthair/) : 50 à 100 € par mois
+- [Scottish Fold](/chats/races/scottish-fold/) : 50 à 100 € par mois
+- [Himalayen](/chats/races/himalayen/) : 60 à 100 € par mois
+- [Maine Coon](/chats/races/maine-coon/) : 60 à 100 € par mois
+- [Persan](/chats/races/persan/) : 60 à 100 € par mois
+- [Ragdoll](/chats/races/ragdoll/) : 60 à 100 € par mois
+- [Sphynx](/chats/races/sphynx/) : 60 à 100 € par mois
+- [Bengal](/chats/races/bengal/) : 60 à 110 € par mois
+- [Exotic Shorthair](/chats/races/exotic-shorthair/) : 60 à 110 € par mois
+- [Savannah](/chats/races/savannah/) : 80 à 150 € par mois
+
+## Estimer votre budget réel
+
+Un classement donne un ordre de grandeur, pas votre budget. Pour une estimation qui tient compte de l'alimentation, de l'assurance et du toilettage, utilisez le [calculateur de coût mensuel pour chien](/outils/cout-mensuel-chien/) ou le [calculateur pour chat](/outils/cout-mensuel-chat/). Pour mettre plusieurs races côte à côte, le [comparateur](/comparateur/) affiche leur budget mensuel et leur prix d'achat.

@@ -1,0 +1,76 @@
+---
+titre: "Chien seul toute la journée : les races à éviter, et ce que disent nos fiches"
+titreCourt: "Chien seul toute la journée : quelle race ?"
+resume: "Aucun chien n'est fait pour rester 8 h seul chaque jour, mais certaines races le supportent bien moins. Ce que nos fiches documentent sur l'anxiété de séparation, chez le chien et chez le chat."
+categorie: "mode-de-vie-urbain"
+
+image: "../../assets/images/races/epagneul-breton.jpg"
+imageAlt: "Épagneul Breton en gros plan lors d'une exposition canine, robe blanc et orange, oreilles tombantes"
+imagePosition: "top"
+imageCredit:
+  auteur: "mjk23"
+  licence: "CC BY 2.0"
+  lienLicence: "https://creativecommons.org/licenses/by/2.0/deed.fr"
+  source: "https://commons.wikimedia.org/wiki/File:An_Epagneul_Breton_-_world_dog_show_2010.jpg"
+
+racesLiees:
+  - { slug: epagneul-breton, espece: chien }
+  - { slug: bichon-frise, espece: chien }
+  - { slug: dogue-de-bordeaux, espece: chien }
+  - { slug: cavalier-king-charles, espece: chien }
+  - { slug: staffordshire-bull-terrier, espece: chien }
+  - { slug: beagle, espece: chien }
+  - { slug: siamois, espece: chat }
+  - { slug: abyssin, espece: chat }
+  - { slug: oriental, espece: chat }
+
+faq:
+  - question: "Un chien peut-il rester seul 8 heures par jour ?"
+    reponse: "C'est long pour n'importe quel chien. Notre diagnostic le traite ainsi : plus de 8 h seul reste long pour un chien, même à activité modérée, et une solution de garde en journée reste utile. Pour les races dont l'anxiété de séparation est documentée sur leur fiche, comme le Bichon Frisé, l'Épagneul Breton ou le Dogue de Bordeaux, c'est une situation à risque réel."
+  - question: "Un chien calme supporte-t-il mieux la solitude ?"
+    reponse: "Pas forcément. La tolérance à la solitude est un critère distinct du niveau d'activité : le Bichon Frisé et le Dogue de Bordeaux ont un niveau d'activité modéré sur nos fiches, et pourtant tous deux supportent mal la solitude prolongée. Un grand gabarit n'est pas non plus une protection."
+  - question: "Les chats supportent-ils tous bien la solitude ?"
+    reponse: "Non. Un chat s'accommode généralement mieux de longues journées seul qu'un chien, à condition d'un environnement stimulant, mais nos fiches signalent des exceptions nettes : le Siamois, l'Abyssin et l'Oriental supportent mal la solitude prolongée et répétée."
+
+sources:
+  - "Fiches race Boussole Animale (tempérament et prédispositions documentés par race)"
+  - "Diagnostic Boussole Animale (critère « présence quotidienne »)"
+auteur: "Rédaction Boussole Animale"
+dateMiseAJour: 2026-11-24
+---
+
+## Aucun chien n'est « fait » pour rester 8 heures seul
+
+Avant de parler de races : sur Boussole Animale, même une race sans fragilité documentée n'est pas jugée à l'aise avec plus de 8 heures de solitude par jour. Notre [diagnostic complet](/outils/diagnostic/) applique cette règle à tous les chiens, et recommande une solution de garde en journée dès que la durée dépasse ce seuil. Ce guide se concentre donc sur ce qui varie d'une race à l'autre : le niveau de risque, pas l'existence du risque.
+
+## Les races où la solitude est un risque documenté
+
+Trois fiches de chiens signalent explicitement une intolérance à la solitude :
+
+- **[Bichon Frisé](/chiens/races/bichon-frise/)** : il supporte mal la solitude prolongée et peut développer une anxiété de séparation s'il n'a pas été progressivement habitué à rester seul dès le plus jeune âge.
+- **[Épagneul Breton](/chiens/races/epagneul-breton/)** : il n'accepte pas la solitude et a besoin d'avoir constamment quelqu'un à ses côtés, humain ou congénère. Une absence prolongée et répétée est l'une des situations les moins adaptées à cette race.
+- **[Dogue de Bordeaux](/chiens/races/dogue-de-bordeaux/)** : il supporte mal les longues périodes de solitude, malgré son gabarit imposant.
+
+Trois autres fiches décrivent le même point dans leur texte, sans que nous l'ayons classé comme intolérance :
+
+- Le [Cavalier King Charles](/chiens/races/cavalier-king-charles/) est extrêmement attaché à ses maîtres, au point de mal supporter la solitude prolongée, et reste sensible aux troubles anxieux liés à l'isolement.
+- Le [Staffordshire Bull Terrier](/chiens/races/staffordshire-bull-terrier/) recherche activement le contact humain et est peu fait pour rester seul de longues heures.
+- Le [Beagle](/chiens/races/beagle/) aboie et hurle facilement pour exprimer sa solitude ou son ennui, un point à anticiper sérieusement en copropriété.
+
+## Ce n'est pas une question de calme ni de taille
+
+Le Bichon Frisé et le Dogue de Bordeaux ont un niveau d'activité modéré sur nos fiches, mais l'un pèse 3 à 6 kg et l'autre 45 à 65 kg. L'Épagneul Breton, lui, est classé très actif. Ces trois profils n'ont rien en commun, sauf l'attachement à leur entourage. C'est pourquoi notre diagnostic traite l'anxiété de séparation comme un motif à part, prioritaire sur la simple estimation par le niveau d'activité : un chien calme peut très mal supporter d'être seul.
+
+À l'inverse, les races très actives posent un autre problème. Un niveau d'activité élevé combiné à plus de 8 heures seul expose à de la frustration comportementale (destructions, aboiements). C'est le cas, par exemple, du [Border Collie](/chiens/races/border-collie/), du [Berger Australien](/chiens/races/berger-australien/) ou du [Berger Belge Malinois](/chiens/races/malinois/), tous classés très actifs.
+
+## Et chez le chat ?
+
+Un chat s'accommode généralement mieux de longues journées seul, à condition d'un environnement stimulant (arbre à chat, jeux). Notre guide sur les [races de chat indépendantes](/guides/race-de-chat-independante/) détaille celles qui s'y prêtent le mieux. Trois fiches signalent en revanche une vraie difficulté :
+
+- Le [Siamois](/chats/races/siamois/) supporte assez mal la solitude. Un second chat ou une présence humaine régulière est vivement conseillé.
+- L'[Abyssin](/chats/races/abyssin/) déteste la solitude prolongée et répétée, qui peut générer de l'anxiété.
+- L'[Oriental](/chats/races/oriental/) supporte mal la solitude prolongée. Un second chat compagnon aide souvent à compenser les absences en journée.
+
+## Que faire si vous êtes souvent absent
+
+Nos fiches reviennent sur deux leviers : habituer progressivement l'animal à la solitude dès le plus jeune âge, et prévoir une solution de garde ou un compagnon pour les absences longues. Si ces deux options ne sont pas réalistes pour vous, privilégiez une race sans intolérance documentée, ou orientez-vous vers un chat. Pour mesurer l'effet de votre emploi du temps sur chaque race, utilisez le [diagnostic complet](/outils/diagnostic/), qui prend en compte le temps de présence quotidien en plus du logement et du budget.

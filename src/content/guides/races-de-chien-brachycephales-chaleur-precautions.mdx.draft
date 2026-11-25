@@ -1,0 +1,81 @@
+---
+titre: "Races de chien brachycéphales : lesquelles, et quelles précautions quand il fait chaud"
+titreCourt: "Races brachycéphales et chaleur : précautions"
+resume: "6 races de chien et 3 races de chat de nos fiches sont brachycéphales. Leur museau court limite la régulation de la chaleur : voici ce que chaque fiche documente, et les précautions à prendre."
+categorie: "bien-etre-sante"
+
+image: "../../assets/images/races/bouledogue-anglais.jpg"
+imageAlt: "Bouledogue Anglais fauve et blanc, tête plate caractéristique, portrait rapproché de face"
+imageCredit:
+  auteur: "Nancy Wong"
+  licence: "CC BY-SA 4.0"
+  lienLicence: "https://creativecommons.org/licenses/by-sa/4.0/deed.fr"
+  source: "https://commons.wikimedia.org/wiki/File:Axel,_an_English_bulldog.jpg"
+
+racesLiees:
+  - { slug: bouledogue-anglais, espece: chien }
+  - { slug: bouledogue-francais, espece: chien }
+  - { slug: carlin, espece: chien }
+  - { slug: boxer, espece: chien }
+  - { slug: shih-tzu, espece: chien }
+  - { slug: dogue-de-bordeaux, espece: chien }
+  - { slug: husky-siberien, espece: chien }
+  - { slug: persan, espece: chat }
+  - { slug: exotic-shorthair, espece: chat }
+  - { slug: himalayen, espece: chat }
+
+faq:
+  - question: "Qu'est-ce que le syndrome obstructif des races brachycéphales (BOAS) ?"
+    reponse: "C'est un ensemble de malformations liées à la face aplatie : narines pincées, voile du palais trop long, trachée parfois étroite. Cela se traduit par une respiration bruyante, une mauvaise tolérance à l'effort et à la chaleur, et parfois des apnées. Les formes sévères se corrigent chirurgicalement."
+  - question: "Peut-on promener un Bouledogue Français en été ?"
+    reponse: "Oui, mais tôt le matin ou tard le soir, avec des sorties courtes, jamais en pleine chaleur. Notre fiche rappelle aussi qu'il ne faut jamais le laisser dans une voiture au soleil, et que le risque existe même en intérieur mal ventilé."
+  - question: "Les chats peuvent-ils être brachycéphales ?"
+    reponse: "Oui. Le Persan, l'Exotic Shorthair et l'Himalayen partagent la même structure faciale aplatie, avec les mêmes vigilances : troubles respiratoires, larmoiement, problèmes dentaires, et une moins bonne tolérance à la chaleur et à l'effort."
+  - question: "Le ronflement d'un chien à museau court est-il normal ?"
+    reponse: "Un bruit respiratoire audible au repos ou un essoufflement rapide à l'effort est un signe clinique à faire évaluer par un vétérinaire, pas une simple particularité de la race. C'est ce que précisent nos fiches du Bouledogue Français et du Bouledogue Anglais."
+
+sources:
+  - "Fiches race Boussole Animale (tempérament et prédispositions documentés par race) (prédispositions de santé et précautions documentées par race)"
+auteur: "Rédaction Boussole Animale"
+dateMiseAJour: 2026-11-24
+---
+
+## Ce que « brachycéphale » veut dire
+
+Une race brachycéphale a le museau court et aplati. Cette morphologie peut gêner la respiration : narines pincées, voile du palais trop long, trachée parfois étroite. L'ensemble s'appelle le syndrome obstructif des races brachycéphales (BOAS). Il se traduit par une respiration bruyante, une mauvaise tolérance à l'effort et à la chaleur, et parfois des apnées.
+
+## Les races brachycéphales de nos fiches
+
+Six races de chiens sont signalées comme brachycéphales :
+
+- **[Bouledogue Anglais](/chiens/races/bouledogue-anglais/)** : une morphologie brachycéphale extrême. Le syndrome obstructif touche une large proportion des sujets, et la fiche indique une sensibilité marquée à la chaleur.
+- **[Bouledogue Français](/chiens/races/bouledogue-francais/)** : la majorité des sujets présentent un degré de syndrome obstructif, selon sa fiche. Une étude de référence citée sur la fiche situe l'espérance de vie médiane autour de 9,8 ans.
+- **[Carlin](/chiens/races/carlin/)** : le syndrome est présent, généralement à un degré moins sévère grâce à un museau historiquement moins écrasé. Il est aussi très enclin au surpoids, ce qui aggrave sa respiration.
+- **[Boxer](/chiens/races/boxer/)** : une morphologie brachycéphale modérée, qui peut occasionner des difficultés respiratoires en cas de forte chaleur ou d'effort intense.
+- **[Shih Tzu](/chiens/races/shih-tzu/)** : une sensibilité marquée aux fortes chaleurs et une possible obstruction des voies respiratoires.
+- **[Dogue de Bordeaux](/chiens/races/dogue-de-bordeaux/)** : une morphologie brachycéphale qui explique sa salivation abondante et ses ronflements, avec des plis du visage à nettoyer régulièrement.
+
+## Pourquoi la chaleur est le point critique
+
+Ces chiens régulent mal leur température par halètement. Pour le Bouledogue Anglais, la fiche précise qu'un coup de chaleur peut engager le pronostic vital en quelques minutes. Pour le Bouledogue Français, elle parle d'un risque réel dès que le thermomètre grimpe, y compris en intérieur mal ventilé l'été. Nos fiches ne fixent pas de seuil de température chiffré. En cas de doute sur un halètement excessif, demandez l'avis d'un vétérinaire.
+
+## Les précautions que nos fiches recommandent
+
+- Sortir tôt le matin ou tard le soir en été, avec des sorties courtes et fractionnées plutôt que de longues marches.
+- Garantir un accès permanent à l'eau fraîche et à l'ombre.
+- Ne jamais laisser l'animal dans une voiture au soleil.
+- Surveiller le poids : le surpoids aggrave les difficultés respiratoires, notamment chez le Bouledogue Anglais et le Carlin.
+- Consulter en cas de ronflement marqué, d'essoufflement rapide ou de halètement excessif.
+- Près de l'eau, prévoir un gilet de flottaison pour le Bouledogue Français, dont la nage naturelle est quasiment impossible.
+
+## Et chez le chat
+
+Trois races de chats partagent la même structure faciale aplatie : le [Persan](/chats/races/persan/), l'[Exotic Shorthair](/chats/races/exotic-shorthair/) et l'[Himalayen](/chats/races/himalayen/). Le Persan tolère mal les fortes chaleurs et les efforts intenses : prévoyez un accès systématique à un endroit frais l'été. L'Exotic Shorthair présente les mêmes vigilances, la morphologie du crâne étant en cause et non la longueur du poil. Les troubles oculaires et dentaires s'y ajoutent.
+
+## Une race sensible à la chaleur sans être brachycéphale
+
+Le [Husky Sibérien](/chiens/races/husky-siberien/) n'a pas le museau court, mais il tolère très mal les fortes chaleurs : son double pelage, conçu pour le froid polaire, devient un handicap thermique. Ombre, eau fraîche et sorties aux heures fraîches sont indispensables en été.
+
+## Avant d'adopter
+
+Ces races demandent un suivi vétérinaire attentif, parfois une chirurgie respiratoire, qu'il vaut mieux considérer comme une probabilité réaliste que comme un imprévu. Pour le Bouledogue Français, un dépistage fonctionnel respiratoire avant l'achat ou la reproduction est de plus en plus recommandé par la profession vétérinaire. Pour le Persan, des lignées à la morphologie moins extrême limitent les risques, d'où l'importance de bien choisir son éleveur. Ces frais pèsent sur le budget : voir notre guide [combien coûte un chien par mois](/guides/combien-coute-un-chien-par-mois/), qui détaille l'assurance et les coûts liés aux prédispositions. Le [comparateur](/comparateur/) permet de mettre deux races côte à côte avant de choisir.
