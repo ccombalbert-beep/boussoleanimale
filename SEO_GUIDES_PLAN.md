@@ -1,6 +1,6 @@
 # Plan des guides SEO hebdomadaires — Boussole Animale
 
-**Statut : 13/13 publiés (dernier en date : semaine 13, 2026-11-24)**
+**Statut : 17/17 publiés (dernier en date : semaine 17, 2026-11-25)**
 
 Chantier de contenu longue traîne : un guide par semaine sur un trimestre (13 semaines), articulé avec le
 maillage interne existant (26 fiches chien, 18 fiches chat, 5 outils) plutôt que des articles isolés. Objectif :
@@ -433,7 +433,8 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
         "/outils/diagnostic/"
       ]
     },
-    "statut": "brouillon à valider"
+    "statut": "publié",
+    "datePublicationPrevue": "2026-11-25"
   },
   {
     "semaine": 15,
@@ -462,7 +463,8 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
         "/outils/diagnostic/"
       ]
     },
-    "statut": "brouillon à valider"
+    "statut": "publié",
+    "datePublicationPrevue": "2026-11-25"
   },
   {
     "semaine": 16,
@@ -490,7 +492,8 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
         "/comparateur/"
       ]
     },
-    "statut": "brouillon à valider"
+    "statut": "publié",
+    "datePublicationPrevue": "2026-11-25"
   },
   {
     "semaine": 17,
@@ -519,7 +522,8 @@ jour à chaque publication (`statut` passe de `"à rédiger"` à `"publié"`).
         "/outils/cout-mensuel-chat/"
       ]
     },
-    "statut": "brouillon à valider"
+    "statut": "publié",
+    "datePublicationPrevue": "2026-11-25"
   }
 ]
 ```
