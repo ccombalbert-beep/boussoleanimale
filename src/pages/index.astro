@@ -37,7 +37,7 @@ const derniersGuides = guides
   description="Vérifiez si un chien ou un chat convient à votre logement et à votre mode de vie : calculateur d'espace vital, diagnostic et 68 fiches de race sourcées."
 >
   <section>
-    <div class="mx-auto max-w-3xl px-4 py-20 text-center">
+    <div class="mx-auto max-w-3xl px-4 py-16 text-center">
       <p class="label text-terracotta-600">Diagnostic logement &amp; mode de vie</p>
       <h1 class="mt-4 font-display text-4xl font-medium leading-tight text-encre-900 sm:text-5xl">
         Votre logement est-il fait pour ce chien ou ce chat ?
@@ -46,14 +46,34 @@ const derniersGuides = guides
         Croisez surface, extérieur et étage avec le gabarit et l'activité réels de chaque race — avant de décider,
         pas après.
       </p>
-      <a
-        href="/outils/espace-vital/"
-        class="magnetic mt-8 inline-block border border-encre-900 bg-encre-900 px-8 py-3 font-medium text-sable-50 transition-colors duration-200 hover:border-terracotta-600 hover:bg-terracotta-600 active:scale-[0.97]"
-      >
-        Tester mon logement →
-      </a>
-      <p class="mt-4 text-sm text-encre-700">
-        Vous préférez partir du budget et de votre expérience ? <a href="/outils/quelle-race-me-correspond/" class="font-medium text-terracotta-600 hover:text-terracotta-500">Faites le quiz complet →</a>
+      <div class="mt-10 text-left">
+        <a
+          href="/outils/espace-vital/"
+          class="magnetic group block border border-encre-900 bg-encre-900 px-6 py-5 text-sable-50 transition-colors duration-200 hover:border-terracotta-600 hover:bg-terracotta-600 active:scale-[0.99] sm:px-8"
+        >
+          <span class="block text-sm opacity-80">4 questions sur votre logement</span>
+          <span class="mt-1 block font-display text-xl font-medium sm:text-2xl">Mon logement convient-il&nbsp;?&nbsp;→</span>
+        </a>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2">
+          <a
+            href="/outils/diagnostic/"
+            class="card-lift block border border-sable-400 bg-sable-50 px-6 py-5 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-terracotta-400"
+          >
+            <span class="block text-sm text-encre-700">7 questions, chiens et chats</span>
+            <span class="mt-1 block font-display text-xl font-medium text-encre-900">Quel animal pour ma vie&nbsp;?&nbsp;→</span>
+          </a>
+          <div class="border border-sable-400 bg-sable-50 px-6 py-5">
+            <p class="text-sm text-encre-700">Budget mensuel</p>
+            <p class="mt-1 font-display text-xl font-medium text-encre-900">Combien ça coûte ?</p>
+            <p class="mt-2 flex gap-5 text-sm">
+              <a href="/outils/cout-mensuel-chien/" class="font-medium text-terracotta-600 hover:text-terracotta-500">Pour un chien →</a>
+              <a href="/outils/cout-mensuel-chat/" class="font-medium text-terracotta-600 hover:text-terracotta-500">Pour un chat →</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <p class="mt-5 text-sm text-encre-700">
+        <a href="/outils/" class="font-medium text-terracotta-600 hover:text-terracotta-500">Voir tous les outils →</a>
       </p>
     </div>
   </section>
@@ -116,8 +136,7 @@ const derniersGuides = guides
         </a>
       </div>
       <p class="mt-8 text-center text-sm text-encre-700">
-        Aussi : <a href="/outils/diagnostic/" class="font-medium text-terracotta-600 hover:text-terracotta-500">le diagnostic complet</a> et
-        <a href="/comparateur/" class="font-medium text-terracotta-600 hover:text-terracotta-500">le comparateur de races</a>.
+        Aussi : <a href="/comparateur/" class="font-medium text-terracotta-600 hover:text-terracotta-500">le comparateur de races</a>.
       </p>
     </div>
   </section>
